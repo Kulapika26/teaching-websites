@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓咪三腺炎：互動式深度解析</title>
+ <!-- 這就是您要加上的 Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles from index.html applied to index2.html */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* Very light pink from index.html */
+            color: #5d5456; /* Darker, muted pink for text from index.html */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* Main accent color from index.html */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, .header-title {
+           color: #a56c76; /* Darker pink for main titles from index.html */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        /* Style for the new audio speed buttons */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+        .treatment-tab-btn {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #5d5456;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .treatment-tab-btn:hover {
+            color: #c48a94;
+        }
+        .treatment-tab-btn.active {
+            color: #a56c76;
+            border-bottom-color: #a56c76;
+            font-weight: bold;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold">貓咪三腺炎互動解析</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="nav-link">總覽</a>
+                <a href="#anatomy" class="nav-link">解剖之謎</a>
+                <a href="#patho" class="nav-link">連鎖反應</a>
+                <a href="#diagnosis" class="nav-link">診斷拼圖</a>
+                <a href="#micro" class="nav-link">微觀世界</a>
+                <a href="#treatment" class="nav-link">治療方針</a>
+                <a href="#audio-guide" class="nav-link">AI討論</a>
+            </div>
+             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#intro" class="block py-2 nav-link text-center">總覽</a>
+            <a href="#anatomy" class="block py-2 nav-link text-center">解剖之謎</a>
+            <a href="#patho" class="block py-2 nav-link text-center">連鎖反應</a>
+            <a href="#diagnosis" class="block py-2 nav-link text-center">診斷拼圖</a>
+            <a href="#micro" class="block py-2 nav-link text-center">微觀世界</a>
+            <a href="#treatment" class="block py-2 nav-link text-center">治療方針</a>
+            <a href="#audio-guide" class="block py-2 nav-link text-center">AI討論</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+        
+         <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛的貓咪橫幅圖片" class="w-full h-auto block rounded-md">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 1: Introduction -->
+        <section id="intro" class="text-center mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4">貓咪三腺炎 (Feline Triaditis)</h2>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                一個複雜且專屬於貓科動物的綜合症，同時涉及<span class="font-semibold text-[#a56c76]">發炎性腸病 (IBD)</span>、<span class="font-semibold text-[#c48a94]">胰臟炎</span>與<span class="font-semibold text-[#d3a2a9]">膽管炎</span>。本頁將帶您深入探索其背後的解剖學、病理機制與診斷挑戰。
+            </p>
+        </section>
+
+        <!-- Section 2: Anatomy -->
+        <section id="anatomy" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">解剖之謎：為何是貓？</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">貓之所以對三腺炎有獨特的易感性，其根本原因深植於其消化系統的解剖結構。這裡我們將比較貓與犬的關鍵差異，並揭示這個「設計上」的弱點。</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="content-card p-6">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#a56c76]">貓 vs. 犬：胰膽管系統比較</h3>
+                    <div class="relative w-full h-72 flex justify-around items-center" id="anatomy-diagram">
+                        <!-- Diagram remains structurally the same -->
+                        <div class="w-1/2 text-center">
+                            <p class="font-bold mb-2">貓 (約80%)</p>
+                            <div class="relative mx-auto" style="width: 100px; height: 180px;">
+                                <div class="absolute bg-green-200 w-2 h-20 top-0 left-1/2 -ml-2 anatomy-part" data-info="cat-bile" title="總膽管"></div>
+                                <div class="absolute bg-yellow-200 w-2 h-20 top-0 left-1/2 ml-0 anatomy-part" data-info="cat-pancreas" title="主要胰管"></div>
+                                <div class="absolute bg-purple-300 w-4 h-2 top-20 left-1/2 -ml-2 anatomy-part" data-info="cat-common" title="共同通道"></div>
+                                <div class="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-purple-300 top-[88px] left-1/2 -ml-2 anatomy-part" data-info="cat-papilla" title="十二指腸大乳突"></div>
+                                <div class="absolute bg-gray-400 w-full h-2 bottom-8 left-0 anatomy-part" data-info="duodenum" title="十二指腸"></div>
+                            </div>
+                        </div>
+                        <div class="w-1/2 text-center">
+                            <p class="font-bold mb-2">犬</p>
+                            <div class="relative mx-auto" style="width: 100px; height: 180px;">
+                                 <div class="absolute bg-green-200 w-2 h-24 top-0 left-1/2 -ml-5 anatomy-part" data-info="dog-bile" title="總膽管"></div>
+                                 <div class="absolute bg-yellow-300 w-2 h-24 top-0 left-1/2 -ml-1 anatomy-part" data-info="dog-pancreas-major" title="主要胰管"></div>
+                                 <div class="absolute w-0 h-0 border-l-[16px] border-r-[16px] border-t-[16px] border-transparent border-t-orange-300 top-[96px] left-1/2 -ml-6 anatomy-part" data-info="dog-papilla-major" title="十二指腸大乳突"></div>
+                                 <div class="absolute bg-blue-200 w-2 h-24 top-0 left-1/2 ml-5 anatomy-part" data-info="dog-pancreas-accessory" title="副胰管"></div>
+                                 <div class="absolute w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-red-200 top-[96px] left-1/2 ml-4 anatomy-part" data-info="dog-papilla-minor" title="十二指腸小乳突"></div>
+                                <div class="absolute bg-gray-400 w-full h-2 bottom-8 left-0 anatomy-part" data-info="duodenum" title="十二指腸"></div>
+                            </div>
+                        </div>
+                    </div>
+                     <p class="text-sm text-center text-gray-500 mt-4">點擊上方圖示的不同部分/顏色以查看右側說明。</p>
+                </div>
+
+                <div id="anatomy-info" class="p-6 bg-pink-50 rounded-lg min-h-[320px] flex flex-col justify-center">
+                    <h4 class="text-lg font-bold mb-2 header-title">互動說明</h4>
+                    <p id="anatomy-text" class="text-gray-700">請點擊左側解剖圖中的任意組件，以了解其功能和臨床意義。這個互動圖將揭示貓獨特的「共同通道」結構，以及與犬的關鍵差異。</p>
+                </div>
+            </div>
+        </section>
+ <div class="content-card p-6 mt-8">
+                <h3 class="text-xl font-bold text-center mb-4 text-[#a56c76]">解剖結構動態解說</h3>
+                <p class="text-center text-gray-600 mb-4 max-w-3xl mx-auto">這段影片更直觀地了解貓咪獨特的胰管與總膽管匯合結構，以及如何成為三腺炎的關鍵風險因子。</p>
+                <div class="bg-black rounded-lg overflow-hidden shadow-inner max-w-3xl mx-auto">
+                     <video class="w-full h-auto" controls autoplay loop muted poster="https://i.imgur.com/shvK5qC.png">
+                        <source src="anatomy_video.mp4" type="video/mp4">
+                        您的瀏覽器不支援 HTML5 video 標籤。
+                    </video>
+                </div>
+            </div>
+        </section>
+        <!-- Section 3: Pathophysiology -->
+        <section id="patho" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">連鎖反應：從嘔吐到多重器官發炎</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">三腺炎的發展如同一個精密的連鎖反應。通常由一個初始事件觸發，進而引發一系列災難性的後果。點擊下方流程中的每一步，了解其詳細的病理生理學機制。</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center md:items-start gap-4 md:gap-2 mb-8">
+                <div class="patho-step-btn" data-step="1">1. IBD & 嘔吐</div>
+                <div class="text-[#c48a94] text-2xl font-bold mx-2">&rarr;</div>
+                <div class="patho-step-btn" data-step="2">2. 壓力升高 & 逆流</div>
+                <div class="text-[#c48a94] text-2xl font-bold mx-2">&rarr;</div>
+                <div class="patho-step-btn" data-step="3">3. 多重器官發炎</div>
+            </div>
+
+            <div class="content-card p-6 md:p-8">
+                <div id="patho-step-1-content" class="patho-content">
+                    <h3 class="text-xl font-bold mb-2 text-[#a56c76]">第一步：原發性腸病 (IBD) 與慢性嘔吐</h3>
+                    <p>許多貓患有潛在的發炎性腸病 (IBD)，其最常見的臨床症狀之一就是慢性嘔吐。嘔吐行為不僅是症狀，更是啟動整個三腺炎連鎖反應的關鍵物理事件。它為後續的災難性逆流提供了必要的動力。</p>
+                </div>
+                <div id="patho-step-2-content" class="patho-content hidden">
+                    <h3 class="text-xl font-bold mb-2 text-[#c48a94]">第二步：十二指腸壓力升高與細菌逆流</h3>
+                    <p>嘔吐時強烈的腹部收縮會導致十二指腸（小腸第一段）內的壓力急遽升高。這股強大的背壓，足以衝開功能相對被動的「歐迪氏括約肌」，迫使富含細菌的腸道內容物逆流。由於貓獨特的「共同通道」結構，這股逆流液體會同時灌注膽道系統和胰管系統。</p>
+                </div>
+                <div id="patho-step-3-content" class="patho-content hidden">
+                    <h3 class="text-xl font-bold mb-2 text-[#d3a2a9]">第三步：胰臟炎與膽管炎的併發</h3>
+                    <p><b>胰臟反應：</b>逆流的腸液（包含膽酸等）會過早地活化胰臟內的消化酵素，導致胰臟開始「自我消化」(autodigestion)，引發急性胰臟炎、組織壞死和劇烈發炎。<br><br><b>膽道反應：</b>同時，來自腸道的大量細菌會沿著膽管上行，引發以嗜中性球為主的細菌性膽管炎。發炎和腫脹可能導致膽汁淤積，進一步損害肝臟。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Diagnosis -->
+        <section id="diagnosis" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">診斷拼圖：整合多方線索</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">三腺炎的診斷極具挑戰性，因為其臨床症狀模糊且不具特異性。獸醫師如同偵探，需要整合來自臨床表現、血液學和影像學等多方面的線索，才能拼湊出完整的圖像。</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Clinical Signs -->
+                <div class="content-card p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center header-title">模糊的臨床症狀</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>精神沉鬱 (最常見)</li>
+                        <li>厭食／食慾減退</li>
+                        <li>體重減輕</li>
+                        <li>脫水</li>
+                        <li>嘔吐 (約1/3病例)</li>
+                        <li>腹瀉</li>
+                        <li>黃疸 (較嚴重病例)</li>
+                        <li>腹痛 (貓不善表達，不常見)</li>
+                    </ul>
+                </div>
+
+                <!-- Spec fPL -->
+                <div class="content-card p-6 md:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 text-center header-title">關鍵血液檢測：Spec fPL</h3>
+                    <p class="text-center text-sm text-gray-500 mb-4">貓胰臟特異性脂肪酶 (fPLI) 是診斷胰臟炎最可靠的血液指標。</p>
+                    <div class="chart-container">
+                        <canvas id="fplChart"></canvas>
+                    </div>
+                </div>
+            </div>
+             <div class="content-card p-6 mt-8">
+                <h3 class="text-xl font-bold mb-4 text-center header-title">腹腔超音波發現</h3>
+                <p class="text-center text-gray-600 mb-6">超音波是首選的影像學檢查，能為三個器官提供結構性評估，但結果高度依賴操作者經驗。</p>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Text Descriptions -->
+                    <div class="bg-pink-50 p-4 rounded-lg flex flex-col">
+                        <h4 class="font-bold mb-2">胰臟變化</h4>
+                        <p class="text-sm flex-grow">胰臟腫大、低迴音性 (水腫)、周圍脂肪高迴音性 (發炎)、胰管擴張。</p>
+                    </div>
+                    <div class="bg-pink-50 p-4 rounded-lg flex flex-col">
+                        <h4 class="font-bold mb-2">肝膽系統變化</h4>
+                        <p class="text-sm flex-grow">膽囊壁增厚、膽泥、總膽管擴張 (>4-5mm)、肝臟腫大。</p>
+                    </div>
+                    <div class="bg-pink-50 p-4 rounded-lg flex flex-col">
+                        <h4 class="font-bold mb-2">腸道變化</h4>
+                        <p class="text-sm flex-grow">腸壁增厚、正常分層結構喪失，暗示可能存在 IBD。</p>
+                    </div>
+                    
+                    <!-- Image Blocks -->
+                    <div class="bg-white border border-pink-100 p-4 rounded-lg flex flex-col items-center text-center">
+                        <img src="https://i.imgur.com/zWDFSZ9.png" alt="胰臟超音波影像" class="w-full h-full object-cover rounded-md mb-3">
+                        <h5 class="font-semibold text-sm">主胰管（Pancreatic duct）</h5>
+                        <p class="text-xs text-gray-600 mt-1">可見主胰管輕微擴張。</p>
+                    </div>
+                     <div class="bg-white border border-pink-100 p-4 rounded-lg flex flex-col items-center text-center">
+                        <img src="https://i.imgur.com/XYvq9UM.png" alt="膽道系統超音波影像" class="w-full h-fill object-cover rounded-md mb-3">
+                        <h5 class="font-semibold text-sm">總膽管（Common bile duct）</h5>
+                        <p class="text-xs text-gray-600 mt-1">總膽管明顯，管徑直徑測量正常。</p>
+                    </div>
+                     <div class="bg-white border border-pink-100 p-4 rounded-lg flex flex-col items-center text-center">
+                        <img src="https://i.imgur.com/shvK5qC.png" alt="腸道超音波影像" class="w-full h-full object-cover rounded-md mb-3">
+                        <h5 class="font-semibold text-sm">十二指腸大乳突（Major duodenal papilla）</h5>
+                        <p class="text-xs text-gray-600 mt-1">十二指腸大乳突腫大，這邊是總膽管跟胰管交集一起之處。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Microscopic World -->
+        <section id="micro" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">微觀世界：組織病理學剖析</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">最終的確診依賴於組織病理學（活檢），它能揭示發炎的具體模式。透過下方的互動面板，探索三腺炎在微觀層面下的不同面貌。</p>
+            
+            <div class="flex justify-center mb-6 border-b">
+                <button class="micro-tab-btn active" data-target="ibd">發炎性腸病 (IBD)</button>
+                <button class="micro-tab-btn" data-target="cholangitis">膽管炎</button>
+                <button class="micro-tab-btn" data-target="pancreatitis">胰臟炎</button>
+            </div>
+
+            <div id="micro-content-container">
+                <!-- Content remains the same, but parent containers might need style adjustments if any -->
+                <div id="ibd-content" class="micro-content">
+                    <div class="content-card p-6">
+                        <h3 class="text-xl font-bold mb-2 header-title">發炎性腸病 (IBD)</h3>
+                        <p class="mb-4">特徵為發炎細胞異常浸潤至腸道黏膜。最常見的形式是淋巴漿細胞性腸炎。</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div><h4 class="font-semibold">細胞浸潤：</h4><p>主要是淋巴球和漿細胞，表明慢性發炎過程。</p></div>
+                            <div><h4 class="font-semibold">結構改變：</h4><p>絨毛萎縮（吸收能力下降）、絨毛融合和纖維化（疤痕組織）。</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="cholangitis-content" class="micro-content hidden">
+                     <div class="grid md:grid-cols-2 gap-6">
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#c48a94]">嗜中性球性膽管炎</h4>
+                            <p class="text-sm mb-2">強烈暗示活躍的<span class="font-semibold">細菌感染</span>，通常由腸道上行而來。</p>
+                            <ul class="list-disc list-inside text-sm space-y-1">
+                                <li><b>主要細胞:</b> 大量嗜中性球。</li>
+                                <li><b>位置:</b> 膽管管腔及管壁。</li>
+                                <li><b>病程:</b> 可分為急性（膽管上皮壞死）和慢性（混合細胞浸潤及纖維化）。</li>
+                            </ul>
+                        </div>
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">淋巴球性膽管炎</h4>
+                            <p class="text-sm mb-2">被懷疑是一種<span class="font-semibold">免疫介導</span>的疾病，與細菌感染關係較小。</p>
+                             <ul class="list-disc list-inside text-sm space-y-1">
+                                <li><b>主要細胞:</b> 大量小淋巴球。</li>
+                                <li><b>位置:</b> 主要集中在門脈區。</li>
+                                <li><b>特徵:</b> 嗜中性球罕見或缺席，傾向影響較年輕的貓。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="pancreatitis-content" class="micro-content hidden">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#c48a94]">急性胰臟炎</h4>
+                            <p class="text-sm mb-2">由「自我消化」引發的劇烈發炎反應，理論上是<span class="font-semibold">可逆的</span>。</p>
+                            <ul class="list-disc list-inside text-sm space-y-1">
+                                <li><b>主要細胞:</b> 嗜中性球。</li>
+                                <li><b>特徵:</b> 組織壞死、水腫、胰臟周圍脂肪壞死。</li>
+                                <li><b>嚴重後果:</b> 可能引發全身性發炎反應綜合症 (SIRS)。</li>
+                            </ul>
+                        </div>
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">慢性胰臟炎</h4>
+                            <p class="text-sm mb-2">由不可逆的組織變化定義，是貓最常見的形式，病程<span class="font-semibold">不可逆</span>。</p>
+                             <ul class="list-disc list-inside text-sm space-y-1">
+                                <li><b>主要細胞:</b> 淋巴球、漿細胞。</li>
+                                <li><b>特徵:</b> 進行性的纖維化（疤痕化）和胰臟腺泡萎縮。</li>
+                                <li><b>長期後果:</b> 可能導致胰外分泌功能不全 (EPI) 或糖尿病。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW SECTION: Treatment -->
+        <section id="treatment" class="mb-16 md:mb-24 scroll-mt-20">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-2">整合治療方針：從急性危機到長期控制</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-2xl mx-auto">三腺炎的管理需採取雙軌策略：在急性發作時，必須積極穩定生命體徵；同時，更要著眼於控制作為根本原因的發炎性腸病(IBD)，以實現長期穩定與預防復發。</p>
+            
+            <div class="flex justify-center mb-6 border-b">
+                <button class="treatment-tab-btn active" data-target="acute-care">急性期支持療法</button>
+                <button class="treatment-tab-btn" data-target="targeted-therapy">針對性藥物治療</button>
+                <button class="treatment-tab-btn" data-target="long-term-care">長期營養與居家照護</button>
+            </div>
+
+            <div id="treatment-content-container">
+                <div id="acute-care-content" class="treatment-content">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">靜脈輸液治療</h4>
+                            <p class="text-sm">急性期管理的基石。目標是校正脫水、確保發炎器官（特別是胰臟）的血液灌流，並補充因嘔吐腹瀉流失的電解質（如鈉鉀氯離子），打破惡性循環。</p>
+                        </div>
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#c48a94]">疼痛與噁心控制</h4>
+                            <p class="text-sm">貓極善隱藏疼痛，因此需積極止痛（如Buprenorphine）。同時使用強效止吐劑（如Maropitant）控制噁心感，是打破厭食循環的關鍵。</p>
+                        </div>
+                        <div class="content-card p-6 lg:col-span-1 md:col-span-2">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">關鍵營養支持</h4>
+                            <p class="text-sm"><b>拒絕禁食！</b>貓厭食超過48小時可能引發致命的脂肪肝。必須早期介入營養，可先嘗試食慾促進劑(如：Mirtazapine)，若無效則果斷放置<span class="font-semibold">食道餵管(E-tube)</span>，以安全有效地提供長期營養。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="targeted-therapy-content" class="treatment-content hidden">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="content-card p-6 md:col-span-2">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">管理發炎性腸病 (IBD) - 阻斷根源</h4>
+                            <p class="text-sm">IBD是驅動三腺炎的引擎。核心治療是使用免疫抑制劑，最常用的是<span class="font-semibold">潑尼松龍 (Prednisolone)</span>。治療關鍵在於從高劑量開始，待症狀穩定後，必須<span class="font-semibold">極其緩慢地</span>減量，找到最低有效劑量以長期控制，防止復發。</p>
+                        </div>
+                        <div class="content-card p-6">
+                             <h4 class="font-bold text-lg mb-2 text-[#c48a94]">治療膽管炎 - 鑑別診斷是關鍵</h4>
+                            <p class="text-sm">需區分兩種亞型：<br><b>嗜中性球性：</b>由<span class="font-semibold">細菌感染</span>引起，需長期（4-6週）的廣效性抗生素治療。<br><b>淋巴球性：</b>屬<span class="font-semibold">免疫介導</span>疾病，需使用類固醇等免疫抑制劑治療。兩者治療方向完全相反。</p>
+                        </div>
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">緩解胰臟炎 - 支持為王</h4>
+                            <p class="text-sm">目前沒有針對胰臟炎的特效藥。治療完全依賴於支持性療法：積極的輸液、疼痛控制、止吐，以及充足的營養。為身體創造最佳的修復環境，讓胰臟能自我恢復。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="long-term-care-content" class="treatment-content hidden">
+                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">核心飲食策略</h4>
+                            <p class="text-sm">透過飲食試驗控制IBD。首選<span class="font-semibold">水解蛋白飲食</span>（分子小，免疫系統無法識別）或<span class="font-semibold">新穎蛋白飲食</span>（使用貓未接觸過的蛋白質）。試驗需嚴格執行8-12週。貓對脂肪耐受性好，通常不需低脂飲食。</p>
+                        </div>
+                        <div class="content-card p-6">
+                            <h4 class="font-bold text-lg mb-2 text-[#c48a94]">關鍵營養補充</h4>
+                            <p class="text-sm"><b>維生素B12：</b>腸道發炎導致吸收不良，需<span class="font-semibold">皮下注射或是口服補充</span>。  <p class="text-sm"><b>益生菌：</b>幫助重建健康的腸道菌叢。</p>
+            <p class="text-sm"><b>Omega-3脂肪酸：</b>有助於抗發炎。</p></p>
+                        </div>
+                         <div class="content-card p-6 lg:col-span-1 md:col-span-2">
+                            <h4 class="font-bold text-lg mb-2 text-[#a56c76]">居家監控與照護</h4>
+                            <p class="text-sm">飼主是第一線觀察者。需建立管理日誌，記錄食慾、體重、排泄狀況。定期回診進行血液與<B>高階腹腔超音波</B>追蹤，與獸醫師以及<B>獸醫影像專科醫師</B>合作，目標是「控制」而非「治癒」，最大化貓咪的生活品質。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- MODIFIED: Audio Player Section -->
+        <section id="audio-guide" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">AI生成podcast討論</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">您可以聆聽AI形成的podcast對話討論，也可以使用下方的按鈕調整播放速度。</p>
+            <div class="w-full md:w-2/3 lg:w-1/2 mx-auto">
+                <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
+                    <!-- Audio player with speed controls -->
+                    <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                        <source src="Triaditis.mp3" type="audio/mpeg">
+                        您的瀏覽-器不支援 audio 標籤。
+                    </audio>
+                    <div class="controls flex justify-center gap-2 flex-wrap">
+                        <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                        <button data-speed="1" class="audio-speed-btn active">正常</button>
+                        <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                        <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                        <button data-speed="2" class="audio-speed-btn">2x</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" class="font-semibold hover:text-pink-100 transition-colors">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。</p>
+            <p>&copy; 2025 貓咪三腺炎（Feline Triaditis）互動式指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com" target="_blank" class="font-semibold hover:text-pink-100 transition-colors">愛力克獅獸醫影像學院</a> </p>
+        </div>
+    </footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+
+    // Anatomy Diagram Interaction
+    const anatomyParts = document.querySelectorAll('.anatomy-part');
+    const anatomyInfoContainer = document.getElementById('anatomy-info');
+
+    const anatomyInfo = {
+        'cat-bile': { title: '總膽管 (貓)', text: '負責輸送來自肝臟和膽囊的膽汁。' },
+        'cat-pancreas': { title: '主要胰管 (貓)', text: '負責引流胰臟製造的消化酵素。' },
+        'cat-common': { title: '共同通道 (貓)', text: '在約80%的貓中，總膽管和主要胰管匯合成此單一通道，是三腺炎的關鍵解剖弱點。' },
+        'cat-papilla': { title: '十二指腸大乳突 (貓)', text: '「共同通道」由此單一開口進入十二指腸，由歐迪氏括約肌環繞。' },
+        'duodenum': { title: '十二指腸', text: '小腸的第一段。在貓體內含有比犬高100倍的細菌量，使得任何逆流液體都具有高度致病性。' },
+        'dog-bile': { title: '總膽管 (犬)', text: '負責輸送膽汁，與犬的主要胰管一同開口於十二指腸大乳突。' },
+        'dog-pancreas-major': { title: '主要胰管 (犬)', text: '在犬科動物中是一條較小的管道，與總膽管併行，共同開口於十二指腸大乳突。' },
+        'dog-papilla-major': { title: '十二指腸大乳突 (犬)', text: '總膽管和較小的主要胰管的共同開口處。' },
+        'dog-pancreas-accessory': { title: '副胰管 (犬)', text: '這是犬科動物功能上最主要的胰管，負責引流大部分的胰液。它獨立開口於十二指腸小乳突。' },
+        'dog-papilla-minor': { title: '十二指腸小乳突 (犬)', text: '犬的副胰管（主要功能性胰管）的獨立開口。這種分離的結構為犬提供了更好的保護，降低了腸道內容物同時逆流至膽道和胰臟的風險。' }
+    };
+
+    anatomyParts.forEach(part => {
+        part.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const key = part.getAttribute('data-info');
+            const info = anatomyInfo[key];
+            anatomyInfoContainer.innerHTML = `<h4 class="text-lg font-bold mb-2 header-title">${info.title}</h4><p class="text-gray-700">${info.text}</p>`;
+        });
+    });
+
+    // Pathophysiology Steps Interaction
+    const pathoBtns = document.querySelectorAll('.patho-step-btn');
+    const pathoContents = document.querySelectorAll('.patho-content');
+
+    pathoBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const step = btn.getAttribute('data-step');
+            pathoBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            pathoContents.forEach(content => {
+                content.classList.toggle('hidden', content.id !== `patho-step-${step}-content`);
+            });
+        });
+    });
+    
+    // Style for patho buttons (updated with pink theme)
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .patho-step-btn {
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 9999px;
+            background-color: #fceef0;
+            color: #a56c76;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .patho-step-btn:hover {
+            background-color: #fdeff2;
+        }
+        .patho-step-btn.active {
+            background-color: #c48a94;
+            color: white;
+            border-color: #a56c76;
+        }
+    `;
+    document.head.appendChild(style);
+
+
+    // Diagnosis Chart (fPL) with new color scheme
+    const ctx = document.getElementById('fplChart').getContext('2d');
+    const fplChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['正常', '可疑 (灰色地帶)', '與胰臟炎一致'],
+            datasets: [{
+                label: 'Spec fPL 結果 (µg/L)',
+                data: [3.5, 5.3, 15],
+                backgroundColor: [
+                    'rgba(165, 108, 118, 0.6)', // Normal - Darker pink
+                    'rgba(224, 184, 190, 0.6)', // Suspicious - Lighter pink
+                    'rgba(211, 142, 153, 0.7)'  // Pancreatitis - Medium pink
+                ],
+                borderColor: [
+                    '#a56c76',
+                    '#e0b8be',
+                    '#d38e99'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                if(context.label === '正常') label += '< 3.6 µg/L';
+                                if(context.label === '可疑 (灰色地帶)') label += '3.6 - 5.3 µg/L';
+                                if(context.label === '與胰臟炎一致') label += '≥ 5.4 µg/L';
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'fPL 濃度 (µg/L)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Microscopic World Tabs (updated with pink theme)
+    const microTabs = document.querySelectorAll('.micro-tab-btn');
+    const microContents = document.querySelectorAll('.micro-content');
+    
+    microTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-target');
+            microTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            microContents.forEach(content => {
+                content.classList.toggle('hidden', content.id !== `${target}-content`);
+            });
+        });
+    });
+
+    const microTabStyle = document.createElement('style');
+    microTabStyle.innerHTML = `
+        .micro-tab-btn {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #5d5456;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .micro-tab-btn:hover {
+            color: #c48a94;
+        }
+        .micro-tab-btn.active {
+            color: #a56c76;
+            border-bottom-color: #a56c76;
+            font-weight: bold;
+        }
+    `;
+    document.head.appendChild(microTabStyle);
+
+    // --- NEW: Treatment Tabs ---
+    const treatmentTabs = document.querySelectorAll('.treatment-tab-btn');
+    const treatmentContents = document.querySelectorAll('.treatment-content');
+    
+    treatmentTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-target');
+            treatmentTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            treatmentContents.forEach(content => {
+                content.classList.toggle('hidden', content.id !== `${target}-content`);
+            });
+        });
+    });
+
+    // Active Nav Link on Scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.3 // Trigger when 30% of the section is visible
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        if(section.id) { // Only observe sections with an ID
+            observer.observe(section);
+        }
+    });
+    
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+        });
+    });
+
+    // --- NEW: Audio Speed Control Logic ---
+    const audioPlayer = document.getElementById('interactiveGuideAudio');
+    // Check if the player exists to avoid errors
+    if (audioPlayer) {
+        const speedButtonsContainer = audioPlayer.nextElementSibling;
+        speedButtonsContainer.addEventListener('click', (event) => {
+            // Use .closest() to handle clicks on button text/icon
+            const button = event.target.closest('.audio-speed-btn');
+            if (button) {
+                const speed = parseFloat(button.dataset.speed);
+                audioPlayer.playbackRate = speed;
+
+                // Update active button state
+                speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+            }
+        });
+    }
+
+});
+</script>
+
+</body>
+</html>

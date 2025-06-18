@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓炎症性腸病 (IBD) 與小細胞淋巴瘤 (SCL) 互動式指南</title>
+    <!-- 這就是您要加上的 Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* Very light pink, derived from #e0b8be */
+            color: #5d5456; /* Darker, muted pink for text */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* Main accent color */
+            border-bottom-color: #c48a94;
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #d3a2a9; /* Slightly lighter accent */
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .step-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .step-content.visible {
+            max-height: 1000px; /* Large enough for content */
+            opacity: 1;
+        }
+        .header-title {
+            color: #a56c76; /* Darker pink for main title */
+        }
+        .card-title-ibd {
+            color: #a56c76;
+        }
+        .card-title-scl {
+            color: #c48a94;
+        }
+        .tag-ibd {
+            background-color: #fceef0;
+            color: #a56c76;
+        }
+        .tag-scl {
+            background-color: #fdeff2;
+            color: #c48a94;
+        }
+        .summary-point h3 {
+             color: #a56c76;
+        }
+        /* Style for the new audio speed buttons */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header and Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-pink-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl md:text-2xl font-bold header-title">貓咪慢性腸病探討</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#problem" class="nav-link px-3 py-2 rounded-md text-sm font-medium">核心問題</a>
+                        <a href="#diagnosis" class="nav-link px-3 py-2 rounded-md text-sm font-medium">診斷步驟</a>
+                        <a href="#prognosis" class="nav-link px-3 py-2 rounded-md text-sm font-medium">預後比較</a>
+                        <a href="#treatment" class="nav-link px-3 py-2 rounded-md text-sm font-medium">治療策略</a>
+                        <a href="#audio-guide" class="nav-link px-3 py-2 rounded-md text-sm font-medium">AI討論podcast</a>
+                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium">重點總結</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-3">
+                <a href="#problem" class="nav-link block px-3 py-2 rounded-md text-base font-medium">核心問題</a>
+                <a href="#diagnosis" class="nav-link block px-3 py-2 rounded-md text-base font-medium">診斷步驟</a>
+                <a href="#prognosis" class="nav-link block px-3 py-2 rounded-md text-base font-medium">預後比較</a>
+                <a href="#treatment" class="nav-link block px-3 py-2 rounded-md text-base font-medium">治療策略</a>
+                <a href="#audio-guide" class="nav-link block px-3 py-2 rounded-md text-base font-medium">AI討論podcast</a>
+                <a href="#summary" class="nav-link block px-3 py-2 rounded-md text-base font-medium">重點總結</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛的貓咪橫幅圖片" class="w-full h-auto block rounded-md">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section: The Core Problem -->
+        <section id="problem" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">核心問題：一個疾病光譜</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">貓的炎症性腸病 (IBD) 與小細胞淋巴瘤 (SCL) 並非兩個完全獨立的疾病，而更像一個連續發展的光譜。長期的慢性炎症（IBD）可能在部分貓隻體內演變為癌症（SCL），這使得兩者的鑑別診斷成為臨床上的一大挑戰。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- IBD Card -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold card-title-ibd mb-4">炎症性腸病 (IBD)</h3>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">性質：</strong>特發性、免疫介導的慢性腸道炎症。</p>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">病理核心：</strong>免疫系統對食物或腸道菌群產生過度反應，導致大量炎症細胞浸潤腸壁，破壞腸道屏障與吸收功能。</p>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">臨床特點：</strong>症狀常呈間歇性、週期性發作，可能會有緩解期。</p>
+                    <div class="mt-auto pt-4 border-t border-gray-200">
+                        <span class="tag-ibd inline-block text-sm font-semibold mr-2 px-2.5 py-0.5 rounded-full">#炎症</span>
+                        <span class="tag-ibd inline-block text-sm font-semibold mr-2 px-2.5 py-0.5 rounded-full">#免疫失調</span>
+                    </div>
+                </div>
+                <!-- SCL Card -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold card-title-scl mb-4">小細胞淋巴瘤 (SCL)</h3>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">性質：</strong>源自淋巴球的低惡性度、高分化性癌症。</p>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">病理核心：</strong>在慢性炎症的長期刺激下，單一種淋巴球發生癌變並開始不受控地增生，瀰漫性地浸潤並取代正常腸道結構。</p>
+                    <p class="text-gray-700 mb-4"><strong class="font-semibold">臨床特點：</strong>症狀通常是持續性且逐漸惡化，較少有明顯的緩解期。</p>
+                    <div class="mt-auto pt-4 border-t border-gray-200">
+                        <span class="tag-scl inline-block text-sm font-semibold mr-2 px-2.5 py-0.5 rounded-full">#腫瘤</span>
+                        <span class="tag-scl inline-block text-sm font-semibold mr-2 px-2.5 py-0.5 rounded-full">#單株增生</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Diagnosis Journey -->
+        <section id="diagnosis" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">互動式診斷步驟</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">此互動式指南將引導您完成從初步臨床症狀到最終確診的複雜診斷流程。點擊每個步驟以深入了解其在區分IBD與SCL中的關鍵作用和發現。</p>
+            
+            <div class="space-y-4">
+                <!-- Step 1: Clinical Signs -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step1-content">
+                        <span>第一步：臨床評估與初步檢測</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step1-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700 mb-2">IBD與SCL的臨床症狀高度重疊，主要包括慢性嘔吐、腹瀉、體重減輕。初步血液檢查往往非特異性，但有幾個關鍵指標需特別注意：</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong style="color: #c44569;">低白蛋白血症：</strong>一個重要的警示信號。在貓IBD中相對罕見，一旦出現，應高度懷疑SCL或其他蛋白質流失性腸病。</li>
+                            <li><strong style="color: #a56c76;">低鈷胺素 (B12)：</strong>在兩種疾病中都極為常見（高達78%的SCL貓隻缺乏B12），因病變常影響負責吸收B12的迴腸。補充B12是治療的基礎。</li>
+                            <li><strong class="text-gray-600">葉酸：</strong>濃度變化可提供關於病變位置（高位或低位小腸）和腸道菌群狀態的線索。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 2: Ultrasound -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step2-content">
+                        <span>第二步：腹腔超音波</span>
+                         <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step2-content" class="step-content px-4 pb-4">
+                         <p class="text-gray-700 mb-2">超音波無法確診，但能提供強烈的線索，並指導下一步的採樣。關鍵發現包括：</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>腸壁瀰漫性增厚：</strong>兩者最常見的共同特徵。</li>
+                            <li><strong>腸壁分層保留：</strong>典型的IBD和SCL通常保有清晰的腸壁五層結構。若分層消失，需高度懷疑高惡性度腫瘤。</li>
+                            <li><strong style="color: #c44569;">肌肉層不成比例增厚：</strong>這是IBD-SCL光譜中最具特徵性的發現。計算「肌肉層/黏膜下層比值 (MSR)」，若 > 1，則強烈暗示存在需要切片確診的嚴重浸潤性腸病。</li>
+                             <li><strong>腸繫膜淋巴結腫大：</strong>兩者皆可能發生，但若淋巴結顯著腫大、變圓且低迴音，SCL的可能性增加。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 3: Biopsy -->
+                 <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step3-content">
+                        <span>第三步：腸道切片 (黃金標準)</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step3-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700 mb-4">組織病理學是唯一能確診的方法。採樣方式的選擇至關重要：</p>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="border border-gray-200 rounded p-4">
+                                <h4 class="font-bold card-title-ibd">內視鏡切片</h4>
+                                <p class="text-sm text-gray-600 mt-1">侵入性小，恢復快。但檢體淺薄，且無法到達SCL好發的空腸，可能導致診斷失誤（將SCL誤判為IBD）。</p>
+                            </div>
+                            <div class="border-2 border-pink-200 rounded p-4" style="background-color: #fdf6f7;">
+                                <h4 class="font-bold card-title-scl">全層手術切片 (推薦)</h4>
+                                <p class="text-sm text-gray-600 mt-1">侵入性較大，但能獲取完整腸壁組織，評估浸潤深度（SCL常為穿透性浸潤），並能對空腸及其他可疑器官採樣，診斷準確率最高。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Pathology -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step4-content">
+                        <span>第四步：多模式病理學分析 (ACVIM共識)</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step4-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700 mb-2">由於形態學相似，需採用逐步分析法來區分炎症與腫瘤：</p>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li><strong>組織病理學 (H&E染色):</strong><br><span class="text-sm ml-4">評估基本形態。IBD呈現多形性炎症細胞浸潤；SCL則為單調、均一的小淋巴球浸潤，常具「上皮趨向性」且破壞正常黏膜結構。</span></li>
+                            <li><strong>免疫組織化學 (IHC):</strong><br><span class="text-sm ml-4">若H&E模棱兩可，則進行IHC。貓SCL絕大多數為T細胞來源，會看到大片均質的CD3+細胞；而IBD則是T細胞(CD3+)與B細胞(CD20+)的混合群體。</span></li>
+                            <li><strong>PARR 株性分析:</strong><br><span class="text-sm ml-4">作為最終手段，檢測淋巴球的「株性」。炎症是「多株性」的，而癌症是「單株性」的。檢測到單株性增生強烈支持SCL的診斷。</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Prognosis -->
+        <section id="prognosis" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">預後視覺化比較</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">SCL雖是癌症，但其預後出奇地好，遠優於高惡性度淋巴瘤。了解存活時間的差異，對於制定治療決策和建立合理的期望至關重要。圖表顯示了不同情況下的中位存活時間 (MST)。</p>
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+                <div class="chart-container">
+                    <canvas id="prognosisChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Treatment -->
+        <section id="treatment" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">治療策略</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">IBD與SCL的治療策略有所不同，但也有共通的管理基礎。點擊下方的標籤來探索不同的治療方案。在無法完全排除SCL時，治療難治性IBD的方案常與SCL的標準方案重疊。</p>
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button class="tab-button active whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-ibd">IBD 治療</button>
+                        <button class="tab-button whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-scl">SCL 治療</button>
+                        <button class="tab-button whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-shared">共通基礎管理</button>
+                    </nav>
+                </div>
+                <div id="tab-content">
+                    <!-- IBD Treatment Panel -->
+                    <div id="tab-ibd" class="tab-panel">
+                        <h4 class="text-xl font-bold mb-3 card-title-ibd">IBD 管理：階梯式方法</h4>
+                        <ol class="space-y-3">
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">1</span><div><strong class="font-semibold">飲食療法：</strong>治療基石。使用水解蛋白或新穎蛋白處方糧，進行8-12週嚴格的飲食試驗。</div></li>
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">2</span><div><strong class="font-semibold">免疫調節藥物：</strong>若飲食無效，首選 <strong class="text-black">潑尼松龍 (Prednisolone)</strong>。從較高劑量開始，穩定後逐漸減至最低有效隔日劑量。可搭配甲硝唑 (Metronidazole) 輔助（這個抗生素目前有爭議，因為會影響腸道菌叢，已經不會建議）。</div></li>
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">3</span><div><strong class="font-semibold">難治性IBD：</strong>對於標準治療無效的病例，考慮更換為局部作用的類固醇（布地奈德 Budesonide），或加入第二線免疫抑制劑，如 <strong class="text-black">苯丁酸氮芥 (Chlorambucil)</strong> 或環孢素 (Cyclosporine)。</div></li>
+                        </ol>
+                    </div>
+                    <!-- SCL Treatment Panel -->
+                    <div id="tab-scl" class="tab-panel hidden">
+                        <h4 class="text-xl font-bold mb-3 card-title-scl">SCL 管理：黃金標準方案</h4>
+                        <p class="mb-4">治療目標是誘導並維持緩解，延長高質量的生存時間。</p>
+                        <div style="background-color:#fef9fa; border-left: 4px solid #e0b8be" class="p-4 rounded-r-lg">
+                            <p class="font-bold text-lg" style="color:#a56c76">口服化療 + 類固醇聯合應用</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li><strong class="font-semibold">苯丁酸氮芥 (Chlorambucil):</strong> 首選化療藥。可採用低劑量持續給藥（如2mg/貓，每48-72小時）或高劑量脈衝式給藥（20mg/m²，每2週）。</li>
+                                <li><strong class="font-semibold">潑尼松龍 (Prednisolone):</strong> 與化療藥同時使用，起始劑量2-3 mg/kg/天，後逐漸減量。</li>
+                            </ul>
+                            <p class="mt-3 text-sm" style="color: #c44569;"><strong>重要監測：</strong>必須定期進行全血球計數 (CBC) 以監控骨髓抑制的副作用。</p>
+                        </div>
+                    </div>
+                    <!-- Shared Management Panel -->
+                    <div id="tab-shared" class="tab-panel hidden">
+                        <h4 class="text-xl font-bold mb-3" style="color:#829e86">共通基礎管理：成功的基石</h4>
+                        <p class="mb-4">無論最終診斷為何，以下措施對所有貓慢性腸病都至關重要：</p>
+                        <ul class="space-y-3">
+                            <li class="flex items-start"><span style="color:#829e86" class="mr-2">✔</span><div><strong class="font-semibold">鈷胺素 (B12) 補充：</strong>絕對必要。對於血清濃度偏低或處於正常範圍下限的貓，都應積極進行皮下注射補充，以打破吸收不良的惡性循環。</div></li>
+                            <li class="flex items-start"><span style="color:#829e86" class="mr-2">✔</span><div><strong class="font-semibold">營養支持：</strong>選擇高消化性、適口性好的食物，少量多餐。對食慾不振的貓可使用食慾促進劑。</div></li>
+                            <li class="flex items-start"><span style="color:#829e86" class="mr-2">✔</span><div><strong class="font-semibold">微生物群支持：</strong>使用益生菌和益生元有助於調節腸道菌群失衡。</div></li>
+                            <li class="flex items-start"><span style="color:#829e86" class="mr-2">✔</span><div><strong class="font-semibold">環境管理：</strong>確保充足飲水，並提供一個安靜、無壓力的生活環境。</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODIFIED: Audio Player Section -->
+        <section id="audio-guide" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">AI生成podcast討論</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">您可以聆聽AI形成的podcast對話討論，也可以使用下方的按鈕調整播放速度。</p>
+            <div class="w-full md:w-2/3 lg:w-1/2 mx-auto">
+                <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
+                    <!-- Audio player with speed controls -->
+                    <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+    <source src="IBDSCL.mp3" type="audio/mpeg">
+    您的瀏覽-器不支援 audio 標籤。
+</audio>
+                    <div class="controls flex justify-center gap-2 flex-wrap">
+                        <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                        <button data-speed="1" class="audio-speed-btn active">正常</button>
+                        <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                        <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                        <button data-speed="2" class="audio-speed-btn">2x</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Summary -->
+        <section id="summary" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">重點總結</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">面對複雜的貓慢性腸病，掌握以下核心觀念是成功管理的關鍵。</p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">①</div>
+                    <h3 class="font-bold text-lg mb-2">擁抱「連續體」框架</h3>
+                    <p class="text-sm text-gray-600">將IBD視為SCL的潛在風險因子。積極管理IBD不僅是控制症狀，更是預防癌症。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">②</div>
+                    <h3 class="font-bold text-lg mb-2">堅持「多模式」診斷</h3>
+                    <p class="text-sm text-gray-600">不要依賴單一工具。結合臨床、影像和進階病理學（H&E+IHC+PARR）是達到準確診斷的唯一途徑。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">③</div>
+                    <h3 class="font-bold text-lg mb-2">保持「積極」態度</h3>
+                    <p class="text-sm text-gray-600">SCL的預後遠比想像中好，標準治療下中位存活時間可達2-3年。IBD也可透過長期管理維持良好生活品質。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" class="font-semibold custom-link">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。</p>
+            <p>&copy; 2025 貓慢性腸病互動式指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com" target="_blank" class="font-semibold custom-link">愛力克獅獸醫影像學院</a> </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Active nav link highlighting on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + targetId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a, .nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for sticky header height
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                       mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Accordion for diagnosis steps
+            const stepButtons = document.querySelectorAll('.step-button');
+            stepButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = document.getElementById(button.dataset.target);
+                    const icon = button.querySelector('span:last-child');
+                    
+                    const isVisible = content.classList.contains('visible');
+
+                    // Close all accordions first
+                    document.querySelectorAll('.step-content.visible').forEach(openContent => {
+                        openContent.classList.remove('visible');
+                    });
+                    document.querySelectorAll('.step-button .rotate-180').forEach(openIcon => {
+                        openIcon.classList.remove('rotate-180');
+                    });
+
+                    // If it was closed, open it now.
+                    if (!isVisible) {
+                        content.classList.add('visible');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+            // Tabs for treatment section
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons and hide all panels
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanels.forEach(panel => panel.classList.add('hidden'));
+
+                    // Activate clicked button and show target panel
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.target).classList.remove('hidden');
+                });
+            });
+
+            // Chart.js Prognosis Chart
+            const ctx = document.getElementById('prognosisChart').getContext('2d');
+            const prognosisChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['高惡性度淋巴瘤 (多種化療)', 'SCL (僅類固醇治療)', 'SCL (未治療)', 'SCL (標準化療方案)'],
+                    datasets: [{
+                        label: '中位存活時間 (月)',
+                        data: [7, 3, 2, 24], 
+                        backgroundColor: [
+                            'rgba(211, 142, 153, 0.6)', 
+                            'rgba(224, 184, 190, 0.6)', 
+                            'rgba(174, 174, 174, 0.6)',
+                            'rgba(165, 108, 118, 0.7)' 
+                        ],
+                        borderColor: [
+                            '#d38e99',
+                            '#e0b8be',
+                            '#aeaeae',
+                            '#a56c76'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '中位存活時間 (月)',
+                                font: {
+                                    size: 14,
+                                    family: "'Noto Sans TC', sans-serif"
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    family: "'Noto Sans TC', sans-serif"
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: '貓消化道淋巴瘤預後比較',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                                family: "'Noto Sans TC', sans-serif"
+                            },
+                            color: '#a56c76'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' 個月';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- NEW: Audio Speed Control Logic ---
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            // Check if the player exists to avoid errors
+            if (audioPlayer) {
+                const speedButtonsContainer = audioPlayer.nextElementSibling;
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    // Use .closest() to handle clicks on button text/icon
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        // Update active button state
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

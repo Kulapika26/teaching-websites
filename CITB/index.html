@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬隻呼吸道疾病互動指南</title>
+    <!-- 這就是您要加上的 Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Styles from index.html applied to index2.html */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* 非常淺的粉紅色 */
+            color: #5d5456; /* 較深的柔和粉紅色文字 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* 主題強調色 */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, .header-title {
+           color: #a56c76; /* 主標題使用的深粉紅色 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        /* AI Podcast 語速控制按鈕樣式 */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+        /* 診斷與治療標籤頁按鈕樣式 */
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .active-tab {
+            background-color: #c48a94 !important; /* 主題強調色 */
+            color: white !important;
+        }
+        /* 疾病進程圖解按鈕樣式 */
+        .patho-step-btn {
+            padding: 8px 16px;
+            border: 2px solid transparent;
+            border-radius: 9999px;
+            background-color: #fceef0;
+            color: #a56c76;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .patho-step-btn:hover {
+            background-color: #fdeff2;
+        }
+        .patho-step-btn.active {
+            background-color: #c48a94;
+            color: white;
+            border-color: #a56c76;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* 媒體與參考文獻網格佈局調整 */
+        #media-and-references-grid {
+            /* 將網格設為 1 行 2 列，高度由內容決定並拉伸 */
+            grid-template-rows: 1fr; /* 單一行，高度自適應 */
+            align-items: stretch; /* 讓網格項目拉伸以填充單元格的高度 */
+        }
+
+        #youtube-video-container {
+            /* 讓影片容器自動拉伸，無需額外的 align-self */
+            /* align-self: stretch; */ 
+        }
+        
+        #audio-and-references-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* 內容靠上對齊 */
+        }
+        #references-container {
+            flex-grow: 1; /* 允許參考文獻容器填充剩餘空間 */
+            display: flex; /* 使用 flex 控制內部內容對齊 */
+            flex-direction: column; /* 垂直堆疊內部內容 */
+            justify-content: flex-start; /* 內容靠上對齊 */
+        }
+        #references-list {
+            flex-grow: 1; /* 允許清單成長 */
+            overflow-y: auto; /* 內容溢出時啟用滾動條 */
+            padding-right: 8px; /* 為滾動條留出一些間距 */
+        }
+        /* 讓 YouTube iframe 響應式並填滿其容器 */
+        .youtube-responsive-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            /* 將影片高度調整為更短的比例 */
+            padding-top: 40%; /* 從 56.25% 調整為 45% 以縮短高度 */ 
+            padding-bottom: 0; /* 這很重要，確保 padding-top 正確運作 */
+        }
+        .youtube-responsive-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold header-title">犬隻呼吸道疾病指南</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link">總覽</a>
+                <a href="#diagnosis" class="nav-link">識別與診斷</a>
+                <a href="#progression" class="nav-link">疾病進程</a>
+                <a href="#treatment" class="nav-link">治療方案</a>
+                <a href="#prevention" class="nav-link">預防與控制</a>
+                <a href="#audio-guide" class="nav-link">AI討論</a>
+                <a href="#references" class="nav-link">參考文獻</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#overview" class="block py-2 nav-link text-center">總覽</a>
+            <a href="#diagnosis" class="block py-2 nav-link text-center">識別與診斷</a>
+            <a href="#progression" class="block py-2 nav-link text-center">疾病進程</a>
+            <a href="#treatment" class="block py-2 nav-link text-center">治療方案</a>
+            <a href="#prevention" class="block py-2 nav-link text-center">預防與控制</a>
+            <a href="#audio-guide" class="block py-2 nav-link text-center">AI討論</a>
+            <a href="#references" class="block py-2 nav-link text-center">參考文獻</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛的貓咪橫幅圖片" class="w-full h-auto block rounded-md">
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 header-title">總覽：犬隻感染性氣管支氣管炎 (CITB)</h2>
+            <p class="mb-6 text-lg text-gray-600">本節提供犬隻感染性氣管支氣管炎（俗稱「犬舍咳」）的基礎介紹。您將了解其定義、主要致病原、傳播方式及風險因素。這有助於建立對此複雜疾病的全面性理解，為後續的診斷與治療提供背景知識。</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="content-card p-6">
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">什麼是 CITB？</h3>
+                    <p class="mb-4">犬隻感染性氣管支氣管炎 (CITB) 是一種高度傳染性的呼吸道疾病，由多種病毒和細菌引起，常為混合感染。其特徵是氣管和支氣管發炎，導致急性咳嗽。</p>
+                    <p class="mb-4">雖然通常是輕微且自限性的，但在幼犬、老年犬或免疫力低下的犬隻中，可能發展為致命的繼發性支氣管肺炎。</p>
+                    <div class="bg-pink-50 border-l-4 border-[#c48a94] p-4 rounded-r-lg">
+                        <h4 class="font-bold text-[#a56c76]">關鍵傳播途徑</h4>
+                        <ul class="list-disc list-inside mt-2 text-gray-600">
+                            <li>直接接觸已感染的犬隻</li>
+                            <li>吸入咳嗽或噴嚏產生的氣溶膠</li>
+                            <li>接觸受污染的物品（如食碗、玩具、寢具）</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-card p-6">
+                    <h3 class="text-xl font-bold mb-3 text-center text-gray-800">主要致病原分佈</h3>
+                    <div class="chart-container h-64 md:h-80">
+                        <canvas id="pathogenChart"></canvas>
+                    </div>
+                    <p class="text-center text-sm text-gray-500 mt-2">約 75-80% 的病例可檢測到*支氣管敗血性博德氏桿菌*。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="diagnosis" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 header-title">識別與診斷</h2>
+            <p class="mb-6 text-lg text-gray-600">本節旨在協助您區分非複雜性 CITB 與嚴重的繼發性肺炎。透過互動式標籤頁，您可以比較兩者的臨床症狀，並深入了解各種診斷工具（影像學、實驗室檢測、氣道採樣）在不同疾病階段的應用與發現。準確的診斷是制定有效治療計畫的第一步。</p>
+
+            <div class="content-card p-6">
+                <div class="mb-6 border-b border-gray-200">
+                    <nav class="flex space-x-1" id="diagnosis-tabs-buttons">
+                        <button data-tab="uncomplicated" class="tab-button flex-1 py-3 px-2 text-center text-sm md:text-base font-medium text-gray-500 bg-gray-100 rounded-t-lg hover:bg-gray-200 active-tab">非複雜性 CITB</button>
+                        <button data-tab="complicated" class="tab-button flex-1 py-3 px-2 text-center text-sm md:text-base font-medium text-gray-500 bg-gray-100 rounded-t-lg hover:bg-gray-200">複雜性 / 繼發性肺炎</button>
+                    </nav>
+                </div>
+
+                <div id="diagnosis-tabs-content">
+                    <div data-tab-content="uncomplicated">
+                        <h3 class="text-2xl font-bold text-[#c48a94] mb-4">非複雜性 CITB：典型症狀</h3>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start"><span class="text-[#c48a94] mr-3 text-2xl">▸</span><div><strong class="text-gray-800">突然發作的劇烈乾咳：</strong>常被形容為「鵝鳴聲」，可能伴隨作嘔。</div></li>
+                            <li class="flex items-start"><span class="text-[#c48a94] mr-3 text-2xl">▸</span><div><strong class="text-gray-800">觸診敏感：</strong>輕觸喉部或氣管即可誘發咳嗽。</div></li>
+                            <li class="flex items-start"><span class="text-[#c48a94] mr-3 text-2xl">▸</span><div><strong class="text-gray-800">全身狀況良好：</strong>犬隻通常精神、食慾正常，無發燒。</div></li>
+                        </ul>
+                         <p class="text-sm text-gray-500 italic">此類病例通常為自限性，7-20天內可自行康復，診斷多依賴病史與臨床症狀，進階檢查通常為陰性或無顯著異常。</p>
+                    </div>
+
+                    <div data-tab-content="complicated" class="hidden">
+                        <h3 class="text-2xl font-bold text-red-600 mb-4">複雜性 / 繼發性肺炎：警示信號</h3>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-start"><span class="text-red-500 mr-3 text-2xl">▸</span><div><strong class="text-gray-800">全身性症狀：</strong>發燒、嗜睡、食慾不振。</div></li>
+                            <li class="flex items-start"><span class="text-red-500 mr-3 text-2xl">▸</span><div><strong class="text-gray-800">咳嗽性質改變：</strong>轉為濕咳或有痰的生產性咳嗽。</div></li>
+                            <li class="flex items-start"><span class="text-red-500 mr-3 text-2xl">▸</span><div><strong class="text-gray-800">呼吸困難：</strong>呼吸頻率加快、費力，甚至黏膜發紺（發藍）。</div></li>
+                            <li class="flex items-start"><span class="text-red-500 mr-3 text-2xl">▸</span><div><strong class="text-gray-800">膿性鼻分泌物：：</strong>流出黃色或綠色鼻涕。</div></li>
+                        </ul>
+                        
+                        <div id="diagnostics-accordion">
+                            <div class="border border-gray-200 rounded-lg mb-2">
+                                <button data-accordion-toggle class="w-full flex justify-between items-center p-4 font-semibold text-left bg-gray-50 hover:bg-gray-100">
+                                    <span>影像學檢查 (X光, 超音波, CT)</span>
+                                    <span class="transform transition-transform duration-300">▼</span>
+                                </button>
+                                <div data-accordion-content class="hidden p-4 border-t">
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-bold text-lg mb-2">X光發現</h4>
+                                            <p class="mb-2">最常見的模式為<strong class="text-[#c48a94]">肺泡樣式 (alveolar pattern)</strong>，伴隨經典的<strong class="text-[#c48a94]">空氣支氣管造影 (air bronchograms)</strong>。</p>
+                                            <div class="bg-pink-50 p-3 rounded-lg text-center">
+                                                <h5 class="font-semibold text-[#a56c76]">典型分佈區域</h5>
+                                                <p class="text-sm">顱腹側肺葉 (右中葉、右顱葉、左顱葉顱部)</p>
+                                                <div class="w-48 h-32 mx-auto mt-2 bg-gray-200 rounded-md flex flex-col justify-end p-2 relative">
+                                                    <div class="absolute top-4 left-4 w-12 h-16 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+                                                    <div class="absolute top-2 right-4 w-10 h-14 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+                                                    <div class="absolute bottom-2 right-2 w-16 h-12 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+                                                    <p class="text-xs text-gray-600 relative z-10">模擬肺葉分佈</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-lg mb-2">超音波與CT</h4>
+                                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                                <li><strong>超音波：</strong>可見 B線 (間質水腫)、實變 (肝化)、碎裂徵、動態空氣支氣管造影。</li>
+                                                <li><strong>CT：</strong>提供最高解析度，可見肺葉實變、毛玻璃樣衰減、支氣管擴張等詳細變化。</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg">
+                                <button data-accordion-toggle class="w-full flex justify-between items-center p-4 font-semibold text-left bg-gray-50 hover:bg-gray-100">
+                                    <span>氣道採樣與細胞學</span>
+                                    <span class="transform transition-transform duration-300">▼</span>
+                                </button>
+                                <div data-accordion-content class="hidden p-4 border-t">
+                                    <p class="mb-4">透過氣管沖洗 (TW) 或支氣管肺泡灌洗 (BAL) 取得的樣本，其細胞學分析是診斷感染的關鍵。正常氣道液與發炎性氣道液的細胞組成有顯著差異。</p>
+                                    <div class="chart-container h-80">
+                                        <canvas id="cytologyChart"></canvas>
+                                    </div>
+                                    <p class="text-center text-sm text-gray-500 mt-2"><strong class="text-red-600">發炎特徵：</strong>嗜中性球顯著增高，且在變性細胞內發現細菌是確診依據。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="progression" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 header-title">疾病進程圖解</h2>
+            <p class="mb-6 text-lg text-gray-600">了解疾病如何從最初的病毒感染演變為嚴重的細菌性肺炎，是預防和及時介入的關鍵。此圖解清晰地展示了病理生理學的核心路徑——黏膜纖毛清除系統的受損，以及它如何為繼發性感染打開大門。</p>
+            <div class="content-card p-6">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 text-center">
+                    <div class="p-4 bg-pink-100 rounded-lg w-full md:w-1/4">
+                        <h4 class="font-bold text-[#a56c76]">1. 初始損傷</h4>
+                        <p class="text-sm">病毒感染 (如CPIV, CAV-2) 或環境刺激物</p>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="p-4 bg-pink-100 rounded-lg w-full md:w-1/3">
+                        <h4 class="font-bold text-[#c48a94]">2. 核心防禦受損</h4>
+                        <p class="text-sm">黏膜纖毛清除系統功能下降或癱瘓，無法有效清除病原體</p>
+                    </div>
+                    <div class="text-2xl text-gray-400">→</div>
+                    <div class="flex flex-col space-y-4 w-full md:w-auto">
+                        <div class="p-4 bg-green-100 rounded-lg">
+                            <h4 class="font-bold text-green-800">→ 康復路徑</h4>
+                            <p class="text-sm">免疫系統清除病毒，氣道上皮修復，症狀消退 (非複雜性CITB)</p>
+                        </div>
+                        <div class="p-4 bg-red-100 rounded-lg">
+                            <h4 class="font-bold text-red-800">→ 惡化路徑</h4>
+                            <p class="text-sm">繼發性細菌 (*Bordetella*, *E. coli*, etc.) 入侵下呼吸道，導致支氣管肺炎</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="treatment" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 header-title">治療方案</h2>
+            <p class="mb-6 text-lg text-gray-600">本節提供針對不同疾病嚴重程度的詳細治療指南。您可以使用標籤頁來區分非複雜性 CITB 和繼發性肺炎的治療策略。內容涵蓋從一般支持性護理到重症監護、藥物選擇與氣道物理治療，旨在為臨床決策提供清晰、實用的參考。</p>
+            <div class="content-card p-6">
+                <div class="mb-6 border-b border-gray-200">
+                     <nav class="flex space-x-1" id="treatment-tabs-buttons">
+                        <button data-tab="treat-uncomplicated" class="tab-button flex-1 py-3 px-2 text-center text-sm md:text-base font-medium text-gray-500 bg-gray-100 rounded-t-lg hover:bg-gray-200 active-tab">非複雜性 CITB 治療</button>
+                        <button data-tab="treat-complicated" class="tab-button flex-1 py-3 px-2 text-center text-sm md:text-base font-medium text-gray-500 bg-gray-100 rounded-t-lg hover:bg-gray-200">繼發性肺炎治療</button>
+                    </nav>
+                </div>
+
+                <div id="treatment-tabs-content">
+                    <div data-tab-content="treat-uncomplicated">
+                        <h3 class="text-2xl font-bold text-[#c48a94] mb-4">支持性護理為主</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">居家護理要點</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>充分休息，限制過度興奮的活動</li>
+                                    <li>確保環境溫暖、乾燥且通風良好</li>
+                                    <li>提供充足飲水與營養</li>
+                                    <li>使用胸背帶取代項圈，避免壓迫氣管</li>
+                                    <li>避免煙霧、灰塵等環境刺激物</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-2">藥物使用原則</h4>
+                                <div class="border-l-4 border-[#c48a94] pl-4 py-2 mb-4 bg-pink-50 rounded-r-lg">
+                                    <strong class="text-[#a56c76]">止咳劑 (Antitussives)</strong>
+                                    <p class="text-sm">僅在<strong class="font-bold">非生產性乾咳</strong>嚴重影響休息時使用，以提升舒適度。</p>
+                                </div>
+                                <div class="border-l-4 border-red-500 pl-4 py-2 bg-red-50 rounded-r-lg">
+                                    <strong class="text-red-800">抗生素 (Antibiotics)</strong>
+                                    <p class="text-sm">非複雜性病例通常由病毒引起，<strong class="font-bold">不常規需要</strong>抗生素。過度使用會導致抗藥性。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-tab-content="treat-complicated" class="hidden">
+                        <h3 class="text-2xl font-bold text-red-600 mb-4">綜合性住院管理</h3>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-lg mb-2 header-title">重症監護</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>氧氣治療 (氧氣籠/鼻導管)</li>
+                                    <li>靜脈輸液 (維持水合)</li>
+                                    <li>營養支持</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-lg mb-2 header-title">氣道清除技術</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li>霧化治療 (濕潤氣道)</li>
+                                    <li>叩擊療法 (協助排痰)</li>
+                                    <li>短時間、輕度活動</li>
+                                </ul>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <h4 class="font-semibold text-lg mb-2 header-title">藥物治療</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600">
+                                    <li><strong class="text-gray-800">抗生素：</strong>治療基石，理想上依藥敏試驗選擇，經驗性首選廣效藥物 (如 Doxycycline)。</li>
+                                    <li><strong>支氣管擴張劑：</strong>輔助擴張氣道。</li>
+                                    <li><strong>嚴禁使用止咳劑！</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                         <div class="mt-6 bg-pink-50 border-l-4 border-[#c48a94] p-4 rounded-r-lg">
+                            <h4 class="font-bold text-[#a56c76]">治療時程與監控</h4>
+                            <p class="text-gray-700">抗生素療程應持續至少3週，或在臨床及X光影像症狀消退後至少再持續1週。需定期追蹤胸腔X光以評估治療反應。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prevention" class="scroll-mt-20 mb-16">
+            <h2 class="text-3xl font-bold mb-4 header-title">預防與控制</h2>
+             <p class="mb-6 text-lg text-gray-600">預防勝於治療。本節詳細介紹了預防 CITB 的兩大支柱：疫苗接種和環境生物安全。您將了解不同疫苗的類型、建議的接種時程，以及在多犬環境中控制疾病傳播的關鍵措施，如隔離和消毒。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="content-card p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">疫苗接種</h3>
+                    <p class="mb-4">疫苗是預防的核心。雖然無法100%預防感染，但能<strong class="text-[#c48a94]">顯著減輕疾病嚴重程度</strong>並<strong class="text-[#c48a94]">降低併發肺炎的風險</strong>。</p>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold">疫苗類型</h4>
+                            <p class="text-sm text-gray-600">包括鼻內、口服和注射型，主要針對 *Bordetella*, CPIV, 和 CAV-2。</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">接種時程</h4>
+                            <p class="text-sm text-gray-600">核心疫苗應在幼犬時期完成系列接種。*Bordetella* 疫苗建議每年接種，高風險犬隻（如經常寄宿、社交）可能需每6個月加強一次。</p>
+                        </div>
+                    </div>
+                     <div class="mt-4 chart-container h-48 md:h-56">
+                        <canvas id="vaccineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="content-card p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">環境生物安全</h3>
+                    <p class="mb-4">在犬隻密集的環境（犬舍、收容所、美容院），嚴格的生物安全措施至關重要。</p>
+                     <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-red-100 text-red-700 w-10 h-10 rounded-full flex items-center justify-center font-bold mr-4">隔</div>
+                            <div>
+                                <h4 class="font-semibold">隔離</h4>
+                                <p class="text-sm text-gray-600">立即隔離出現症狀的犬隻。康復後仍需繼續隔離至少2週以防持續排毒。</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start">
+                             <div class="flex-shrink-0 bg-pink-100 text-[#c48a94] w-10 h-10 rounded-full flex items-center justify-center font-bold mr-4">消</div>
+                            <div>
+                                <h4 class="font-semibold">消毒</h4>
+                                <p class="text-sm text-gray-600">徹底清潔並使用有效消毒劑（如稀釋漂白水、Rescue™）清潔所有表面、食碗、玩具和寢具。</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start">
+                             <div class="flex-shrink-0 bg-green-100 text-green-700 w-10 h-10 rounded-full flex items-center justify-center font-bold mr-4">環</div>
+                            <div>
+                                <h4 class="font-semibold">環境管理</h4>
+                                <p class="text-sm text-gray-600">確保良好通風，減少擁擠和環境壓力，這些都會增加犬隻的易感性。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="media-and-references" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">AI生成Podcast討論與影片及參考文獻</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">您可以觀看左側的相關影片，並聆聽AI形成的podcast對話討論，下方則為參考文獻列表。</p>
+            
+            <div id="media-and-references-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto items-start">
+                <!-- YouTube 影片嵌入 (左欄) -->
+                <div id="youtube-video-container" class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg flex flex-col" style="border-color: #e0b8be; max-height: 720px;"> <h3 class="text-xl font-bold mb-3 text-center header-title">相關影片</h3>
+    <div class="youtube-responsive-container flex-grow">
+        <iframe 
+            class="absolute top-0 left-0 w-full h-full rounded-md" 
+            src="https://www.youtube.com/embed/uZitaIC8wvw"  
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>
+
+                <!-- 右欄: 音訊播放器和參考文獻 -->
+                <div id="audio-and-references-column" class="flex flex-col gap-6">
+                    <!-- 音訊播放器區塊 -->
+                    <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
+                        <h3 class="text-xl font-bold mb-3 text-center header-title">AI Podcast討論</h3>
+                        <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                            <source src="CITB.mp3" type="audio/mpeg">
+                            您的瀏覽器不支援 audio 標籤。
+                        </audio>
+                        <div class="controls flex justify-center gap-2 flex-wrap">
+                            <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                            <button data-speed="1" class="audio-speed-btn active">正常</button>
+                            <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                            <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                            <button data-speed="2" class="audio-speed-btn">2x</button>
+                        </div>
+                    </div>
+
+                    <!-- 參考文獻區塊 -->
+                    <div id="references-container" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex-grow">
+                        <h3 class="text-xl font-bold mb-4 header-title text-center">參考文獻</h3>
+                        <div id="references-list" class="text-sm text-gray-600 max-h-[calc(100vh-1000px)] overflow-y-auto"> <!-- 根據需要調整 max-height -->
+                            <ol class="list-decimal list-inside space-y-2">
+                                <li>Ford, R. B., & Vaden, S. L. (2012). Canine infectious tracheobronchitis. In Canine and Feline Infectious Diseases.</li>
+                                <li>Ettinger, S. J., & Feldman, E. C. (2010). Textbook of Veterinary Internal Medicine.</li>
+                                <li>American Veterinary Medical Association (AVMA). (n.d.). Canine Infectious Respiratory Disease Complex (CIRDC).</li>
+                                <li>Sykes, J. E. (2014). Canine infectious respiratory disease.</li>
+                                <li>Nelson, R. W., & Couto, C. G. (2014). Small Animal Internal Medicine.</li>
+                                <li>Greene, C. E. (2012). Infectious Diseases of the Dog and Cat.</li>
+                                <li>Day, M. J. (2011). Canine infectious respiratory disease (kennel cough): current perspectives.</li>
+                                <li>Lappin, M. R. (2016). Feline and canine infectious diseases.</li>
+                                <li>McKiernan, B. C. (2017). Coughing in the Dog: Pathophysiology and Differential Diagnosis.</li>
+                                <li>Fossum, T. W. (2013). Small Animal Surgery.</li>
+                                <li>Glickman, L. T., et al. (1981). Risk factors for canine kennel cough.</li>
+                                <li>Ellis, J. A. (2012). Canine infectious respiratory disease: current concepts and future directions.</li>
+                                <li>Gaskell, R. M., et al. (2013). Canine infectious respiratory disease.</li>
+                                <li>Hurley, K. F., & Sykes, J. E. (2017). Canine infectious respiratory disease complex.</li>
+                                <li>King, L. G., & Drobatz, K. J. (2009). Textbook of Respiratory Disease in Dogs and Cats.</li>
+                                <li>Silverstein, D. C., & Hopper, K. (2014). Small Animal Critical Care Medicine.</li>
+                                <li>Poulet, H., et al. (2007). Canine infectious tracheobronchitis: update on etiology, pathogenesis and prevention.</li>
+                                <li>Larson, L. J., & Schultz, R. D. (2008). Canine kennel cough: a review.</li>
+                                <li>Day, M. J., et al. (2016). Guidelines for the vaccination of dogs and cats.</li>
+                                <li>Kahn, C. M., & Line, S. (2005). The Merck Veterinary Manual (9th ed.).</li>
+                                <li>Drobatz, K. J. (2019). Pneumonia. In Ettinger's Textbook of Veterinary Internal Medicine (8th ed.).</li>
+                                <li>Radostits, O. M., et al. (2007). Veterinary Medicine: A Textbook of the Diseases of Cattle, Horses, Sheep, Pigs, and Goats (10th ed.).</li>
+                                <li>Padrid, P. A. (2000). Chronic bronchitis in the dog.</li>
+                                <li>Clifford, D. H. (2014). Chronic bronchitis.</li>
+                                <li>Burgess, L. L. (2014). Management of canine pneumonia.</li>
+                                <li>Welcome, B. A., & Smeak, D. D. (2006). Canine infectious tracheobronchitis: a review of the disease and its control.</li>
+                                <li>Hawkins, E. C., & Johnson, L. R. (2006). Bronchoalveolar lavage and tracheal wash.</li>
+                                <li>Thrall, D. E. (2013). Textbook of Veterinary Diagnostic Radiology.</li>
+                                <li>Schwarz, T., & Johnson, V. (2011). Thoracic Radiology for the Small Animal Practitioner.</li>
+                                <li>Lamb, C. R. (2008). Computed tomography of the thorax.</li>
+                                <li>Lisciandro, G. R. (2014). Lung ultrasound in veterinary emergency and critical care.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>本互動指南根據提供的專業獸醫報告編制，旨在提供教育與參考資訊。</p>
+            <p class="text-sm text-gray-400 mt-2">所有醫療決策應諮詢合格獸醫師。應用程式於 <span id="generation-date"></span> 產生。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const setupTabs = (buttonsId, contentId) => {
+                const tabButtons = document.querySelectorAll(`#${buttonsId} [data-tab]`);
+                const tabContents = document.querySelectorAll(`#${contentId} [data-tab-content]`);
+                
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabName = button.dataset.tab;
+
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove('active-tab');
+                            btn.classList.add('bg-gray-100', 'text-gray-500');
+                        });
+                        button.classList.add('active-tab');
+                        button.classList.remove('bg-gray-100', 'text-gray-500');
+                        
+                        tabContents.forEach(content => {
+                            if (content.dataset.tabContent === tabName) {
+                                content.classList.remove('hidden');
+                            } else {
+                                content.classList.add('hidden');
+                            }
+                        });
+                    });
+                });
+            };
+
+            const setupAccordion = (containerId) => {
+                const accordionToggles = document.querySelectorAll(`#${containerId} [data-accordion-toggle]`);
+                accordionToggles.forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const content = toggle.nextElementSibling;
+                        const icon = toggle.querySelector('span:last-child');
+                        content.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180');
+                    });
+                });
+            };
+            
+            setupTabs('diagnosis-tabs-buttons', 'diagnosis-tabs-content');
+            setupTabs('treatment-tabs-buttons', 'treatment-tabs-content');
+            setupAccordion('diagnostics-accordion');
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Noto Sans TC', sans-serif"
+                            }
+                        }
+                    }
+                    ,
+                    tooltip: {
+                        titleFont: { family: "'Noto Sans TC', sans-serif" },
+                        bodyFont: { family: "'Noto Sans TC', sans-serif" }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            font: {
+                                family: "'Noto Sans TC', sans-serif"
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                family: "'Noto Sans TC', sans-serif"
+                            }
+                        }
+                    }
+                }
+            };
+            
+            new Chart(document.getElementById('pathogenChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['支氣管敗血性博德氏桿菌 (B. bronchiseptica)', '病毒性病原', '其他細菌'],
+                    datasets: [{
+                        label: '病原體分佈',
+                        data: [78, 15, 7],
+                        backgroundColor: ['#a56c76', '#d3a2a9', '#e0b8be'],
+                        borderColor: '#fdf6f7',
+                        borderWidth: 4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            new Chart(document.getElementById('cytologyChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['巨噬細胞', '淋巴細胞', '嗜中性球', '嗜酸性球'],
+                    datasets: [
+                        {
+                            label: '正常氣道液',
+                            data: [50, 45, 4, 0.5],
+                            backgroundColor: 'rgba(165, 108, 118, 0.6)',
+                            borderColor: 'rgba(165, 108, 118, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '細菌性肺炎',
+                            data: [15, 5, 80, 0],
+                            backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                            borderColor: 'rgba(239, 68, 68, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: { ...chartOptions, scales: { y: { beginAtZero: true, max: 100, ticks: { callback: value => value + '%' } } } }
+            });
+            
+            new Chart(document.getElementById('vaccineChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['疾病嚴重程度'],
+                    datasets: [
+                        {
+                            label: '未接種疫苗',
+                            data: [90],
+                            backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                        },
+                        {
+                            label: '已接種疫苗',
+                            data: [25],
+                            backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                        }
+                    ]
+                },
+                options: { ...chartOptions, plugins: { ...chartOptions.plugins, legend: { position: 'top' }}, scales: { y: { beginAtZero: true, max: 100, ticks: { display: false }}}}
+            });
+
+            document.getElementById('generation-date').textContent = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // 音訊播放器語速控制邏輯
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = audioPlayer.nextElementSibling;
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
