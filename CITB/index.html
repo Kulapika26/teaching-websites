@@ -160,8 +160,7 @@
                 <a href="#progression" class="nav-link">疾病進程</a>
                 <a href="#treatment" class="nav-link">治療方案</a>
                 <a href="#prevention" class="nav-link">預防與控制</a>
-                <a href="#audio-guide" class="nav-link">AI討論</a>
-                <a href="#references" class="nav-link">參考文獻</a>
+                <a href="#references" class="nav-link">AI討論、影片與參考文獻</a>
             </div>
             <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -173,8 +172,7 @@
             <a href="#progression" class="block py-2 nav-link text-center">疾病進程</a>
             <a href="#treatment" class="block py-2 nav-link text-center">治療方案</a>
             <a href="#prevention" class="block py-2 nav-link text-center">預防與控制</a>
-            <a href="#audio-guide" class="block py-2 nav-link text-center">AI討論</a>
-            <a href="#references" class="block py-2 nav-link text-center">參考文獻</a>
+            <a href="#references" class="block py-2 nav-link text-center">AI討論、影片與參考文獻</a>
         </div>
     </header>
 
@@ -201,7 +199,7 @@
                         <h4 class="font-bold text-[#a56c76]">關鍵傳播途徑</h4>
                         <ul class="list-disc list-inside mt-2 text-gray-600">
                             <li>直接接觸已感染的犬隻</li>
-                            <li>吸入咳嗽或噴嚏產生的氣溶膠</li>
+                            <li>吸入咳嗽或噴嚏產生的感染源</li>
                             <li>接觸受污染的物品（如食碗、玩具、寢具）</li>
                         </ul>
                     </div>
@@ -258,14 +256,17 @@
                                     <div class="grid md:grid-cols-2 gap-6">
                                         <div>
                                             <h4 class="font-bold text-lg mb-2">X光發現</h4>
-                                            <p class="mb-2">最常見的模式為<strong class="text-[#c48a94]">肺泡樣式 (alveolar pattern)</strong>，伴隨經典的<strong class="text-[#c48a94]">空氣支氣管造影 (air bronchograms)</strong>。</p>
+                                            <p class="mb-2">最常見的模式為<strong class="text-[#c48a94]">非結構間 unstructured  interstitial pattern) 與肺泡相 (alveolar pattern)</strong>，伴隨經典的<strong class="text-[#c48a94]">空氣支氣管相 (air bronchograms)</strong>。</p>
                                             <div class="bg-pink-50 p-3 rounded-lg text-center">
                                                 <h5 class="font-semibold text-[#a56c76]">典型分佈區域</h5>
-                                                <p class="text-sm">顱腹側肺葉 (右中葉、右顱葉、左顱葉顱部)</p>
+                                                <p class="text-sm">前腹側肺葉 (右前葉、右中葉、左前葉)</p>
                                                 <div class="w-48 h-32 mx-auto mt-2 bg-gray-200 rounded-md flex flex-col justify-end p-2 relative">
-                                                    <div class="absolute top-4 left-4 w-12 h-16 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+                                                  <div class="absolute top-4 left-4 w-12 h-7 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+
+                                                    <div class="absolute top-12 left-4 w-12 h-5 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+
                                                     <div class="absolute top-2 right-4 w-10 h-14 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
-                                                    <div class="absolute bottom-2 right-2 w-16 h-12 bg-[#d3a2a9] opacity-70 rounded-sm"></div>
+
                                                     <p class="text-xs text-gray-600 relative z-10">模擬肺葉分佈</p>
                                                 </div>
                                             </div>
@@ -273,8 +274,8 @@
                                         <div>
                                             <h4 class="font-bold text-lg mb-2">超音波與CT</h4>
                                             <ul class="list-disc list-inside space-y-1 text-gray-600">
-                                                <li><strong>超音波：</strong>可見 B線 (間質水腫)、實變 (肝化)、碎裂徵、動態空氣支氣管造影。</li>
-                                                <li><strong>CT：</strong>提供最高解析度，可見肺葉實變、毛玻璃樣衰減、支氣管擴張等詳細變化。</li>
+                                                <li><strong>超音波：</strong>可見 B線 (間質細胞與液體浸潤)、不均質低回音性等。</li>
+                                                <li><strong>CT：</strong>提供最高解析度，可見肺葉顯影不均、毛玻璃樣衰減、支氣管相等詳細變化。</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -327,7 +328,30 @@
                 </div>
             </div>
         </section>
+        <div class="content-card p-6 mb-8">
+            <h3 class="text-2xl font-bold mb-6 text-center header-title">胸腔X光常見發現</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
+                <div class="text-center">
+                    <img src="https://i.imgur.com/uw9iK0K.png" alt="圖片一的描述" class="w-full h-80 object-cover rounded-lg mb-3 shadow-md">
+                    <h4 class="font-semibold text-lg mb-1 text-gray-800">支氣管相</h4>
+                    <p class="text-sm text-gray-600">像甜甜圈或是軌道樣的支氣管相。</p>
+                </div>
+
+                <div class="text-center">
+                    <img src="https://i.imgur.com/JK213U5.png" alt="圖片二的描述" class="w-full h-80 object-cover rounded-lg mb-3 shadow-md">
+                    <h4 class="font-semibold text-lg mb-1 text-gray-800">非結構間質相</h4>
+                    <p class="text-sm text-gray-600">看似雲霧狀，附近血管邊界模糊。</p>
+                </div>
+
+                <div class="text-center">
+                    <img src="https://i.imgur.com/AtnK959.png" alt="圖片三的描述" class="w-full h-80 object-cover rounded-lg mb-3 shadow-md">
+                    <h4 class="font-semibold text-lg mb-1 text-gray-800">肺泡相</h4>
+                    <p class="text-sm text-gray-600">棉花糖樣，可見空氣支氣管相，附近血管邊界消失。</p>
+                </div>
+
+            </div>
+        </div>
         <section id="treatment" class="mb-16 scroll-mt-20">
             <h2 class="text-3xl font-bold mb-4 header-title">治療方案</h2>
             <p class="mb-6 text-lg text-gray-600">本節提供針對不同疾病嚴重程度的詳細治療指南。您可以使用標籤頁來區分非複雜性 CITB 和繼發性肺炎的治療策略。內容涵蓋從一般支持性護理到重症監護、藥物選擇與氣道物理治療，旨在為臨床決策提供清晰、實用的參考。</p>
@@ -456,27 +480,26 @@
             </div>
         </section>
 
-        <section id="media-and-references" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold text-center mb-2 header-title">AI生成Podcast討論與影片及參考文獻</h2>
-            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">您可以觀看左側的相關影片，並聆聽AI形成的podcast對話討論，下方則為參考文獻列表。</p>
-            
-            <div id="media-and-references-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto items-start">
-                <!-- YouTube 影片嵌入 (左欄) -->
-                <div id="youtube-video-container" class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg flex flex-col" style="border-color: #e0b8be; max-height: 720px;"> <h3 class="text-xl font-bold mb-3 text-center header-title">相關影片</h3>
-    <div class="youtube-responsive-container flex-grow">
-        <iframe 
-            class="absolute top-0 left-0 w-full h-full rounded-md" 
-            src="https://www.youtube.com/embed/uZitaIC8wvw"  
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
-    </div>
-</div>
-
-                <!-- 右欄: 音訊播放器和參考文獻 -->
-                <div id="audio-and-references-column" class="flex flex-col gap-6">
-                    <!-- 音訊播放器區塊 -->
+        <section id="references" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 header-title text-center">AI討論、影片與參考文獻</h2>
+           <p class="mb-6 text-lg text-gray-600 text-center">您可以觀看相關影片，聆聽AI生成的Podcast對話討論，並查閱本指南所根據的參考文獻列表。</p>
+        
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 items-start">
+                
+                <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg flex flex-col h-full" style="border-color: #e0b8be;">
+                    <h3 class="text-xl font-bold mb-3 text-center header-title">相關影片</h3>
+                    <div class="youtube-responsive-container flex-grow">
+                        <iframe 
+                            class="rounded-md w-full h-full" 
+                            src="https://www.youtube.com/embed/uZitaIC8wvw"  
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+        
+                <div class="flex flex-col gap-6">
                     <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
                         <h3 class="text-xl font-bold mb-3 text-center header-title">AI Podcast討論</h3>
                         <audio id="interactiveGuideAudio" controls class="w-full mb-4">
@@ -491,11 +514,10 @@
                             <button data-speed="2" class="audio-speed-btn">2x</button>
                         </div>
                     </div>
-
-                    <!-- 參考文獻區塊 -->
-                    <div id="references-container" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex-grow">
-                        <h3 class="text-xl font-bold mb-4 header-title text-center">參考文獻</h3>
-                        <div id="references-list" class="text-sm text-gray-600 max-h-[calc(100vh-1000px)] overflow-y-auto"> <!-- 根據需要調整 max-height -->
+        
+                    <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
+                        <h3 class="text-xl font-bold mb-3 text-center header-title">參考文獻</h3>
+                        <div id="references-list" class="text-sm text-gray-600 overflow-y-auto" style="max-height: 280px;">
                             <ol class="list-decimal list-inside space-y-2">
                                 <li>Ford, R. B., & Vaden, S. L. (2012). Canine infectious tracheobronchitis. In Canine and Feline Infectious Diseases.</li>
                                 <li>Ettinger, S. J., & Feldman, E. C. (2010). Textbook of Veterinary Internal Medicine.</li>
@@ -621,6 +643,7 @@
                 observer.observe(section);
             });
 
+            // 這是給長條圖等需要座標軸的圖表使用的【共用設定】
             const chartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -632,8 +655,7 @@
                                 family: "'Noto Sans TC', sans-serif"
                             }
                         }
-                    }
-                    ,
+                    },
                     tooltip: {
                         titleFont: { family: "'Noto Sans TC', sans-serif" },
                         bodyFont: { family: "'Noto Sans TC', sans-serif" }
@@ -656,7 +678,29 @@
                     }
                 }
             };
+
+            // 【修改一：新增一個給環圈圖專用的設定】
+            // 這個設定物件移除了 scales 屬性，這樣就不會顯示座標軸了。
+            const doughnutChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: "'Noto Sans TC', sans-serif"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        titleFont: { family: "'Noto Sans TC', sans-serif" },
+                        bodyFont: { family: "'Noto Sans TC', sans-serif" }
+                    }
+                }
+            };
             
+            // 【修改二：讓環圈圖使用上面新增的專用設定】
             new Chart(document.getElementById('pathogenChart'), {
                 type: 'doughnut',
                 data: {
@@ -669,7 +713,7 @@
                         borderWidth: 4
                     }]
                 },
-                options: chartOptions
+                options: doughnutChartOptions // 使用專用設定，而非共用的 chartOptions
             });
 
             new Chart(document.getElementById('cytologyChart'), {
