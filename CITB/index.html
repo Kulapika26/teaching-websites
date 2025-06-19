@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>犬隻呼吸道疾病互動指南</title>
+    <title>犬隻氣管支氣管炎與肺炎互動指南</title>
     <!-- 這就是您要加上的 Favicon -->
     <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -153,7 +153,7 @@
 
     <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <h1 class="text-xl md:text-2xl font-bold header-title">犬隻呼吸道疾病指南</h1>
+            <h1 class="text-xl md:text-2xl font-bold header-title">犬隻氣管支氣管炎與肺炎</h1>
             <div class="hidden md:flex space-x-8">
                 <a href="#overview" class="nav-link">總覽</a>
                 <a href="#diagnosis" class="nav-link">識別與診斷</a>
@@ -187,7 +187,7 @@
         </section>
 
         <section id="overview" class="mb-16 scroll-mt-20">
-            <h2 class="text-3xl font-bold mb-4 header-title">總覽：犬隻感染性氣管支氣管炎 (CITB)</h2>
+            <h2 class="text-3xl font-bold mb-4 header-title">總覽：犬隻感染性氣管支氣管炎 (CITB) 與肺炎</h2>
             <p class="mb-6 text-lg text-gray-600">本節提供犬隻感染性氣管支氣管炎（俗稱「犬舍咳」）的基礎介紹。您將了解其定義、主要致病原、傳播方式及風險因素。這有助於建立對此複雜疾病的全面性理解，為後續的診斷與治療提供背景知識。</p>
             
             <div class="grid md:grid-cols-2 gap-8 items-center">
@@ -560,8 +560,12 @@
 
     <footer style="background-color: #e0b8be;" class="text-white mt-16">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
-            <p>本互動指南根據提供的專業獸醫報告編制，旨在提供教育與參考資訊。</p>
-            <p class="text-sm text-gray-400 mt-2">所有醫療決策應諮詢合格獸醫師。應用程式於 <span id="generation-date"></span> 產生。</p>
+            <p>
+                本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。
+            </p>
+            <p class="mt-2">
+                © 2025 犬隻氣管支氣管炎與肺炎。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛力克獅獸醫影像學院</a>
+            </p>
         </div>
     </footer>
 
@@ -760,7 +764,8 @@
                 options: { ...chartOptions, plugins: { ...chartOptions.plugins, legend: { position: 'top' }}, scales: { y: { beginAtZero: true, max: 100, ticks: { display: false }}}}
             });
 
-            document.getElementById('generation-date').textContent = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+            // The original script to set the date is removed as it's no longer in the new footer.
+            // document.getElementById('generation-date').textContent = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
 
             // 音訊播放器語速控制邏輯
             const audioPlayer = document.getElementById('interactiveGuideAudio');
