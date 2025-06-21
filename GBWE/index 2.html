@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬貓膽囊壁水腫互動式臨床指南</title>
+<!-- 這就是您要加上的 Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 採用 index.html 的粉色系風格 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* 非常淺的粉紅色 */
+            color: #5d5456; /* 較深的柔和粉紅色文字 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* 主題強調色 */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #fceef0;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, .header-title {
+           color: #a56c76; /* 主標題使用的深粉紅色 */
+        }
+        .header-title-main {
+            color: #a56c76;
+            font-weight: 700;
+        }
+        .btn {
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background-color: #a56c76;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #c48a94;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-secondary {
+            background-color: #e0b8be;
+            color: #5d5456;
+        }
+        .btn-secondary.active {
+            background-color: #a56c76; /* 主題色 */
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        /* 保留 index2.html 的特殊圖示樣式，但顏色換成新主題 */
+        .halo-sign {
+            width: 120px; height: 120px; border-radius: 50%; background-color: #c48a94; display: flex; align-items: center; justify-content: center; border: 4px solid #fceef0;
+        }
+        .halo-sign-middle {
+            width: 90px; height: 90px; border-radius: 50%; background-color: #fdeff2; display: flex; align-items: center; justify-content: center;
+        }
+        .halo-sign-inner {
+            width: 60px; height: 60px; border-radius: 50%; background-color: #a56c76; border: 4px solid #fceef0;
+        }
+        .tab.active {
+            border-color: #c48a94;
+            color: #c48a94;
+            background-color: #fdf6f7;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        .details-arrow {
+             transition: transform 0.3s;
+        }
+        details[open] .details-arrow {
+            transform: rotate(180deg);
+        }
+        /* Podcast 按鈕樣式 */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/90 backdrop-blur-sm sticky top-0 z-50 shadow-sm border-b border-pink-100">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold header-title-main">GBWE 臨床指南</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium">簡介</a>
+                        <a href="#interactive" class="nav-link px-3 py-2 rounded-md text-sm font-medium">互動診斷</a>
+                        <a href="#pathophysiology" class="nav-link px-3 py-2 rounded-md text-sm font-medium">病理生理</a>
+                        <a href="#comparison" class="nav-link px-3 py-2 rounded-md text-sm font-medium">物種比較</a>
+                        <a href="#imaging" class="nav-link px-3 py-2 rounded-md text-sm font-medium">影像學</a>
+                        <a href="#causes" class="nav-link px-3 py-2 rounded-md text-sm font-medium">病因總覽</a>
+                        <a href="#media-references" class="nav-link px-3 py-2 rounded-md text-sm font-medium">AI討論與參考文獻</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- 新增的 Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-4xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛的貓咪橫幅圖片" class="w-full h-auto block">
+                </div>
+            </div>
+        </section>
+
+        <section id="intro" class="my-12 scroll-mt-20">
+            <div class="text-center">
+                <p class="font-semibold" style="color: #c48a94;">臨床核心洞見</p>
+                <h2 class="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">膽囊壁水腫 (GBWE)</h2>
+                <p class="mt-4 text-lg leading-8">一個關鍵的影像學發現，而非最終診斷</p>
+            </div>
+            <div class="mt-10 content-card p-8 max-w-4xl mx-auto">
+                <p class="text-lg leading-relaxed">
+                    本節簡介了膽囊壁水腫 (GBWE) 的定義及其在臨床上的核心重要性。您將了解到，GBWE 是一個在超音波下觀察到的「光環徵象」，它警示著多種潛在疾病，但絕不等同於原發性膽囊炎。這部分內容強調，對此影像學發現的錯誤判讀，尤其在犬隻，可能導致不必要且致命的外科手術。因此，理解 GBWE 的非特異性，是啟動正確診斷流程、挽救生命的關鍵第一步。
+                </p>
+            </div>
+        </section>
+
+        <section id="interactive" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">互動式鑑別診斷</h2>
+                <p class="mt-4 text-lg leading-8">根據物種和臨床表現，探索最可能的病因。</p>
+            </div>
+
+            <div class="content-card p-6 md:p-8 max-w-5xl mx-auto">
+                 <div class="bg-pink-50 border-l-4 border-[#c48a94] p-4 rounded-r-lg mb-8">
+                    <p class="text-[#a56c76]">本互動工具旨在模擬臨床決策流程。請先選擇您的病患物種，接著根據其臨床狀態，系統將顯示最關鍵的鑑別診斷路徑和核心考量。這個工具的設計宗旨在於將報告中最重要的臨床決策點，特別是犬隻急性虛脫的鑑別，置於最優先的位置，以協助您快速、準確地進行分流。</p>
+                </div>
+
+                <div class="text-center mb-6">
+                    <p class="text-xl font-semibold mb-4">第一步：請選擇您的病患物種</p>
+                    <div class="flex justify-center space-x-4">
+                        <button id="selectDogBtn" class="btn btn-primary px-8 py-3 text-lg font-bold shadow-md">犬 Dog</button>
+                        <button id="selectCatBtn" class="btn btn-primary px-8 py-3 text-lg font-bold shadow-md">貓 Cat</button>
+                    </div>
+                </div>
+
+                <div id="dogPathway" class="hidden mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6">犬隻診斷路徑</h3>
+                    <div class="text-center mb-6">
+                        <p class="text-lg font-semibold mb-4">第二步：病患臨床狀態？</p>
+                        <div class="flex justify-center space-x-4">
+                            <button data-target="dogAcuteContent" class="dog-state-btn btn btn-secondary px-6 py-2">急性虛脫</button>
+                            <button data-target="dogStableContent" class="dog-state-btn btn btn-secondary px-6 py-2">臨床穩定/非急性</button>
+                        </div>
+                    </div>
+                    
+                    <div id="dogAcuteContent" class="hidden mt-8 dog-content">
+                        <h4 class="text-xl font-semibold text-center mb-4">鑑別診斷：急性虛脫的犬隻</h4>
+                        <p class="text-center mb-6">此為臨床最關鍵決策點。超音波下<b class="text-red-600">後腔靜脈 (CVC) 大小</b>是首要鑑別指標。</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="border-2 border-red-200 rounded-lg p-6 bg-red-50">
+                                <h5 class="text-lg font-bold text-red-700">CVC 狹窄 ➡️ 高度懷疑：過敏性休克</h5>
+                                <p class="text-sm text-gray-500 mb-4">組織胺介導的肝靜脈收縮</p>
+                                <ul class="space-y-2 list-disc list-inside">
+                                    <li><span class="font-semibold">核心機制：</span>低血溶性/分佈性休克</li>
+                                    <li><span class="font-semibold">伴隨發現：</span>腹腔積血、ALT急劇升高</li>
+                                    <li><span class="font-semibold">治療方向：</span><b class="underline">非手術</b>，腎上腺素、輸液支持</li>
+                                </ul>
+                            </div>
+                            <div class="border-2 border-blue-200 rounded-lg p-6 bg-blue-50">
+                                <h5 class="text-lg font-bold text-blue-700">CVC 擴張 ➡️ 高度懷疑：心因性疾病</h5>
+                                <p class="text-sm text-gray-500 mb-4">(右心衰竭、心包填塞)</p>
+                                <ul class="space-y-2 list-disc list-inside">
+                                    <li><span class="font-semibold">核心機制：</span>被動性靜脈鬱血</li>
+                                    <li><span class="font-semibold">伴隨發現：</span>肝靜脈擴張、腹水/胸水</li>
+                                    <li><span class="font-semibold">治療方向：</span><b class="underline">非手術</b>，利尿劑、心包穿刺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dogStableContent" class="hidden mt-8 dog-content">
+                         <h4 class="text-xl font-semibold text-center mb-4">鑑別診斷：臨床穩定的犬隻</h4>
+                         <div class="max-w-2xl mx-auto bg-pink-50 p-6 rounded-lg">
+                            <ul class="space-y-3 list-disc list-inside text-left">
+                                <li><b class="font-semibold">原發性膽道疾病：</b>膽囊炎、膽囊黏液囊腫 (GBM)、膽道阻塞。</li>
+                                <li><b class="font-semibold">鄰近器官發炎：</b>胰臟炎、肝炎。</li>
+                                <li><b class="font-semibold">全身性疾病：</b>低白蛋白血症、敗血症/SIRS。</li>
+                                <li><b class="font-semibold">醫源性原因：</b>Dexmedetomidine鎮靜、輸液過量。</li>
+                            </ul>
+                         </div>
+                    </div>
+                </div>
+
+                <div id="catPathway" class="hidden mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6">貓隻診斷路徑</h3>
+                    <div class="bg-pink-100 border-l-4 border-[#c48a94] text-[#a56c76] p-4 rounded-lg mb-6 max-w-3xl mx-auto">
+                        <p class="font-bold">重要物種差異！</p>
+                        <p>貓的主要休克器官是肺臟，非肝臟。因此，<b class="underline">過敏性休克通常不會在貓引起 GBWE</b>。診斷思路應轉向發炎性疾病。</p>
+                    </div>
+                     <h4 class="text-xl font-semibold text-center mb-4">貓隻的主要鑑別診斷</h4>
+                     <div class="max-w-2xl mx-auto bg-pink-50 p-6 rounded-lg">
+                        <ul class="space-y-3 list-disc list-inside text-left">
+                            <li><b class="font-semibold">發炎性膽道疾病 (最常見)：</b>
+                                <ul class="pl-5 mt-1 space-y-1 list-['-_'] list-inside">
+                                    <li><b class="font-semibold">貓三體/三腺炎 (Feline Triaditis)：</b>膽管炎、胰臟炎、發炎性腸病 (IBD) 同時發生。</li>
+                                    <li><b class="font-semibold">嗜中性球性/淋巴球性膽囊炎/膽管炎。</span></li>
+                                </ul>
+                            </li>
+                             <li><b class="font-semibold">膽道阻塞：</b>黏液、結石或腫瘤。</li>
+                            <li><b class="font-semibold">腫瘤：</b>淋巴瘤是可能原因。</li>
+                            <li><b class="font-semibold">心臟疾病：</b>右心衰竭也可能發生，但不如犬隻常見。</li>
+                        </ul>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pathophysiology" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">水腫如何形成？</h2>
+                <p class="mt-4 text-lg leading-8">史達林力 (Starling's Forces) 的失衡是根本原因。</p>
+            </div>
+             <div class="max-w-5xl mx-auto mb-8 bg-pink-50 p-4 rounded-lg border border-pink-100">
+                 <p>本節將複雜的病理生理學概念簡化。您將透過三個視覺化的卡片，了解導致膽囊壁水腫的三種核心機制：靜水壓升高、膠體滲透壓降低，以及血管通透性增加。每一種機制都附有簡明的解釋和臨床上常見的對應疾病，幫助您將基礎科學與臨床實踐聯繫起來。</p>
+             </div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="content-card p-6 text-center">
+                    <div class="text-5xl mb-4">💧<span class="font-bold text-blue-600">→</span></div>
+                    <h3 class="text-xl font-bold mb-2">靜水壓升高</h3>
+                    <p class="mb-4 text-sm">血管內的壓力過高，將液體「擠」出去。</p>
+                    <p class="mt-4 font-semibold text-blue-700 text-sm">例子：右心衰竭、過敏性休克 (犬)。</p>
+                </div>
+                <div class="content-card p-6 text-center">
+                    <div class="text-5xl mb-4">💧<span class="font-bold text-purple-600">→</span></div>
+                    <h3 class="text-xl font-bold mb-2">膠體滲透壓降低</h3>
+                    <p class="mb-4 text-sm">血液中蛋白質不足，無法「留住」水分。</p>
+                    <p class="mt-4 font-semibold text-purple-700 text-sm">例子：低白蛋白血症 (腎/肝/腸病)。</p>
+                </div>
+                <div class="content-card p-6 text-center">
+                    <div class="text-5xl mb-4">💧<span class="font-bold text-amber-600">→</span></div>
+                    <h3 class="text-xl font-bold mb-2">血管通透性增加</h3>
+                    <p class="mb-4 text-sm">血管壁因發炎而變得「滲漏」。</p>
+                    <p class="mt-4 font-semibold text-amber-700 text-sm">例子：膽囊炎、胰臟炎、敗血症。</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="comparison" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">物種間的重大差異</h2>
+                <p class="mt-4 text-lg leading-8">犬、貓與人類在病因學上的根本性分歧。</p>
+            </div>
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-8 bg-pink-50 p-4 rounded-lg border border-pink-100">
+                     <p>這部分是本指南的核心洞見之一。您將透過互動式圖表和清晰的比較表格，探索犬、貓和人類在膽囊壁水腫病因上的巨大差異。理解這些差異——例如，為何過敏性休克在犬是主因，但在貓和人類卻非如此——是避免診斷誤區的關鍵。</p>
+                 </div>
+                <div class="grid lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3">
+                        <div class="content-card p-6 h-full">
+                            <h3 class="text-2xl font-bold text-center mb-4">病因佔比比較</h3>
+                             <div class="flex justify-center mb-4">
+                                 <div class="flex items-center mr-4"><div class="w-4 h-4 rounded-full bg-blue-500 mr-2"></div><span class="text-sm">犬</span></div>
+                                 <div class="flex items-center"><div class="w-4 h-4 rounded-full mr-2" style="background-color: #c48a94;"></div><span class="text-sm">貓</span></div>
+                             </div>
+                            <div class="chart-container h-[400px] max-h-[500px]">
+                                <canvas id="comparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="content-card overflow-x-auto h-full">
+                            <table class="w-full text-left">
+                                <caption class="p-4 text-lg font-semibold bg-pink-100/50">犬 vs 貓 vs 人類</caption>
+                                <tbody class="divide-y divide-pink-100">
+                                    <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3 font-semibold text-sm">急性GBWE主因</td>
+                                        <td class="p-3 text-sm"><b class="text-blue-600">犬:</b> 過敏/心因</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3"></td>
+                                        <td class="p-3 text-sm"><b style="color: #a56c76;">貓:</b> 發炎 (三體/三腺炎)</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50">
+                                         <td class="p-3"></td>
+                                        <td class="p-3 text-sm"><b class="text-gray-600">人:</b> 結石性膽囊炎</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3 font-semibold text-sm">休克器官</td>
+                                         <td class="p-3 text-sm"><b class="text-blue-600">犬:</b> 肝臟</td>
+                                    </tr>
+                                     <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3"></td>
+                                        <td class="p-3 text-sm"><b style="color: #a56c76;">貓/人:</b> 肺臟</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3 font-semibold text-sm">臨床意涵</td>
+                                        <td class="p-3 text-sm"><b class="text-blue-600">犬:</b> 排除全身急症</td>
+                                    </tr>
+                                     <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3"></td>
+                                        <td class="p-3 text-sm"><b style="color: #a56c76;">貓:</b> 尋找發炎來源</td>
+                                    </tr>
+                                    <tr class="hover:bg-pink-50/50">
+                                        <td class="p-3"></td>
+                                        <td class="p-3 text-sm"><b class="text-gray-600">人:</b> 評估膽囊本身</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="imaging" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">關鍵影像學發現</h2>
+                <p class="mt-4 text-lg leading-8">超音波是首選的診斷工具。</p>
+            </div>
+            <div class="max-w-5xl mx-auto mb-8 bg-pink-50 p-4 rounded-lg border border-pink-100">
+                <p>影像學是診斷的核心。本節透過視覺化的方式，向您展示 GBWE 最經典的「光環徵象」，並特別強調在急性虛脫的犬隻中，如何利用後腔靜脈 (CVC) 的大小作為鑑別診斷的決定性線索。這部分內容將影像學理論與急診情境下的實際應用緊密結合。</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="content-card p-6 flex flex-col items-center justify-center text-center">
+                     <h3 class="text-xl font-bold mb-4">光環徵象 (Halo Sign)</h3>
+                     <p class="mb-4">膽囊壁因水腫液積聚而呈現分層結構。</p>
+                     <div class="halo-sign">
+                        <div class="halo-sign-middle">
+                            <div class="halo-sign-inner"></div>
+                        </div>
+                     </div>
+                     <div class="mt-4 text-left text-xs w-full max-w-xs">
+                         <p><span class="inline-block w-3 h-3 rounded-full mr-2" style="background-color: #fceef0;"></span>外層 (漿膜) - 高迴音</p>
+                         <p><span class="inline-block w-3 h-3 rounded-full mr-2" style="background-color: #fdeff2;"></span>中間層 (水腫) - 低/無迴音</p>
+                         <p><span class="inline-block w-3 h-3 rounded-full mr-2" style="background-color: #fceef0;"></span>內層 (黏膜) - 高迴音</p>
+                     </div>
+                </div>
+                <div class="content-card p-6 text-center">
+                     <h3 class="text-xl font-bold mb-6">後腔靜脈 (CVC) 大小 (犬隻關鍵)</h3>
+                     <div class="space-y-8">
+                        <div>
+                            <h4 class="font-semibold text-lg text-red-700">塌陷/狹窄的 CVC</h4>
+                            <div class="h-6 bg-red-300 w-1/3 mx-auto my-2 rounded-full relative"><div class="absolute inset-0 bg-white/50 animate-pulse"></div></div>
+                            <p class="font-bold text-red-700">→ 強烈暗示過敏性休克</p>
+                        </div>
+                         <div>
+                            <h4 class="font-semibold text-lg text-blue-700">擴張/肥胖的 CVC</h4>
+                            <div class="h-10 bg-blue-400 w-3/4 mx-auto my-2 rounded-full"></div>
+                            <p class="font-bold text-blue-700">→ 強烈暗示心因性疾病</p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="causes" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">鑑別病因總覽</h2>
+                <p class="mt-4 text-lg leading-8">一個全面的、可分類的參考列表。</p>
+            </div>
+             <div class="max-w-5xl mx-auto mb-8 bg-pink-50 p-4 rounded-lg border border-pink-100">
+                <p>作為一份全面的參考資料，本節將報告中詳盡的鑑別診斷列表（表一）轉化為一個易於導覽的互動式介面。您可以點擊不同的系統分類標籤，來篩選和查看相關的病因，從而快速找到您需要的資訊，無論是常見的心血管問題，還是較罕見的醫源性原因。</p>
+            </div>
+            <div class="max-w-5xl mx-auto">
+                <div class="mb-4 border-b border-pink-200">
+                    <nav class="-mb-px flex space-x-4 overflow-x-auto" aria-label="Tabs">
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300 active" data-category="all">全部</button>
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300" data-category="cardio">心血管</button>
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300" data-category="immune">免疫/過敏</button>
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300" data-category="biliary">肝膽/胰臟</button>
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300" data-category="systemic">全身性</button>
+                        <button class="tab whitespace-nowrap py-3 px-1 border-b-2 font-medium text-sm hover:text-[#c48a94] hover:border-pink-300" data-category="iatrogenic">醫源性</button>
+                    </nav>
+                </div>
+                <div id="causes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- JS will populate this section -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 修改後的媒體與參考文獻區塊 -->
+        <section id="media-references" class="my-20 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">AI討論與參考文獻</h2>
+                <p class="mt-4 text-lg leading-8">您可以聆聽AI生成的Podcast對話討論，並查閱本指南所根據的參考文獻列表。</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-8">
+                 <!-- 新增的教學影片連結欄位 -->
+                <div class="content-card p-6 text-center">
+                    <h3 class="text-xl font-bold mb-2">相關影片與教學</h3>
+                    <a href="https://lectures.alex-ray.com/courses/2e34ab/lectures/62000922" target="_blank" rel="noopener noreferrer" class="text-lg font-medium text-[#c48a94] hover:underline break-all">
+                        https://lectures.alex-ray.com/courses/2e34ab/lectures/62000922
+                    </a>
+                </div>
+                
+                <!-- AI Podcast 討論 -->
+                <div class="content-card p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">AI Podcast討論</h3>
+                    <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                        <source src="GBWE.mp3" type="audio/mpeg">
+                        您的瀏覽器不支援 audio 標籤。
+                    </audio>
+                    <div class="controls flex justify-center gap-2 flex-wrap">
+                        <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                        <button data-speed="1" class="audio-speed-btn active">正常</button>
+                        <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                        <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                        <button data-speed="2" class="audio-speed-btn">2x</button>
+                    </div>
+                </div>
+
+                <!-- 參考文獻 -->
+                <div class="content-card">
+                    <details class="p-6 open:ring-2 open:ring-pink-200 transition">
+                        <summary class="font-semibold text-lg cursor-pointer list-none flex justify-between items-center">
+                            <span>參考文獻 (共 84 篇)</span>
+                            <span class="details-arrow text-[#a56c76]">▼</span>
+                        </summary>
+                        <div class="mt-6 border-t border-pink-200 pt-6">
+                            <ol class="list-decimal list-inside space-y-4 text-sm max-h-96 overflow-y-auto">
+                                <li>Gall Bladder Wall Oedema in the Collapsed Patient, Abdominal Effusion and Pneumoperitoneum - WSAVA 2019 Congress - VIN.</li>
+                                <li>Diffuse Gallbladder Wall Thickening: Differential Diagnosis | AJR.</li>
+                                <li>Thirteen dogs and a cat with ultrasonographically detected gallbladder wall edema associated with cardiac disease - PMC - PubMed Central.</li>
+                                <li>Gallbladder Wall Thickening | AJR - American Journal of Roentgenology.</li>
+                                <li>Imaging-based algorithmic approach to gallbladder wall thickening - PMC.</li>
+                                <li>The Gallbladder Halo Sign: More than Canine Anaphylaxis & Hemoabdomen - FASTVet.</li>
+                                <li>Canine Anaphylaxis: Gallbladder Halo Sign and Medically-Treated Hemoabdomen - Illinois State Veterinary Medical Association.</li>
+                                <li>Anaphylaxis in Dogs & Gallbladder Halo Sign - Ethos Veterinary Health.</li>
+                                <li>Cageside Ultrasonography in The Emergency Room and Intensive Care Unit | PDF - Scribd.</li>
+                                <li>(PDF) Sedation with dexmedetomidine is associated with transient gallbladder wall thickening and peritoneal effusion in some dogs undergoing abdominal ultrasonography - ResearchGate.</li>
+                                <li>Update Canine Anaphylaxis: Diagnosis, Treatment & Medically-Treated Hemoabdomen, More than Gallbladder Wall Edema - FASTVet.</li>
+                                <li>Managing disorders of the gallbladder in dogs (Proceedings) - DVM360.</li>
+                                <li>Comparison of abdominal computed tomography to ultrasound in the diagnosis of canine biliary disease manifesting as acute abdomi - Scholars Junction - Mississippi State University.</li>
+                                <li>Examination of the thickness of the different components of gallbladder wall in cases with mucocele and/or cholecystitis in - AVMA Journals.</li>
+                                <li>Feline abdominal ultrasonography: what's normal? what's abnormal? The biliary tree - PMC.</li>
+                                <li>Ultrasound corner: Gallbladder wall thickness | Request PDF - ResearchGate.</li>
+                                <li>Ultrasonographic features of gallbladder wall thickening in dogs with hypoalbuminemia - PMC - PubMed Central.</li>
+                                <li>Sedation with dexmedetomidine is associated with transient gallbladder wall thickening and peritoneal effusion in some dogs undergoing abdominal ultrasonography.</li>
+                                <li>Full article: Ultrasonographic features of gallbladder wall thickening in dogs with hypoalbuminemia - Taylor & Francis Online: Peer-reviewed Journals.</li>
+                                <li>Ultrasonographic measurement of gallbladder wall thickness in fasted dogs without signs of hepatobiliary disease - PMC.</li>
+                                <li>Ultrasonographic evaluation of gallbladder wall thickness in cats - ResearchGate.</li>
+                                <li>Association between Gallbladder Ultrasound Findings and Bacterial Culture of Bile in 70 Cats and 202 Dogs - PMC.</li>
+                                <li>Gallbladder wall thickening | Radiology Reference Article | Radiopaedia.org.</li>
+                                <li>Diffuse Gallbladder Wall Thickening: Differential Diagnosis | Request PDF - ResearchGate.</li>
+                                <li>Ultrasound Assessment of the Gallbladder Wall: Study Identifies Potential Link to Cardiac Disease.</li>
+                                <li>Thirteen dogs and a cat with ultrasonographically detected gallbladder wall edema associated with cardiac disease - PubMed.</li>
+                                <li>Congestive Heart Failure in Dogs: Symptoms, Causes, and Management | PetMD.</li>
+                                <li>Congestive Heart Failure in Dogs and Cats - Veterinary Partner - VIN.</li>
+                                <li>Gall Bladder Wall Thickness as a Marker of Portal Hypertension in patients of alcoholic cirrhosis of liver - ResearchGate.</li>
+                                <li>Gallbladder wall thickening (congestive cholecystopathy) in chronic liver disease: a sign of portal hypertension - PubMed.</li>
+                                <li>Association of Gallbladder Wall Thickness in Patients with Cirrhosis - Pakistan Journal of Medical & Health Sciences.</li>
+                                <li>Differentials for gallbladder wall thickening/edema? - Members - SonoPath.</li>
+                                <li>Diffuse gallbladder wall thickening (differential) | Radiology...</li>
+                                <li>Gall bladder wall edema - Veterinary Radiology.</li>
+                                <li>Anaphylaxis in Dogs & Gallbladder Halo Sign - Port City Veterinary Referral Hospital.</li>
+                                <li>The Gallbladder Halo Sign: Update on the Diagnosis & Complications of Canine Anaphylaxis Gregory R. Lisciandro, DVM, Dipl.</li>
+                                <li>Pancreatitis in Dogs | VCA Animal Hospitals.</li>
+                                <li>Cholecystitis in Small Animals - Digestive System - Merck Veterinary Manual.</li>
+                                <li>Gall-bladder wall thickening in patients with liver cirrhosis - PubMed.</li>
+                                <li>Ultrasound Findings in Anaphylaxis: What the Gallbladder Can Tell Us.</li>
+                                <li>Canine Gall Bladder Disease - Veterinary Specialty Center.</li>
+                                <li>Gallbladder Disease in Dogs: Causes, Signs, and Treatment - The Spruce Pets.</li>
+                                <li>Diagnosis and management of gallbladder mucocele formation in dogs in - AVMA Journals.</li>
+                                <li>Biliary Tract Abnormalities of Dogs and Cats - WSAVA2011 - VIN.</li>
+                                <li>Canine Cholangiohepatitis - Digestive System - Merck Veterinary Manual.</li>
+                                <li>THERAPEUTIC MANAGEMENT OF CHOLECYSTITIS IN DOG - ResearchGate.</li>
+                                <li>Gall Bladder Mucocele | Nashville Veterinary Specialists.</li>
+                                <li>april 2012 gallbladder mucocoeles – 3 pages - Charleston Mobile Veterinary Services.</li>
+                                <li>Clinical features, concurrent disorders, and survival time in cats with suppurative cholangitis-cholangiohepatitis syndrome in - AVMA Journals.</li>
+                                <li>A Brief Narrative about Scientific Evidences Involving the Feline Triaditis - Medwin Publishers.</li>
+                                <li>Inflammatory Bowel Disease | Cornell University College of Veterinary Medicine.</li>
+                                <li>Feline Triaditis - VIN.</li>
+                                <li>Feline comorbidities: What do we really know about feline triaditis? - PMC - PubMed Central.</li>
+                                <li>Triaditis in Cats – Three Times the Problem - Dr. Judy Morgan's Naturally Healthy Pets.</li>
+                                <li>Inflammatory Bowel Disease (IBD) in Cats - Long Beach Animal Hospital.</li>
+                                <li>(PDF) Pancreatitis and triaditis in cats: Causes and treatment - ResearchGate.</li>
+                                <li>Ultrasonographic patterns, clinical findings, and prognostic variables in dogs from Asia with gallbladder mucocele.</li>
+                                <li>CT features of confirmed and presumed gastric wall edema in dogs - PMC.</li>
+                                <li>Computed tomographic features of confirmed gallbladder pathology...</li>
+                                <li>CT of the Gallbladder: Spectrum of Disease | AJR - American Journal of Roentgenology.</li>
+                                <li>Diffuse Gallbladder Wall Thickening | Radiology Key.</li>
+                                <li>Imaging of acute cholecystitis and cholecystitis-associated complications in the emergency setting - PMC - PubMed Central.</li>
+                                <li>Canine Gallbladder Erosion/Ulcer and Hemocholecyst: Clinicopathological Characteristics of 14 Cases - MDPI.</li>
+                                <li>Chronic Cholecystitis of Dogs: Clinicopathologic Features and Relationship with Liver - PMC.</li>
+                                <li>Examination of the thickness of the different components of gallbladder wall in cases with mucocele and/or cholecystitis - AVMA Journals.</li>
+                                <li>Case Report: Clinical and histopathological findings of porcelain gallbladder in a dog - Frontiers.</li>
+                                <li>Ultrasound and histopathological analysis of the gallbladder in dogs - SciELO.</li>
+                                <li>Ultrasound and histopathological analysis of the gallbladder in dogs - SciELO.</li>
+                                <li>Changes in ultrasound imaging of the gallbladder in case No. 2 (1-a - ResearchGate.</li>
+                                <li>Anaphylaxis in Dogs and Cats - MSPCA-Angell.</li>
+                                <li>Anaphylactic Shock: How to Effectively Diagnose and Treat | Today's Veterinary Practice.</li>
+                                <li>Heart Failure in Dogs and Cats - Circulatory System - Merck Veterinary Manual.</li>
+                                <li>Congestive Heart Failure in Dogs: Treatment and Management - Today's Veterinary Practice.</li>
+                                <li>Anaphylaxis in Dogs - VCA Animal Hospitals.</li>
+                                <li>Anaphylactic Shock in Pets - Veterinary Partner - VIN.</li>
+                                <li>Tool Kit Essentials for Canine Congestive Heart Failure - DVM360.</li>
+                                <li>Algorithmic Treatment of Congestive Heart Failure in Dogs | Today's Veterinary Practice.</li>
+                                <li>Gallbladder and Bile Duct Disease in Cats - PetMD.</li>
+                                <li>Acute Cholecystitis - StatPearls - NCBI Bookshelf.</li>
+                                <li>Edematous wall thickening of the gallbladder induced by hyperthyroidism: A case report.</li>
+                                <li>Management of gallbladder edema mistaken as cholecystitis in the Emergency Department.</li>
+                                <li>Gallbladder Wall Thickening: Is It a Sign of Cancer? - Healthline.</li>
+                                <li>Lessons Learned From Quality Assurance: Errors in the Diagnosis of Acute Cholecystitis on Ultrasound and CT | AJR.</li>
+                                <li>Reactive gallbladder wall thickening | Radiology Case - Radiopaedia.org.</li>
+                            </ol>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 py-6 text-center">
+            <p>本工具根據公開獸醫文獻編制，僅供學術參考與臨床決策輔助，不能取代專業獸醫師的判斷。</p>
+            <p class="text-sm mt-2">&copy; 2025 GBWE Interactive Clinical Guide. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Interactive Diagnosis Section
+            const selectDogBtn = document.getElementById('selectDogBtn');
+            const selectCatBtn = document.getElementById('selectCatBtn');
+            const dogPathway = document.getElementById('dogPathway');
+            const catPathway = document.getElementById('catPathway');
+            const dogStateBtns = document.querySelectorAll('.dog-state-btn');
+            const dogContentDivs = document.querySelectorAll('.dog-content');
+
+            selectDogBtn.addEventListener('click', () => {
+                dogPathway.classList.remove('hidden');
+                catPathway.classList.add('hidden');
+                selectDogBtn.classList.add('btn-secondary', 'active');
+                selectDogBtn.classList.remove('btn-primary');
+                selectCatBtn.classList.add('btn-primary');
+                selectCatBtn.classList.remove('btn-secondary', 'active');
+            });
+
+            selectCatBtn.addEventListener('click', () => {
+                catPathway.classList.remove('hidden');
+                dogPathway.classList.add('hidden');
+                dogContentDivs.forEach(div => div.classList.add('hidden'));
+                dogStateBtns.forEach(btn => btn.classList.remove('active'));
+                selectCatBtn.classList.add('btn-secondary', 'active');
+                selectCatBtn.classList.remove('btn-primary');
+                selectDogBtn.classList.add('btn-primary');
+                selectDogBtn.classList.remove('btn-secondary', 'active');
+            });
+
+            dogStateBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    dogStateBtns.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const targetId = button.dataset.target;
+                    dogContentDivs.forEach(div => {
+                        if (div.id === targetId) {
+                            div.classList.remove('hidden');
+                        } else {
+                            div.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Comparison Chart (with new colors)
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(comparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['過敏/心因', '發炎性疾病', '結石性疾病', '腫瘤'],
+                    datasets: [{
+                        label: '犬',
+                        data: [90, 60, 20, 30],
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)', // Blue for dog
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: '貓',
+                        data: [10, 95, 30, 45],
+                        backgroundColor: 'rgba(196, 138, 148, 0.7)', // Pink for cat
+                        borderColor: 'rgba(196, 138, 148, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: '相對重要性/盛行率 (%)' },
+                            ticks: { callback: value => value + '%', color: '#5d5456' },
+                            grid: { color: '#fceef0' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#5d5456' }
+                        }
+                    },
+                    plugins: {
+                        title: { display: true, text: '犬貓主要病因相對重要性', color: '#a56c76', font: { size: 16 } },
+                        legend: { labels: { color: '#5d5456' } },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+
+            // Causes Grid
+            const causesData = [
+                { name: '右心鬱血性心衰竭', species: '犬、貓', category: 'cardio' },
+                { name: '心包填塞', species: '犬、貓', category: 'cardio' },
+                { name: '輸液過量', species: '犬、貓', category: 'cardio' },
+                { name: '過敏性休克', species: '犬', category: 'immune' },
+                { name: '膽囊炎', species: '犬、貓', category: 'biliary' },
+                { name: '膽管炎/膽管肝炎', species: '犬、貓', category: 'biliary' },
+                { name: '膽囊黏液囊腫', species: '犬', category: 'biliary' },
+                { name: '膽道阻塞', species: '犬、貓', category: 'biliary' },
+                { name: '胰臟炎', species: '犬、貓', category: 'biliary' },
+                { name: '腫瘤 (淋巴瘤)', species: '犬、貓', category: 'biliary' },
+                { name: '敗血症/SIRS', species: '犬、貓', category: 'systemic' },
+                { name: '低白蛋白血症', species: '犬、貓', category: 'systemic' },
+                { name: '腎衰竭', species: '犬、貓', category: 'systemic' },
+                { name: '肝硬化/門脈高壓', species: '犬、貓 (罕見)', category: 'systemic' },
+                { name: 'Dexmedetomidine 鎮靜', species: '犬', category: 'iatrogenic' },
+                { name: '輸血反應', species: '犬', category: 'iatrogenic' }
+            ];
+
+            const causesGrid = document.getElementById('causes-grid');
+            const tabs = document.querySelectorAll('.tab');
+
+            function renderCauses(filter) {
+                causesGrid.innerHTML = '';
+                const filteredData = (filter === 'all') ? causesData : causesData.filter(c => c.category === filter);
+                
+                const categoryColors = {
+                    cardio: 'bg-blue-100 text-blue-800',
+                    immune: 'bg-red-100 text-red-800',
+                    biliary: 'bg-green-100 text-green-800',
+                    systemic: 'bg-purple-100 text-purple-800',
+                    iatrogenic: 'bg-yellow-100 text-yellow-800'
+                };
+
+                filteredData.forEach(cause => {
+                    const card = document.createElement('div');
+                    card.className = `p-4 rounded-lg transition-shadow duration-200 ${categoryColors[cause.category]} shadow-sm hover:shadow-md`;
+                    card.innerHTML = `
+                        <p class="font-semibold">${cause.name}</p>
+                        <p class="text-sm opacity-80">${cause.species}</p>
+                    `;
+                    causesGrid.appendChild(card);
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderCauses(tab.dataset.category);
+                });
+            });
+
+            renderCauses('all');
+
+            // Nav Scroll Spy
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Audio Player Speed Control
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = audioPlayer.nextElementSibling;
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
