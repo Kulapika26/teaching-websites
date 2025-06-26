@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬貓呼吸道灌洗互動指南</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 採用 index.html 的風格 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* 非常淺的粉紅色 */
+            color: #5d5456; /* 較深的柔和粉紅色文字 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* 主題強調色 */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, .header-title {
+           color: #a56c76; /* 主標題使用的深粉紅色 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+        /* AI Podcast 語速控制按鈕樣式 */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+        /* 決策指南按鈕樣式 */
+        .decision-btn {
+            transition: all 0.3s ease;
+            background-color: #fff;
+            color: #5d5456;
+            border: 1px solid #e0b8be;
+        }
+        .decision-btn:hover {
+             background-color: #fceef0;
+        }
+        .decision-btn.selected {
+            background-color: #a56c76;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(165, 108, 118, 0.5);
+        }
+        .ref-link {
+            color: #c48a94;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 0 1px;
+        }
+        .ref-link:hover {
+            text-decoration: underline;
+        }
+        li:target {
+            background-color: #fceef0; /* 粉色系高亮 */
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold header-title">犬貓呼吸道灌洗指南</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link">總覽</a>
+                <a href="#comparison" class="nav-link">快速比較</a>
+                <a href="#decision-guide" class="nav-link">臨床決策</a>
+                <a href="#interpretation" class="nav-link">樣本判讀</a>
+                <a href="#references" class="nav-link">AI討論與參考文獻</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#overview" class="block py-2 nav-link text-center">總覽</a>
+            <a href="#comparison" class="block py-2 nav-link text-center">快速比較</a>
+            <a href="#decision-guide" class="block py-2 nav-link text-center">臨床決策</a>
+            <a href="#interpretation" class="block py-2 nav-link text-center">樣本判讀</a>
+            <a href="#references" class="block py-2 nav-link text-center">AI討論与參考文獻</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-3xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛貓咪的橫幅圖片" class="w-full h-auto block rounded-md">
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="mb-16 scroll-mt-20 text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">犬貓呼吸道灌洗互動式臨床指南</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">本工具為一項聚焦於診斷策略的決策輔助系統，旨在協助臨床獸醫師在經氣管灌洗(TTW)與支氣管肺泡灌洗(BAL)之間，根據臨床情境做出最明智的選擇，並能準確判讀採樣結果。<sup><a href="#ref-5" class="ref-link">[5]</a>, <a href="#ref-6" class="ref-link">[6]</a></sup></p>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="content-card p-8 flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold">經氣管灌洗 (TTW)</h3>
+                    <p class="mt-2 text-gray-600">採集來自<strong class="text-[#a56c76]">大氣道</strong>的<strong class="text-[#a56c76]">混合性</strong>樣本，對診斷瀰漫性、產液性的疾病（特別是細菌性肺炎）具有高價值。<sup><a href="#ref-1" class="ref-link">[1]</a>, <a href="#ref-8" class="ref-link">[8]</a>, <a href="#ref-10" class="ref-link">[10]</a></sup></p>
+                </div>
+                <div class="content-card p-8 flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold">支氣管肺泡灌洗 (BAL)</h3>
+                    <p class="mt-2 text-gray-600">採集來自<strong class="text-[#a56c76]">深層肺部</strong>的<strong class="text-[#a56c76]">靶向性</strong>樣本，是診斷間質性肺病、貓氣喘等小氣道疾病的黃金標準。<sup><a href="#ref-9" class="ref-link">[9]</a>, <a href="#ref-18" class="ref-link">[18]</a>, <a href="#ref-21" class="ref-link">[21]</a></sup></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="mb-16 scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">TTW vs. BAL 快速比較</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-gray-600">此部分提供兩種技術在關鍵特性上的視覺化及表格式比較，幫助您快速權衡其優劣。圖表展示了相對評分，而表格則提供了更詳細的資訊。</p>
+            </div>
+            <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="content-card p-6">
+                    <div class="chart-container">
+                        <canvas id="comparisonChart"></canvas>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 content-card">
+                        <thead class="text-xs text-gray-700 uppercase bg-pink-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 rounded-tl-lg">特性</th>
+                                <th scope="col" class="px-6 py-3">經氣管灌洗 (TTW)</th>
+                                <th scope="col" class="px-6 py-3 rounded-tr-lg">支氣管肺泡灌洗 (BAL)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">主要採樣目標</th>
+                                <td class="px-6 py-4">大氣道 (氣管 & 主支氣管)<sup><a href="#ref-6" class="ref-link">[6]</a>, <a href="#ref-7" class="ref-link">[7]</a></sup></td>
+                                <td class="px-6 py-4">深層肺部 (小氣道 & 肺泡)<sup><a href="#ref-9" class="ref-link">[9]</a>, <a href="#ref-18" class="ref-link">[18]</a></sup></td>
+                            </tr>
+                            <tr class="bg-gray-50 border-b hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">侵入性</th>
+                                <td class="px-6 py-4">較低 (可鎮靜操作)<sup><a href="#ref-9" class="ref-link">[9]</a></sup></td>
+                                <td class="px-6 py-4">較高 (需全身麻醉)<sup><a href="#ref-35" class="ref-link">[35]</a></sup></td>
+                            </tr>
+                             <tr class="bg-white border-b hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">成本/設備</th>
+                                <td class="px-6 py-4">低 / 簡單<sup><a href="#ref-12" class="ref-link">[12]</a></sup></td>
+                                <td class="px-6 py-4">高 / 需專業設備(尤其導引式)<sup><a href="#ref-23" class="ref-link">[23]</a>, <a href="#ref-26" class="ref-link">[26]</a></sup></td>
+                            </tr>
+                            <tr class="bg-gray-50 border-b hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">細菌培養適用性</th>
+                                <td class="px-6 py-4">極佳 (污染風險低)<sup><a href="#ref-12" class="ref-link">[12]</a></sup></td>
+                                <td class="px-6 py-4">良好 (有口咽污染風險)<sup><a href="#ref-36" class="ref-link">[36]</a></sup></td>
+                            </tr>
+                            <tr class="bg-white border-b hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">對間質病/貓氣喘</th>
+                                <td class="px-6 py-4">診斷價值低 (常假陰性)<sup><a href="#ref-9" class="ref-link">[9]</a></sup></td>
+                                <td class="px-6 py-4">診斷價值高 (黃金標準)<sup><a href="#ref-20" class="ref-link">[20]</a>, <a href="#ref-21" class="ref-link">[21]</a></sup></td>
+                            </tr>
+                            <tr class="bg-gray-50 hover:bg-pink-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap rounded-bl-lg">主要風險</th>
+                                <td class="px-6 py-4">皮下氣腫、氣道出血<sup><a href="#ref-7" class="ref-link">[7]</a>, <a href="#ref-12" class="ref-link">[12]</a></sup></td>
+                                <td class="px-6 py-4 rounded-br-lg">低血氧、支氣管痙攣、麻醉併發症<sup><a href="#ref-9" class="ref-link">[9]</a>, <a href="#ref-39" class="ref-link">[39]</a></sup></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="decision-guide" class="mb-16 scroll-mt-20 content-card p-6 md:p-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">互動式臨床決策指南</h2>
+                <p class="mt-2 max-w-3xl mx-auto text-gray-600">面對臨床病例時，您是否不確定該選擇哪種檢查？請根據您病患的主要臨床表現和影像學發現，點擊下方最符合的選項，本工具將提供基於證據的建議及詳細說明。</p>
+            </div>
+            <div id="decision-buttons" class="mt-12 flex flex-wrap justify-center gap-4">
+                <button data-case="bacterial" class="decision-btn content-card px-6 py-3 font-semibold">急性產液性咳嗽 + 肺泡浸潤</button>
+                <button data-case="ild" class="decision-btn content-card px-6 py-3 font-semibold">慢性非產液咳 + 間質樣式 (西高地㹴)</button>
+                <button data-case="asthma" class="decision-btn content-card px-6 py-3 font-semibold">貓呼吸困難/喘鳴</button>
+                <button data-case="local" class="decision-btn content-card px-6 py-3 font-semibold">X光顯示局部病灶 (單一肺葉)</button>
+                 <button data-case="negative_ttw" class="decision-btn content-card px-6 py-3 font-semibold">TTW結果陰性但症狀持續</button>
+            </div>
+            <div id="recommendation" class="mt-12 max-w-4xl mx-auto p-8 bg-pink-50 rounded-lg border-l-4 border-[#c48a94]" style="display: none;">
+                <h3 id="rec-title" class="text-2xl font-bold"></h3>
+                <p id="rec-proc" class="text-lg font-semibold mt-2"></p>
+                <div class="mt-4 prose prose-pink max-w-none text-gray-700">
+                    <h4>理由：</h4>
+                    <p id="rec-rationale"></p>
+                    <h4>TTW的潛在問題：</h4>
+                    <p id="rec-ttw-risk"></p>
+                    <h4>BAL的優勢：</h4>
+                    <p id="rec-bal-adv"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="interpretation" class="mb-16 scroll-mt-20">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-4">樣本處理與細胞學判讀</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-gray-600">正確的樣本處理和判讀是最大化診斷價值的關鍵。本節概述了最佳實踐，並提供一個細胞學發現的快速參考指南，幫助您解讀報告。<sup><a href="#ref-17" class="ref-link">[17]</a></sup></p>
+            </div>
+            <div class="mt-12 overflow-x-auto content-card">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-pink-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 rounded-tl-lg">細胞學發現</th>
+                            <th scope="col" class="px-6 py-3">判讀與相關疾病</th>
+                            <th scope="col" class="px-6 py-3 rounded-tr-lg">TTW vs. BAL 意義</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b hover:bg-pink-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900">口咽部污染</th>
+                            <td class="px-6 py-4">大量扁平上皮細胞 & <em>Simonsiella</em> spp. 細菌。<sup><a href="#ref-17" class="ref-link">[17]</a>, <a href="#ref-31" class="ref-link">[31]</a></sup></td>
+                            <td class="px-6 py-4">在ETW和盲式BAL中較常見。</td>
+                        </tr>
+                        <tr class="bg-gray-50 border-b hover:bg-pink-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900">嗜中性球性發炎</th>
+                            <td class="px-6 py-4"><strong>敗血性:</strong> 退行性嗜中性球+胞內菌 = 細菌感染。<sup class="ref-marker" title="Source citation: [50]">[50]</sup><strong>非敗血性:</strong> 慢性支氣管炎、感染初期。</td>
+                            <td class="px-6 py-4">TTW對診斷敗血性肺炎有效。<sup><a href="#ref-10" class="ref-link">[10]</a></sup></td>
+                        </tr>
+                        <tr class="bg-white border-b hover:bg-pink-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900">嗜酸性球性發炎</th>
+                            <td class="px-6 py-4">強烈提示過敏/高敏性疾病 (貓氣喘、EBP、寄生蟲)。<sup><a href="#ref-51" class="ref-link">[51]</a></sup></td>
+                            <td class="px-6 py-4">BAL對診斷貓氣喘等小氣道疾病具絕對優勢。<sup><a href="#ref-21" class="ref-link">[21]</a></sup></td>
+                        </tr>
+                        <tr class="bg-gray-50 border-b hover:bg-pink-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900">含鐵血黃素巨噬細胞</th>
+                            <td class="px-6 py-4">表示存在慢性或反覆性出血 (心衰、創傷、腫瘤)。<sup><a href="#ref-53" class="ref-link">[53]</a></sup></td>
+                            <td class="px-6 py-4">兩種方法均可見，是重要線索。</td>
+                        </tr>
+                        <tr class="bg-white hover:bg-pink-50">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 rounded-bl-lg">腫瘤細胞</th>
+                            <td class="px-6 py-4">發現符合癌、肉瘤等特徵的非典型細胞。<sup><a href="#ref-54" class="ref-link">[54]</a>, <a href="#ref-55" class="ref-link">[55]</a></sup></td>
+                            <td class="px-6 py-4 rounded-br-lg">BAL檢出率更高，導引式BAL對診斷局部腫瘤最佳。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+             <div class="mt-8 p-6 bg-pink-50 text-[#a56c76] rounded-2xl shadow-lg border border-[#e0b8be]">
+                <h4 class="text-xl font-bold flex items-center">
+                    <span class="text-2xl mr-3">💡</span>
+                    判讀的黃金法則
+                </h4>
+                <p class="mt-2">一份陰性的TTW報告在症狀持續的病患身上，是進行BAL的強烈指徵，而非診斷的終點。<sup><a href="#ref-29" class="ref-link">[29]</a>, <a href="#ref-64" class="ref-link">[64]</a></sup></p>
+            </div>
+        </section>
+
+        <section id="references" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 text-center">AI討論與參考文獻</h2>
+            <p class="mb-6 text-lg text-gray-600 text-center">您可以聆聽AI生成的Podcast對話討論，並查閱本指南所根據的參考文獻列表。</p>
+            
+            <div class="space-y-8">
+                <div class="content-card p-4 md:p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">AI Podcast討論</h3>
+                    <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                        <source src="TTWBAL.mp3" type="audio/mpeg">
+                        您的瀏覽器不支援 audio 標籤。
+                    </audio>
+                    <div class="controls flex justify-center gap-2 flex-wrap">
+                        <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                        <button data-speed="1" class="audio-speed-btn active">正常</button>
+                        <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                        <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                        <button data-speed="2" class="audio-speed-btn">2x</button>
+                    </div>
+                </div>
+
+                <div class="content-card p-4 md:p-6">
+                    <h3 class="text-xl font-bold mb-4 text-center">參考文獻</h3>
+                    <div id="references-list" class="text-sm text-gray-600 overflow-y-auto" style="max-height: 280px;">
+                        <ol class="list-decimal list-inside space-y-3">
+                            <li id="ref-1">Testing for Cough | VCA Animal Hospitals.</li>
+                            <li id="ref-2">Transoral Tracheal & Transtracheal Airway Wash - Clinician's Brief.</li>
+                            <li id="ref-3">Transtracheal wash and bronchoalveolar lavage - PubMed.</li>
+                            <li id="ref-4">Airway sampling and introduction to bronchoscopy - BSAVA Library.</li>
+                            <li id="ref-5">Collection and interpretation of respiratory cytology - PubMed.</li>
+                            <li id="ref-6">Transtracheal Wash and Bronchoalveolar Lavage - ResearchGate.</li>
+                            <li id="ref-7">Transtracheal Wash – VETM 4540: Medical Procedures - University of Guelph Open Books.</li>
+                            <li id="ref-8">Respiratory secretions | eClinpath.</li>
+                            <li id="ref-9">Airway lavage (Proceedings) - DVM360.</li>
+                            <li id="ref-10">Bacterial pneumonia (Proceedings) - DVM360.</li>
+                            <li id="ref-11">Diagnosing Respiratory Ailments in Horses: Wash or Lavage? - EquiManagement.</li>
+                            <li id="ref-12">Transtracheal and Bronchoalveolar Washes - Veterian Key.</li>
+                            <li id="ref-13">Endotracheal Wash: Setting Up for Success - VetWrap- Vol. 14, Issue 4 - Foleon.</li>
+                            <li id="ref-14">Tracheal Wash in Cats - Wag!.</li>
+                            <li id="ref-15">Endo or trans-tracheal washing in Loomis, CA | VCA Loomis Basin Veterinary Clinic.</li>
+                            <li id="ref-16">TRACHEAL ASPIRATE AND BRONCHIOLAR LAVAGE - Idexx.</li>
+                            <li id="ref-17">Respiratory Cytology - WSAVA 2014 Congress - VIN.</li>
+                            <li id="ref-18">Bronchoalveolar lavage in the evaluation of pulmonary disease in the dog and cat. State of the art - PubMed.</li>
+                            <li id="ref-19">Bronchoscopy: approaches to evaluation and sampling - Vet Times.</li>
+                            <li id="ref-20">Conference 05 - 2023 Case: 01 20230920 - The Joint Pathology Center (JPC).</li>
+                            <li id="ref-21">Diagnosis Of Feline Lower Airway Disease | Today's Veterinary Practice.</li>
+                            <li id="ref-22">Canine and Feline Blind Bronchoalveolar Lavage (BAL) – Axiom Vet Labs.</li>
+                            <li id="ref-23">Bronchoscopy and bronchoalveolar lavage in dogs and cats.</li>
+                            <li id="ref-24">Pulmonary sampling (Proceedings) - DVM360.</li>
+                            <li id="ref-25">Lower respiratory tract disease - Vet Times.</li>
+                            <li id="ref-26">Bronchoscopy and bronchoalveolar lavage in dogs and cats - veterinarska stanica.</li>
+                            <li id="ref-27">How to prepare and support the bronchoscopy patient - Veterinary Internal Medicine Nursing.</li>
+                            <li id="ref-28">Airway Evaluation and Flexible Endoscopic Procedures in Dogs and Cats: Laryngoscopy, Transtracheal Wash, Tracheobronchoscopy, and Bronchoalveolar Lavage | Request PDF - ResearchGate.</li>
+                            <li id="ref-29">The Use of Bronchoscopy and Bronchoalveolar Lavage in Dogs with a Chronic Cough | MSPCA-Angell.</li>
+                            <li id="ref-30">Treating Bacterial Pneumonia in Dogs and Cats | Today's Veterinary Practice.</li>
+                            <li id="ref-31">Image Gallery: Transtracheal Wash Cytology in Dogs & Cats - Clinician's Brief.</li>
+                            <li id="ref-32">Feline lower airway disease: asthma and beyond - ResearchGate.</li>
+                            <li id="ref-33">Bronchoalveolar Lavage (BAL) in Dogs - PetPlace.com.</li>
+                            <li id="ref-34">Comparison of Tracheal Wash and Bronchoalveolar Lavage Cytology in 154 Horses With and Without Respiratory Signs in a Referral Hospital Over 2009−2015 - PubMed Central.</li>
+                            <li id="ref-35">Comparison Between Tracheal Wash and Bronchoalveolar Lavage Cytology for the Assessment of Exercise-Induced Pulmonary Hemorrhage (EIPH) in Racehorses - MDPI.</li>
+                            <li id="ref-36">INVESTIGATING LOWER AIRWAY DISEASE | Liphook Equine Hospital.</li>
+                            <li id="ref-37">Bronchial wash / Bronchoalveolar lavage (BAL) - Cytopath Veterinary Pathology.</li>
+                            <li id="ref-38">Transtracheal aspiration in the diagnosis of pulmonary... - PMC.</li>
+                            <li id="ref-39">Collection of Bronchoalveolar Fluid Using a Blind Technique in Cats - WSAVA 2019 Congress - VIN.</li>
+                            <li id="ref-40">Tracheal Wash in Dogs - Wag!.</li>
+                            <li id="ref-41">The forgotten complication: aspiration pneumonia in the canine patient - The Veterinary Nurse.</li>
+                            <li id="ref-42">Procedures in respiratory medicine (Proceedings) - DVM360.</li>
+                            <li id="ref-43">How to Perform a Transtracheal Wash in the Field - Ivis.org.</li>
+                            <li id="ref-44">How to Perform a Transtracheal Wash in the Field - CABI Digital Library.</li>
+                            <li id="ref-45">Comparison of bronchoscopic and nonbronchoscopic... - AVMA Journals.</li>
+                            <li id="ref-46">Comparison of bronchoscopic and nonbronchoscopic bronchoalveolar lavage in healthy cats - AVMA Journals.</li>
+                            <li id="ref-47">Sample collection and packaging – Veterinary Diagnostic Laboratories, Colorado State University.</li>
+                            <li id="ref-48">Laboratory Manual - College of Veterinary Medicine, University of Tennessee.</li>
+                            <li id="ref-49">Diagnostic Sample Collection, Handling, and Transport Guide - AAEP.</li>
+                            <li id="ref-50">Cytology - Clinical Pathology and Procedures - Merck Veterinary Manual.</li>
+                            <li id="ref-51">Cat diagnosed with feline asthma - Texas A&M Veterinary Medical Diagnostic Laboratory.</li>
+                            <li id="ref-52">Bronchoalveolar lavage fluid lymphocytosis in 104 dogs (2006‐2016) - PMC.</li>
+                            <li id="ref-53">Frequency and severity of tracheal wash hemosiderosis and association with underlying disease in 96 cats: 2002-2003 - PubMed.</li>
+                            <li id="ref-54">All lesions great and small, part 2. Diagnostic cytology in veterinary medicine - PMC.</li>
+                            <li id="ref-55">Veterinary Cytology/Haematology Atlas.</li>
+                            <li id="ref-56">Proteomic analysis of bronchoalveolar lavage fluid samples obtained from West Highland White Terriers with idiopathic pulmonary fibrosis, dogs with chronic bronchitis, and healthy dogs - AVMA Journals.</li>
+                            <li id="ref-57">Serum and Bronchoalveolar Lavage Fluid Endothelin-1 Concentrations as Diagnostic Biomarkers of Canine Idiopathic Pulmonary Fibrosis | Request PDF - ResearchGate.</li>
+                            <li id="ref-58">Bronchoalveolar Lavage Fluid and Serum Canine Surfactant Protein... - PMC.</li>
+                            <li id="ref-59">Bronchoalveolar Lavage in Cats: A Retrospective Study of 26 Cases (1998-2001) - VIN.</li>
+                            <li id="ref-60">Canine blastomycosis: A review and update on diagnosis and treatment - DVM360.</li>
+                            <li id="ref-61">(PDF) Fungal pneumonia in dogs and cats with pulmonary clinical signs in southern Brazil - ResearchGate.</li>
+                            <li id="ref-62">Canine Aspergillosis/Fungal Rhinitis in Dogs | NDSR - North Downs Specialist Referrals.</li>
+                            <li id="ref-63">Blastomycosis In Veterinary Medicine: A Review - MiraVista Vets.</li>
+                            <li id="ref-64">Comparison of Tracheal Wash and Bronchoalveolar Lavage in Equine Patients - DVM360.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>
+                本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。
+            </p>
+            <p class="mt-2">
+                © 2025 犬貓呼吸道灌洗指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛力克獅獸醫影像學院</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 雷達圖設定
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const comparisonData = {
+                labels: [
+                    '診斷產出率 (深層/非產液性疾病)', 
+                    '診斷產出率 (細菌性肺炎)', 
+                    '侵入性/風險', 
+                    '成本/設備要求', 
+                    '對高風險病患適用性',
+                    '樣本污染風險'
+                ],
+                datasets: [{
+                    label: 'TTW (經氣管灌洗)',
+                    data: [1, 5, 2, 1, 5, 1], 
+                    backgroundColor: 'rgba(211, 162, 169, 0.2)', // 粉色系
+                    borderColor: 'rgba(165, 108, 118, 1)', // 深粉色
+                    pointBackgroundColor: 'rgba(165, 108, 118, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(165, 108, 118, 1)'
+                }, {
+                    label: 'BAL (支氣管肺泡灌洗)',
+                    data: [5, 4, 1, 2, 1, 3],
+                    backgroundColor: 'rgba(182, 182, 182, 0.2)', // 灰色系
+                    borderColor: 'rgba(93, 84, 86, 1)', // 深灰色
+                    pointBackgroundColor: 'rgba(93, 84, 86, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(93, 84, 86, 1)'
+                }]
+            };
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: comparisonData,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { 
+                                font: { size: 12, family: "'Noto Sans TC', sans-serif" }, 
+                                color: '#5d5456' 
+                            },
+                            ticks: { 
+                                beginAtZero: true, 
+                                max: 5, 
+                                stepSize: 1, 
+                                backdropColor: 'rgba(253, 246, 247, 0.75)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    family: "'Noto Sans TC', sans-serif"
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.r !== null) { label += context.parsed.r + '分 (5分為佳/高)'; }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 臨床決策指南互動邏輯
+            const decisionData = {
+                bacterial: {
+                    title: "臨床情境: 急性產液性咳嗽 + 肺泡浸潤",
+                    proc: "建議程序: 經氣管灌洗 (TTW / ETW)",
+                    rationale: "此臨床表現高度懷疑是細菌性肺炎。TTW的主要目標是獲得樣本進行細菌培養和藥物敏感性試驗，以指導精準的抗生素治療。此方法相對安全、經濟，且對此類疾病的診斷產出率高。<sup><a href='#ref-10' class='ref-link'>[10]</a></sup>",
+                    ttw_risk: "在此情境下，TTW的風險較低，且診斷效益高。",
+                    bal_adv: "雖然BAL也能診斷，但其較高的侵入性和成本在此情境下可能並非必要。"
+                },
+                ild: {
+                    title: "臨床情境: 慢性非產液咳 + 間質樣式 (西高地㹴)",
+                    proc: "建議程序: 支氣管肺泡灌洗 (BAL)",
+                    rationale: "此表現強烈指向間質性肺病(ILD)，如特發性肺纖維化(IPF)。病變發生在深層肺組織，是非產液性的。<sup><a href='#ref-20' class='ref-link'>[20]</a></sup>",
+                    ttw_risk: "TTW樣本幾乎注定是陰性或無診斷價值，因為病理物質不會被咳至大氣道。一份陰性的TTW報告會帶來虛假的安全感，延誤診斷。<sup><a href='#ref-9' class='ref-link'>[9]</a></sup>",
+                    bal_adv: "BAL是唯一能探查深層肺部微環境的非手術方法，可有效排除其他病因，並為診斷提供關鍵線索。<sup><a href='#ref-57' class='ref-link'>[57]</a>, <a href='#ref-58' class='ref-link'>[58]</a></sup>"
+                },
+                asthma: {
+                    title: "臨床情境: 貓呼吸困難/喘鳴",
+                    proc: "建議程序: 支氣管肺泡灌洗 (BAL)",
+                    rationale: "這是貓下呼吸道疾病(FLAD)的典型症狀，需區分氣喘或慢性支氣管炎，兩者治療方案截然不同。<sup><a href='#ref-21' class='ref-link'>[21]</a></sup>",
+                    ttw_risk: "TTW(ETW)在貓身上可能無法從發炎中心的深層小氣道回收足夠的代表性細胞，導致結果模糊不清，可能誤導治療。<sup><a href='#ref-51' class='ref-link'>[51]</a></sup>",
+                    bal_adv: "BAL是診斷FLAD的黃金標準。一份以嗜酸性球為主的BAL樣本可以確診貓氣喘，指導正確使用抗發炎藥物。<sup><a href='#ref-21' class='ref-link'>[21]</a>, <a href='#ref-59' class='ref-link'>[59]</a></sup>"
+                },
+                local: {
+                    title: "臨床情境: X光顯示局部病灶 (單一肺葉)",
+                    proc: "建議程序: 支氣管鏡導引式BAL",
+                    rationale: "病灶局限於特定區域（如吸入性肺炎或腫瘤）。",
+                    ttw_risk: "TTW採集的是混合樣本，會被大量來自健康肺葉的正常分泌物稀釋，幾乎肯定會得到假陰性結果，錯失診斷。<sup><a href='#ref-12' class='ref-link'>[12]</a></sup>",
+                    bal_adv: "導引式BAL是唯一能精準導航至病灶區域進行靶向採樣的方法，是這種情況下不可或缺的工具。<sup><a href='#ref-29' class='ref-link'>[29]</a></sup>"
+                },
+                negative_ttw: {
+                    title: "臨床情境: TTW結果陰性但症狀持續",
+                    proc: "建議程序: 支氣管肺泡灌洗 (BAL)",
+                    rationale: "陰性的TTW報告本身就是一個重要的診斷線索，它在很大程度上排除了瀰漫性、產液性的大氣道疾病。",
+                    ttw_risk: "堅持認為TTW陰性代表無問題，是臨床判讀的失敗。這意味著病變很可能位於TTW無法觸及的深層或局部區域。<sup><a href='#ref-7' class='ref-link'>[7]</a>, <a href='#ref-9' class='ref-link'>[9]</a></sup>",
+                    bal_adv: "BAL是合乎邏輯的下一步。陰性的TTW結果應被視為進行更具侵入性、更具靶向性的BAL檢查的有力指徵。"
+                }
+            };
+
+            const recSection = document.getElementById('recommendation');
+            const buttons = document.querySelectorAll('.decision-btn');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const caseKey = this.dataset.case;
+                    const data = decisionData[caseKey];
+
+                    document.getElementById('rec-title').innerHTML = data.title;
+                    document.getElementById('rec-proc').innerHTML = data.proc;
+                    document.getElementById('rec-rationale').innerHTML = data.rationale;
+                    document.getElementById('rec-ttw-risk').innerHTML = data.ttw_risk;
+                    document.getElementById('rec-bal-adv').innerHTML = data.bal_adv;
+
+                    recSection.style.display = 'block';
+                    
+                    buttons.forEach(btn => btn.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    recSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            });
+            
+            // 漢堡選單邏輯
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // 導覽列滾動監聽
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 音訊播放器語速控制邏輯
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = document.querySelector('.controls');
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
