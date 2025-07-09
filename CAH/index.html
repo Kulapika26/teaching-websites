@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬隻銅貯積病 互動指南</title>
+<!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 採用 index.html 的柔和粉色系風格 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* 非常淺的粉紅色 */
+            color: #5d5456; /* 較深的柔和粉紅色文字 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* 主題強調色 */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 1.5rem;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, .header-title {
+           color: #a56c76; /* 主標題使用的深粉紅色 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+        }
+        /* 互動按鈕樣式 */
+        .interactive-btn {
+            transition: all 0.3s ease;
+            background-color: #fff;
+            color: #5d5456;
+            border: 1px solid #e0b8be;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        .interactive-btn:hover {
+             background-color: #fceef0;
+        }
+        .interactive-btn.selected {
+            background-color: #a56c76;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(165, 108, 118, 0.5);
+        }
+        .flow-step { 
+            transition: all 0.3s ease-in-out; 
+            background-color: #fcf5f6;
+            border: 1px solid #e0b8be;
+        }
+        .flow-step:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); 
+        }
+        .ref-link {
+            color: #c48a94;
+            font-weight: 500;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .ref-link:hover {
+            text-decoration: underline;
+        }
+        /* AI Podcast 語速控制按鈕樣式 */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold header-title">犬隻銅貯積病指南</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#overview" class="nav-link">總覽</a>
+                <a href="#pathophysiology" class="nav-link">病因與遺傳</a>
+                <a href="#diagnosis" class="nav-link">症狀與診斷</a>
+                <a href="#treatment" class="nav-link">治療與管理</a>
+                <a href="#prognosis" class="nav-link">預後與監測</a>
+                <a href="#discussion" class="nav-link">AI Podcast</a>
+                <a href="#references" class="nav-link">參考文獻</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#overview" class="block py-2 nav-link text-center">總覽</a>
+            <a href="#pathophysiology" class="block py-2 nav-link text-center">病因與遺傳</a>
+            <a href="#diagnosis" class="block py-2 nav-link text-center">症狀與診斷</a>
+            <a href="#treatment" class="block py-2 nav-link text-center">治療與管理</a>
+            <a href="#prognosis" class="block py-2 nav-link text-center">預後與監測</a>
+            <a href="#discussion" class="block py-2 nav-link text-center">AI Podcast</a>
+            <a href="#references" class="block py-2 nav-link text-center">參考文獻</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 space-y-16">
+        
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛貓咪的橫幅圖片" class="w-full h-auto block rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/1200x400/e0b8be/5d5456?text=Banner+Image';">
+                </div>
+            </div>
+        </section>
+
+        <!-- 總覽 Section -->
+        <section id="overview" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">犬隻銅貯積病 (CAH)</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">一份全面的互動式指南</p>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">什麼是銅相關性肝病 (CAH)？</h3>
+                <p class="text-gray-700 leading-relaxed">犬隻銅貯積病 (CAH) 是一種因肝細胞內銅的病理性積聚所引發的症候群。過量的銅會導致氧化壓力、肝細胞損傷和炎症，若不加以控制，最終可能發展為慢性肝炎甚至肝硬化。此疾病的挑戰在於其漫長的亞臨床期，犬隻可能在出現明顯症狀前已累積了大量銅，因此早期篩檢與診斷對於高風險品種至關重要。</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="content-card">
+                    <h3 class="text-xl font-bold mb-3">原發性 vs. 繼發性</h3>
+                    <p class="text-gray-700 mb-2"><strong>原發性銅積聚：</strong>源於遺傳缺陷，導致肝臟無法正常將銅排泄至膽汁。這是疾病的根本原因，在貝靈頓㹴、拉布拉多等犬種中有明確的基因關聯。</p>
+                    <p class="text-gray-700"><strong>繼發性銅積聚：</strong>是其他肝臟疾病（特別是引起膽汁鬱積的疾病）的後果。由於膽汁流動受阻，銅被動地滯留在肝臟，加劇原有的肝損傷。</p>
+                </div>
+                <div class="content-card">
+                     <h3 class="text-xl font-bold mb-3">典範轉移：基因與環境的交互作用</h3>
+                    <p class="text-gray-700">過去CAH被視為少數品種的罕見遺傳病。然而，近年來盛行率顯著上升，影響範圍擴大。這與現代商業狗糧中普遍添加高生物利用率的銅補充劑，且未設安全上限有關。許多攜帶易感基因的犬隻，在這種高銅飲食環境下，從亞臨床狀態被推向了臨床疾病。這顯示CAH已演變為一個由「遺傳易感性」與「環境因素（飲食）」共同決定的複雜疾病。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 病因與遺傳 Section -->
+        <section id="pathophysiology" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                 <h2 class="text-3xl font-bold">病因與遺傳</h2>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">銅如何損傷肝臟？</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">在正常情況下，肝臟是銅代謝的中樞，精確地調控銅的儲存與排泄。當調控機制失靈，過量的游離銅離子會催化產生大量高破壞性的活性氧物質 (ROS)，引發「氧化壓力」。這種狀態會破壞細胞膜、蛋白質和DNA，導致肝細胞壞死與凋亡。長期的細胞損傷會觸發慢性炎症，並刺激纖維化（疤痕組織形成），最終可能導致肝硬化，使肝臟失去正常功能。</p>
+            </div>
+            <div class="content-card">
+                <h3 class="text-xl font-bold mb-4 text-center">關鍵遺傳因子互動</h3>
+                <p class="text-center text-gray-600 mb-6">點擊下方卡片以了解不同基因在銅代謝中扮演的角色。</p>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="interactive-btn" data-gene="atp7a">
+                        <h4 class="font-bold text-lg">ATP7A (保護者)</h4>
+                        <p class="text-sm">腸道吸收調節</p>
+                    </div>
+                    <div class="interactive-btn" data-gene="atp7b">
+                         <h4 class="font-bold text-lg">ATP7B (排泄者 - 風險)</h4>
+                        <p class="text-sm">肝臟膽道排泄</p>
+                    </div>
+                    <div class="interactive-btn" data-gene="commd1">
+                         <h4 class="font-bold text-lg">COMMD1 (協助者 - 風險)</h4>
+                        <p class="text-sm">輔助膽道排泄</p>
+                    </div>
+                </div>
+                <div id="gene-details" class="mt-6 p-4 bg-pink-50 rounded-lg min-h-[100px] border border-[#e0b8be]">
+                    <p class="text-gray-600 text-center">請選擇一個基因以查看詳細資訊。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 症狀與診斷 Section -->
+        <section id="diagnosis" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">症狀與診斷</h2>
+            </div>
+             <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">臨床表現光譜</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h3 class="font-bold text-green-800">亞臨床期</h3>
+                        <p class="text-sm text-green-700">無任何症狀，僅血液檢查可能發現肝指數(ALT)輕度、持續性升高。這是早期發現的關鍵窗口。</p>
+                    </div>
+                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <h3 class="font-bold text-yellow-800">早期非特異性症狀</h3>
+                        <p class="text-sm text-yellow-700">症狀模糊，如厭食、精神沉鬱、間歇性嘔吐、體重減輕，容易被忽略或誤診。</p>
+                    </div>
+                    <div class="p-4 bg-red-50 rounded-lg border border-red-200">
+                        <h3 class="font-bold text-red-800">晚期/肝衰竭</h3>
+                        <p class="text-sm text-red-700">出現嚴重症狀，如黃疸、腹水、肝性腦病（神經症狀），表示肝功能已嚴重受損。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-6 text-center">確診之路：從懷疑到證實</h3>
+                <div class="flex flex-col md:flex-row justify-around md:items-stretch space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="flow-step text-center p-4 rounded-lg w-full md:w-1/4 flex flex-col justify-center">
+                        <div>
+                            <div class="text-3xl mb-2">①</div>
+                            <h3 class="font-bold">初步檢查</h3>
+                            <p class="text-sm text-gray-600">血液檢查發現ALT持續升高</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex items-center">
+                        <span class="text-2xl font-bold text-gray-400">→</span>
+                    </div>
+                    <div class="flow-step text-center p-4 rounded-lg w-full md:w-1/4 flex flex-col justify-center">
+                        <div>
+                            <div class="text-3xl mb-2">②</div>
+                            <h3 class="font-bold">影像學</h3>
+                            <p class="text-sm text-gray-600">腹腔超音波評估肝臟結構 (非特異性)</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex items-center">
+                        <span class="text-2xl font-bold text-gray-400">→</span>
+                    </div>
+                    <div class="flow-step text-center p-4 rounded-lg bg-pink-100 w-full md:w-1/4 flex flex-col justify-center">
+                        <div>
+                            <div class="text-3xl mb-2">③</div>
+                            <h3 class="font-bold header-title">黃金標準</h3>
+                            <p class="text-sm text-[#a56c76]">肝臟活體組織採樣</p>
+                        </div>
+                    </div>
+                    <div class="hidden md:flex items-center">
+                        <span class="text-2xl font-bold text-gray-400">→</span>
+                    </div>
+                    <div class="flow-step text-center p-4 rounded-lg bg-pink-100 w-full md:w-1/4 flex flex-col justify-center">
+                        <div>
+                            <div class="text-3xl mb-2">④</div>
+                            <h3 class="font-bold header-title">最終確診</h3>
+                            <p class="text-sm text-[#a56c76]">病理學染色 & 定量銅分析</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-xs text-center mt-4 text-gray-500">根據ACVIM共識，獲得CAH確診的唯一方法是透過肝臟活體組織樣本進行組織病理學和定量銅分析。</p>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4 text-center">肝臟銅濃度判讀</h3>
+                <p class="text-center text-gray-600 mb-4">定量銅分析是診斷CAH的最終依據。不同濃度代表不同的臨床意義與治療方向。</p>
+                <div class="chart-container">
+                    <canvas id="copperChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 治療與管理 Section -->
+        <section id="treatment" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">治療與管理</h2>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">治療核心原則</h3>
+                <p class="text-gray-700 leading-relaxed">所有治療的根本目標都是「創造負銅平衡」，即降低體內總銅量，阻止其對肝臟的持續毒害。這主要透過雙管齊下的方法達成：(1) 減少飲食中銅的攝入和吸收；(2) 增加體內多餘銅的排泄。治療越早開始，預後越好。</p>
+            </div>
+             <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4 text-center">互動式治療方案建議</h3>
+                <p class="text-center text-gray-600 mb-6">請根據您愛犬的肝臟銅濃度報告，選擇對應的區間，以查看建議的治療管理策略。</p>
+                <div class="flex justify-center flex-wrap gap-4 mb-6">
+                    <button class="interactive-btn" data-level="low">正常/邊緣值 (&lt;600 μg/g)</button>
+                    <button class="interactive-btn" data-level="high">病理性升高 (&gt;600 μg/g)</button>
+                    <button class="interactive-btn" data-level="severe">顯著升高 (&gt;1500 μg/g)</button>
+                </div>
+                <div id="treatment-details" class="p-4 bg-pink-50 rounded-lg min-h-[150px] border border-[#e0b8be]">
+                    <div class="treatment-content" id="low-content" style="display: none;">
+                        <h3 class="font-bold text-lg header-title">主要策略：飲食管理與監控</h3>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li><strong>銅限制飲食：</strong>對於高風險品種或肝指數持續偏高的犬隻，應考慮使用銅限制處方飲食。</li>
+                            <li><strong>飲水檢查：</strong>確認家中飲水（特別是井水或老舊銅管）の銅含量。</li>
+                            <li><strong>定期監控：</strong>密切監測血清ALT活性。</li>
+                        </ul>
+                    </div>
+                    <div class="treatment-content" id="high-content" style="display: none;">
+                        <h3 class="font-bold text-lg header-title">主要策略：飲食 + 藥物介入</h3>
+                         <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                             <li><strong>銅限制飲食：</strong>必須終身食用銅限制處方飲食。這是治療的基石。</li>
+                             <li><strong>銅螯合劑 (D-penicillamine):</strong> 這是首選藥物，能與血液中的銅結合，使其從尿液排出。需空腹給予，常見副作用為腸胃不適。</li>
+                             <li><strong>支持性療法：</strong>可考慮使用抗氧化劑(SAMe, Vit E)和熊去氧膽酸(UDCA)來保護肝臟。</li>
+                             <li><strong>長期維持 (選項):</strong> 在完成初期螯合治療後，可考慮使用鋅劑來抑制腸道銅吸收，作為長期管理方案。<strong>鋅不可與螯合劑同時使用。</strong></li>
+                        </ul>
+                    </div>
+                    <div class="treatment-content" id="severe-content" style="display: none;">
+                        <h3 class="font-bold text-lg header-title">主要策略：積極的綜合治療</h3>
+                        <ul class="list-disc list-inside mt-2 text-gray-700 space-y-1">
+                            <li>此等級強烈指向原發性、遺傳性CAH。</li>
+                             <li><strong>所有 >600 μg/g 的治療策略均適用。</strong></li>
+                             <li><strong>積極螯合治療：</strong>需要更積極、可能更長期的銅螯合劑治療，以盡快降低具有高度肝毒性的銅濃度。</li>
+                             <li><strong>併發症管理：</strong>積極處理可能出現的腹水、肝性腦病等嚴重併發症。</li>
+                        </ul>
+                    </div>
+                    <p id="treatment-placeholder" class="text-gray-600 text-center">請選擇一個銅濃度等級。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 預後與監測 Section -->
+        <section id="prognosis" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">預後與監測</h2>
+            </div>
+             <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">預後與影響因素</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">CAH的預後差異很大，主要取決於診斷時疾病的嚴重程度。越早診斷並開始治療，預後越好。一旦發展為不可逆的肝硬化，預後將顯著變差。</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                        <h3 class="font-bold text-red-800 mb-2">負面預後指標 👎</h3>
+                        <ul class="list-disc list-inside text-red-700 space-y-1">
+                            <li>肝臟活檢顯示<strong>肝硬化</strong>或嚴重纖維化</li>
+                            <li>臨床上出現<strong>腹水</strong></li>
+                            <li>臨床上出現<strong>黃疸</strong> (高膽紅素血症)</li>
+                            <li>血液檢查顯示嚴重肝功能不全 (如低白蛋白)</li>
+                            <li>凝血功能異常</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <h3 class="font-bold text-green-800 mb-2">正面預後指標 👍</h3>
+                         <ul class="list-disc list-inside text-green-700 space-y-1">
+                            <li>在亞臨床期或早期發現</li>
+                            <li>肝臟活檢無或僅有輕微纖維化</li>
+                            <li>無腹水、黃疸等肝衰竭症狀</li>
+                            <li>對治療反應良好 (ALT恢復正常)</li>
+                            <li>能夠嚴格遵守終身飲食管理</li>
+                         </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="content-card">
+                <h3 class="text-2xl font-bold mb-4">長期管理與監測</h3>
+                <p class="text-gray-700 leading-relaxed mb-4"><strong>CAH是一種需要終身管理的慢性病，而非可以「治癒」的急性病。</strong>根本的遺傳易感性不會消失。初期的「去銅」治療只是第一步，重點在於後續的長期維持策略。</p>
+                <ul class="list-decimal list-inside text-gray-700 space-y-2">
+                    <li><strong>終身飲食控制：</strong>嚴格的銅限制處方飲食是防止銅再次積聚的基石。</li>
+                    <li><strong>定期監測ALT：</strong>連續監測血清ALT活性是評估治療反應和疾病穩定性的實用指標。治療目標是使ALT恢復正常。</li>
+                    <li><strong>重複肝臟活檢？</strong>這是評估療效的黃金標準，但因其侵入性和費用，通常不會常規進行。是否需要重複活檢，需與獸醫師根據個案情況權衡利弊後決定。</li>
+                    <li><strong>新興生物標記：</strong>研究正致力於開發非侵入性的血液生物標記（如CCS/SOD1比值），未來有望取代肝臟活檢，用於長期監測。</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- AI 討論 Section -->
+        <section id="discussion" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold mb-4 text-center">AI Podcast 討論</h2>
+            <div class="content-card p-4 md:p-6">
+                <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                    <source src="CAH.wav" type="audio/wav">
+                    您的瀏覽器不支援 audio 標籤。
+                </audio>
+                <div class="controls flex justify-center gap-2 flex-wrap">
+                    <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                    <button data-speed="1" class="audio-speed-btn active">正常</button>
+                    <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                    <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                    <button data-speed="2" class="audio-speed-btn">2x</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 參考文獻 Section -->
+        <section id="references" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">參考文獻</h2>
+            </div>
+            <div class="content-card">
+                <div class="overflow-y-auto" style="max-height: 280px;">
+                    <ol class="list-decimal list-inside space-y-4 text-sm text-gray-600 pr-4">
+                        <li>Nutritional management of inherited copper-associated hepatitis in the Labrador retriever. (檢索日期：2025年7月9日). <a href="https://www.researchgate.net/publication/259521018_Nutritional_management_of_inherited_copper-associated_hepatitis_in_the_Labrador_retriever" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/259521018_Nutritional_management_of_inherited_copper-associated_hepatitis_in_the_Labrador_retriever</a></li>
+                        <li>Copper Hepatopathy in Dogs. (檢索日期：2025年7月9日). <a href="https://todaysveterinarypractice.com/internal-medicine/copper-hepatopathy-in-dogs/" target="_blank" rel="noopener noreferrer" class="ref-link">https://todaysveterinarypractice.com/internal-medicine/copper-hepatopathy-in-dogs/</a></li>
+                        <li>The complete guide to copper-associated hepatopathy in dogs. (檢索日期：2025年7月9日). <a href="https://www.veterinaryinternalmedicinenursing.com/blog/episode-06" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.veterinaryinternalmedicinenursing.com/blog/episode-06</a></li>
+                        <li>Nutritional Management of Copper- Storage Hepatopathy with Secondary Pancreatitis. (檢索日期：2025年7月9日). <a href="https://www.vetmed.msstate.edu/sites/www.vetmed.msstate.edu/files/presentations/42018N_1.PDF" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.vetmed.msstate.edu/sites/www.vetmed.msstate.edu/files/presentations/42018N_1.PDF</a></li>
+                        <li>Journal of Veterinary Clinics. (檢索日期：2025年7月9日). <a href="https://www.e-jvc.org/journal/download_pdf.php?spage=249&volume=28&number=2" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.e-jvc.org/journal/download_pdf.php?spage=249&volume=28&number=2</a></li>
+                        <li>Copper-Associated Liver Disease in Dalmatians: A Review of 10 Dogs (1998-2001). (檢索日期：2025年7月9日). <a href="https://www.researchgate.net/publication/11005165_Copper-Associated_Liver_Disease_in_Dalmatians_A_Review_of_10_Dogs_1998-2001" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/11005165_Copper-Associated_Liver_Disease_in_Dalmatians_A_Review_of_10_Dogs_1998-2001</a></li>
+                        <li>Canine Copper-Associated Hepatitis. (檢索日期：2025年7月9日). <a href="https://www.researchgate.net/publication/312101757_Canine_Copper-Associated_Hepatitis" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/312101757_Canine_Copper-Associated_Hepatitis</a></li>
+                        <li>Copper Hepatopathy in Dogs: A case series. (檢索日期：2025年7月9日). <a href="https://www.idexx.com/files/09-2690484-00-liver-biopsy-case-study.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.idexx.com/files/09-2690484-00-liver-biopsy-case-study.pdf</a></li>
+                        <li>Scientific Proceedings. (檢索日期：2025年7月9日). <a href="https://spl.cde.state.co.us/artemis/ucsuserials/ucsu4914internet/ucsu49142016internet.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://spl.cde.state.co.us/artemis/ucsuserials/ucsu4914internet/ucsu49142016internet.pdf</a></li>
+                        <li>ACVIM consensus statement on the diagnosis and treatment of chronic hepatitis in dogs. (檢索日期：2025年7月9日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6524396/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC6524396/</a></li>
+                        <li>2024 ACVIM Forum Research Abstract Program. (檢索日期：2025年7月9日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11423468/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC11423468/</a></li>
+                        <li>AAFCO Seeks Public Comments on Voluntary Copper Claim. (檢索日期：2025年7月9日). <a href="https://www.aafco.org/wp-content/uploads/2024/04/Copper_Comments_Redacted-1.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.aafco.org/wp-content/uploads/2024/04/Copper_Comments_Redacted-1.pdf</a></li>
+                        <li>Copper-Associated Hepatitis. (檢索日期：2025年7月9日). <a href="https://www.purinainstitute.com/centresquare/therapeutic-nutrition/copper-associated-hepatitis" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.purinainstitute.com/centresquare/therapeutic-nutrition/copper-associated-hepatitis</a></li>
+                        <li>Copper Toxicosis (Menkes and Wilson diseases). (檢索日期：2025年7月9日). <a href="https://vgl.ucdavis.edu/test/copper-toxicosis" target="_blank" rel="noopener noreferrer" class="ref-link">https://vgl.ucdavis.edu/test/copper-toxicosis</a></li>
+                        <li>Association of the canine ATP7A and ATP7B with hepatic copper accumulation in Dobermann dogs. (檢索日期：2025年7月9日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6639496/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC6639496/</a></li>
+                        <li>Reduced FXR Target Gene Expression in Copper-Laden Livers of COMMD1-Deficient Dogs. (檢索日期：2025年7月9日). <a href="https://www.mdpi.com/2306-7381/6/4/78" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.mdpi.com/2306-7381/6/4/78</a></li>
+                        <li>COMMD1 Exemplifies the Power of Inbred Dogs to Dissect Genetic Causes of Rare Copper-Related Disorders. (檢索日期：2025年7月9日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7996361/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC7996361/</a></li>
+                        <li>Canine models of copper toxicosis for understanding mammalian... (檢索日期：2025年7月9日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3275736/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC3275736/</a></li>
+                        <li>Copper toxicosis (CT, copper metabolism disorder) - Doberman. (檢索日期：2025年7月9日). <a href="https://www.eurovetgene.com/copper-toxicosis-ct-copper-metabolism-disorder-doberman" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.eurovetgene.com/copper-toxicosis-ct-copper-metabolism-disorder-doberman</a></li>
+                        <li>Copper Toxicosis (Attenuating) in dogs. (檢索日期：2025年7月9日). <a href="https://embarkvet.com/products/dog-health/health-conditions/copper-toxicosis-attenuating/" target="_blank" rel="noopener noreferrer" class="ref-link">https://embarkvet.com/products/dog-health/health-conditions/copper-toxicosis-attenuating/</a></li>
+                        <li>Copper Toxicosis (Copper Storage Hepatopathy). (檢索日期：2025年7月9日). <a href="https://tests.dnacenter.com/testing-pets-vets/dog-dna-testing/inherited-disease-screening/copper-toxicosis-copper-storage-hepatopathy/" target="_blank" rel="noopener noreferrer" class="ref-link">https://tests.dnacenter.com/testing-pets-vets/dog-dna-testing/inherited-disease-screening/copper-toxicosis-copper-storage-hepatopathy/</a></li>
+                        <li>Copper Toxicosis (Both Mutations). (檢索日期：2025年7月9日). <a href="https://animalgenetics.com/canine-services/copper-toxicosis-both-mutations/" target="_blank" rel="noopener noreferrer" class="ref-link">https://animalgenetics.com/canine-services/copper-toxicosis-both-mutations/</a></li>
+                        <li>petsmile - Vivaldis – Animal Health. (檢索日期：2025年7月9日). <a href="https://www.vivaldis.co.in/wp-content/uploads/2019/10/July-Aug-2019.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.vivaldis.co.in/wp-content/uploads/2019/10/July-Aug-2019.pdf</a></li>
+                        <li>The Approach to Abnormal - Liver Enzymes in Companion Animals. (檢索日期：2025年7月9日). <a href="https://www.zoetisus.com/content/_assets/docs/Approach-to-Abnormal-Liver-Enzymes-Whitepaper-TI-07106.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.zoetisus.com/content/_assets/docs/Approach-to-Abnormal-Liver-Enzymes-Whitepaper-TI-07106.pdf</a></li>
+                        <li>ELEVATED ALT IN AN ASYMPTOMATIC ZUCHON. (檢索日期：2025年7月9日). <a href="https://vcahospitals.com/-/media/vca/documents/hospitals/washington/pacific-avenue/clinical_consults_august-september_18" target="_blank" rel="noopener noreferrer" class="ref-link">https://vcahospitals.com/-/media/vca/documents/hospitals/washington/pacific-avenue/clinical_consults_august-september_18</a></li>
+                        <li>ACVIM consensus statement on the diagnosis and treatment of chronic hepatitis in dogs. (檢索日期：2025年7月9日). <a href="https://pubmed.ncbi.nlm.nih.gov/30844094/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pubmed.ncbi.nlm.nih.gov/30844094/</a></li>
+                        <li>Accuracy of ultrasound-guided fine-needle aspiration of the liver and cytologic findings in dogs and cats: 97 Cases (1990-2000). (檢索日期：2025年7月9日). <a href="https://www.researchgate.net/publication/5391595_Accuracy_of_ultrasound-guided_fine-needle_aspiration_of_the_liver_and_cytologic_findings_in_dogs_and_cats_97_Cases_1990-2000" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/5391595_Accuracy_of_ultrasound-guided_fine-needle_aspiration_of_the_liver_and_cytologic_findings_in_dogs_and_cats_97_Cases_1990-2000</a></li>
+                        <li>Improvement in Liver Pathology after 4 Months of D-Penicillamine in 5 Doberman Pinschers with Subclinical Hepatitis. (檢索日期：2025年7月9日). <a href="https://www.researchgate.net/publication/8018210_Improvement_in_Liver_Pathology_after_4_Months_of_D-Penicillamine_in_5_Doberman_Pinschers_with_Subclinical_Hepatitis" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/8018210_Improvement_in_Liver_Pathology_after_4_Months_of_D-Penicillamine_in_5_Doberman_Pinschers_with_Subclinical_Hepatitis</a></li>
+                        <li>NAVLE Canine HSA. (檢索日期：2025年7月9日). <a href="https://www.scribd.com/document/779190416/NAVLE-Canine-HSA" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.scribd.com/document/779190416/NAVLE-Canine-HSA</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+           <p>
+                本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。
+            </p>
+            <p class="mt-2">
+                © 2025 犬隻銅貯積病指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛力克獅獸醫影像學院</a>
+            </p>
+
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 漢堡選單邏輯
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // 導覽列滾動監聽
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 基因資訊互動邏輯
+            const geneData = {
+                atp7a: {
+                    title: 'ATP7A (保護者): X-連鎖的保護性修飾因子',
+                    description: '此基因主要在腸道細胞表現，負責銅的吸收。在拉布拉多犬中發現的特定突變被認為會削弱腸道對銅的吸收能力，從而對體内銅的積聚起到部分保護作用，有效「緩衝」或「削弱」了有害的ATP7B突變所帶來的影響。'
+                },
+                atp7b: {
+                    title: 'ATP7B (排泄者): 犬隻的威爾遜氏症類似物',
+                    description: '此基因編碼的蛋白是肝臟將多餘銅排泄至膽汁的主要運輸工具。其突變在人類會導致威爾遜氏症。在拉布拉多、杜賓犬等品種中，此基因的突變會損害排銅功能，是導致原發性CAH的關鍵風險因子。其遺傳模式複雜，攜帶一個突變基因的犬隻風險即會增加。'
+                },
+                commd1: {
+                    title: 'COMMD1 (協助者): 貝靈頓㹴的關鍵缺陷',
+                    description: '此基因的蛋白與ATP7B協同作用，促進銅的膽道排泄。在貝靈頓㹴中，此基因一個巨大的片段缺失，導致無法產生有功能的COMMD1蛋白，嚴重阻礙了銅的排泄，造成肝臟內極大量的銅積聚。這是最典型、研究最透徹的CAH形式。'
+                }
+            };
+            const geneCards = document.querySelectorAll('[data-gene]');
+            const geneDetailsContainer = document.getElementById('gene-details');
+            geneCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const geneId = card.dataset.gene;
+                    const data = geneData[geneId];
+                    
+                    geneDetailsContainer.innerHTML = `
+                        <h4 class="font-bold text-lg ${geneId.includes('atp7b') || geneId.includes('commd1') ? 'text-red-700' : 'header-title'}">${data.title}</h4>
+                        <p class="mt-2 text-gray-700">${data.description}</p>
+                    `;
+                    
+                    geneCards.forEach(btn => btn.classList.remove('selected'));
+                    card.classList.add('selected');
+                });
+            });
+
+            // 治療選項互動邏輯
+            const treatmentOptions = document.querySelectorAll('[data-level]');
+            const treatmentContents = document.querySelectorAll('.treatment-content');
+            const treatmentPlaceholder = document.getElementById('treatment-placeholder');
+            treatmentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const level = option.dataset.level;
+
+                    treatmentOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+
+                    treatmentPlaceholder.style.display = 'none';
+                    treatmentContents.forEach(content => {
+                        content.style.display = content.id === `${level}-content` ? 'block' : 'none';
+                    });
+                });
+            });
+
+            // 銅濃度圖表
+            const ctx = document.getElementById('copperChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['正常', '邊緣/中度', '病理性', '顯著/肝毒性'],
+                    datasets: [{
+                        label: '肝臟銅濃度 (μg/g 乾重)',
+                        data: [400, 600, 1500, 2000],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(245, 158, 11, 0.6)',
+                            'rgba(239, 68, 68, 0.6)',
+                            'rgba(185, 28, 28, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(5, 150, 105, 1)',
+                            'rgba(217, 119, 6, 1)',
+                            'rgba(220, 38, 38, 1)',
+                            'rgba(153, 27, 27, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: '銅濃度 (μg/g 乾重)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    const interpretations = [
+                                        '正常範圍，無需針對銅治療。',
+                                        '考慮飲食銅限制，密切監控肝酵素。',
+                                        '符合CAH，應啟動飲食與螯合劑治療。',
+                                        '強烈指向原發性CAH，需積極螯合治療。'
+                                    ];
+                                    return interpretations[context.dataIndex];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 音訊播放器語速控制邏輯
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = document.querySelector('.controls');
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
