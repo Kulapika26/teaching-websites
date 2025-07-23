@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Status</title>
+<!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(224, 184, 190, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 420px;
+            width: 90%;
+        }
+
+        .status-indicator {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transition: all 0.4s ease;
+            animation: pulse 2.5s infinite;
+            background-size: 109% !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .status-indicator.online {
+            background-image: url('https://i.imgur.com/xiTObp5.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 25px rgba(52, 199, 89, 0.4);
+        }
+
+        .status-indicator.online.no-image {
+            background-image: none;
+            background: linear-gradient(45deg, #34c759, #30d158);
+        }
+
+        .status-indicator.offline {
+            background-image: url('https://i.imgur.com/xiTObp5.png');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.4);
+            animation: none;
+            filter: grayscale(0.5);
+        }
+
+        .status-indicator.offline.no-image {
+            background-image: none;
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            filter: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(52, 199, 89, 0.4);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 35px rgba(52, 199, 89, 0.6);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 25px rgba(52, 199, 89, 0.4);
+            }
+        }
+
+        .status-text {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .status-description {
+            font-size: 18px;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .last-updated {
+            font-size: 15px;
+            opacity: 0.7;
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .admin-panel {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 24px;
+            margin-top: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .admin-title {
+            font-size: 20px;
+            margin-bottom: 18px;
+            opacity: 0.9;
+            font-weight: 600;
+            color: white;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-online {
+            background: linear-gradient(45deg, #34c759, #30d158);
+        }
+
+        .btn-offline {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+            color: white !important;
+            font-size: 12px;
+            padding: 8px 16px;
+        }
+
+        .btn-logout {
+            background: linear-gradient(45deg, #8e8e93, #6d6d70);
+            font-size: 12px;
+            padding: 8px 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .toggle-admin {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(31, 38, 135, 0.3);
+        }
+
+        .toggle-admin:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(31, 38, 135, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .secondary-buttons {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator online" id="statusIndicator">
+            ✨
+        </div>
+        
+        <div class="status-text" id="statusText">I'm Online</div>
+        <div class="status-description" id="statusDescription">Feel free to reach out via Slack if you need a STAT or WET STAT read!</div>
+        <div class="last-updated" id="lastUpdated">Last updated: Now</div>
+
+        <div class="admin-panel hidden" id="adminPanel">
+            <div class="admin-title">🛠️ Admin Panel</div>
+            <div class="button-group">
+                <button class="btn btn-online" onclick="setStatus('online')">
+                    📱 Set Online
+                </button>
+                <button class="btn btn-offline" onclick="setStatus('offline')">
+                    😴 Set Offline
+                </button>
+            </div>
+            <div class="secondary-buttons">
+                <button class="btn btn-secondary" onclick="changePassword()">
+                    🔑 Change Password
+                </button>
+                <button class="btn btn-secondary" onclick="changeImage()">
+                    🖼️ Change Image
+                </button>
+                <button class="btn btn-logout" onclick="logout()">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="toggle-admin" onclick="toggleAdmin()" title="Admin Login">
+        ⚙️
+    </button>
+
+    <script>
+        // Status variables
+        let currentStatus = 'online';
+        let adminVisible = false;
+        let adminPassword = 'MySecret123'; // Default password, please change this!
+        let loginTime = null;
+        let customImageUrl = 'https://i.imgur.com/xiTObp5.png'; // Your custom image URL
+        let useCustomImage = true; // Enable custom image by default
+
+        // Update status display
+        function updateStatusDisplay() {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            const statusDescription = document.getElementById('statusDescription');
+            const lastUpdated = document.getElementById('lastUpdated');
+
+            if (currentStatus === 'online') {
+                indicator.className = 'status-indicator online';
+                if (!useCustomImage) {
+                    indicator.classList.add('no-image');
+                    indicator.textContent = '✨';
+                } else {
+                    indicator.textContent = ''; // Hide emoji when using custom image
+                }
+                statusText.textContent = "I'm Online";
+                statusDescription.textContent = 'Feel free to reach out via Slack if you need a STAT or WET STAT read!';
+           } else {
+    indicator.className = 'status-indicator offline';
+    indicator.classList.add('no-image');
+    indicator.textContent = '😴';  // 強制顯示睡覺 emoji
+    statusText.textContent = "I'm Offline";
+    statusDescription.textContent = 'Currently unavailable, please try again later';
+}
+
+            // Update timestamp in PST
+            const now = new Date();
+            const pstTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+            const timeString = pstTime.toLocaleString('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }) + ' PST';
+            lastUpdated.textContent = `Last updated: ${timeString}`;
+        }
+
+        // Set status
+        function setStatus(status) {
+            currentStatus = status;
+            updateStatusDisplay();
+        }
+
+        // Toggle admin panel
+        function toggleAdmin() {
+            const adminPanel = document.getElementById('adminPanel');
+            
+            if (!adminVisible) {
+                // Need password to show admin panel
+                const password = prompt('Enter admin password:');
+                if (password === adminPassword) {
+                    adminVisible = true;
+                    loginTime = new Date();
+                    adminPanel.classList.remove('hidden');
+                } else if (password !== null) { // If not cancel button
+                    alert('Incorrect password!');
+                }
+            } else {
+                logout();
+            }
+        }
+
+        // Change image
+        function changeImage() {
+            const choice = confirm('Do you want to use your profile image? Click OK for profile image, Cancel to use default emoji.');
+            
+            if (choice) {
+                useCustomImage = true;
+                alert('Using your profile image.');
+            } else {
+                useCustomImage = false;
+                alert('Using default emoji.');
+            }
+            updateStatusDisplay();
+        }
+
+        // Change image
+        function changeImage() {
+            const choice = confirm('Do you want to use a custom image? Click OK for custom image, Cancel to use default emoji.');
+            
+            if (choice) {
+                const imageUrl = prompt('Enter image URL (or leave empty to disable custom image):');
+                if (imageUrl !== null) {
+                    if (imageUrl.trim() === '') {
+                        // Disable custom image
+                        useCustomImage = false;
+                        customImageUrl = '';
+                        alert('Custom image disabled. Using default emoji.');
+                    } else {
+                        // Enable custom image
+                        customImageUrl = imageUrl.trim();
+                        useCustomImage = true;
+                        alert('Custom image set successfully!');
+                    }
+                    updateStatusDisplay();
+                }
+            } else {
+                // Use default emoji
+                useCustomImage = false;
+                customImageUrl = '';
+                updateStatusDisplay();
+                alert('Using default emoji.');
+            }
+        }
+        function changePassword() {
+            const currentPwd = prompt('Enter current password:');
+            if (currentPwd === adminPassword) {
+                const newPwd = prompt('Enter new password:');
+                if (newPwd && newPwd.length >= 4) {
+                    const confirmPwd = prompt('Confirm new password:');
+                    if (newPwd === confirmPwd) {
+                        adminPassword = newPwd;
+                        alert('Password changed successfully!');
+                    } else {
+                        alert('Passwords do not match!');
+                    }
+                } else {
+                    alert('Password must be at least 4 characters!');
+                }
+            } else {
+                alert('Current password is incorrect!');
+            }
+        }
+
+        // Logout
+        function logout() {
+            adminVisible = false;
+            loginTime = null;
+            document.getElementById('adminPanel').classList.add('hidden');
+        }
+
+        // Check for auto logout (after 30 minutes)
+        function checkAutoLogout() {
+            if (adminVisible && loginTime) {
+                const now = new Date();
+                const timeDiff = (now - loginTime) / (1000 * 60); // minutes
+                if (timeDiff > 30) {
+                    logout();
+                    alert('Auto-logged out for security after 30 minutes');
+                }
+            }
+        }
+
+        // Initialize
+        updateStatusDisplay();
+
+        // Auto update time (every minute)
+        setInterval(() => {
+            // Check auto logout
+            checkAutoLogout();
+            
+            const lastUpdated = document.getElementById('lastUpdated');
+            const now = new Date();
+            const pstTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+            const timeString = pstTime.toLocaleString('en-US', {
+                timeZone: 'America/Los_Angeles',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }) + ' PST';
+            
+            // Only update time if status hasn't been manually updated recently
+            if (lastUpdated.textContent.includes('Last updated:')) {
+                const currentTimeDisplay = pstTime.toLocaleString('en-US', {
+                    timeZone: 'America/Los_Angeles',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+                
+                // Update if minute has changed
+                if (!lastUpdated.textContent.includes(currentTimeDisplay)) {
+                    lastUpdated.textContent = `Last updated: ${timeString}`;
+                }
+            }
+        }, 60000);
+    </script>
+</body>
+</html>
