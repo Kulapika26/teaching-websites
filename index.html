@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>獸醫教學網站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .card-content {
+            padding: 2rem;
+        }
+        .topic-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
+                    獸醫教學網站
+                </h1>
+                <p class="text-xl text-white/80 max-w-2xl mx-auto">
+                    探索各種獸醫診斷與治療主題的互動式學習資源
+                </p>
+            </div>
+
+            <!-- Navigation Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- 犬淋巴瘤 PARR vs 流式細胞術 -->
+                <a href="/dogflowvsparr/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🧬
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">犬大細胞淋巴瘤</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            PARR vs. 流式細胞術診斷決策互動指南
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CAH -->
+                <a href="/CAH/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🫀
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">CAH</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            慢性腎上腺皮質功能亢進症診斷與治療
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CITB -->
+                <a href="/CITB/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🩺
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">CITB</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            臨床影像診斷技術與應用
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Feline Triaditis -->
+                <a href="/Feline%20Triaditis/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🐱
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">貓三聯症</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            貓咪三聯症的診斷與綜合治療方法
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- GBWE -->
+                <a href="/GBWE/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🍃
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">GBWE</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            膽囊壁水腫的影像診斷與鑑別診斷
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- IBDSCL -->
+                <a href="/IBDSCL/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🌀
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">IBD vs SCL</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            炎症性腸病與小細胞淋巴瘤的鑑別診斷
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- TTWBAL -->
+                <a href="/TTWBAL/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            🫁
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">TTWBAL</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            氣管支氣管灌洗液的細胞學分析
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Flow vs PARR -->
+                <a href="/flowvsparr/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            ⚖️
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">Flow vs PARR</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            流式細胞術與PARR檢測的比較分析
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Status -->
+                <a href="/status/" class="card group">
+                    <div class="card-content text-center">
+                        <div class="topic-icon text-white mb-4">
+                            📊
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-gray-800">Status</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">
+                            診斷狀態評估與追蹤管理系統
+                        </p>
+                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
+                            進入學習 →
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center mt-16">
+                <p class="text-white/60 text-sm">
+                    © 2025 獸醫教學網站 | 由愛叮寶犬貓影像專科醫院提供
+                </p>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
