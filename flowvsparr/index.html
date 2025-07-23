@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬大細胞淋巴瘤：診斷決策互動指南</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 採用 index.html 的柔和粉色系風格 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* 非常淺的粉紅色 */
+            color: #5d5456; /* 較深的柔和粉紅色文字 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* 主題強調色 */
+            border-bottom-color: #c48a94;
+        }
+        .content-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 1.5rem;
+        }
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, .header-title {
+           color: #a56c76; /* 主標題使用的深粉紅色 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        /* 互動決策按鈕樣式 */
+        .decision-box {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background-color: #fff;
+            color: #5d5456;
+            border: 1px solid #e0b8be;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .decision-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            background-color: #fceef0;
+        }
+        .decision-box.active {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px rgba(165, 108, 118, 0.5);
+            background-color: #a56c76;
+            color: white;
+            border-color: #a56c76;
+        }
+        .decision-box.active p {
+             color: white;
+        }
+        .recommendation {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .recommendation.visible {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 0.5rem;
+        }
+        .ref-link {
+            color: #c48a94;
+            font-weight: 500;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .ref-link:hover {
+            text-decoration: underline;
+        }
+        /* AI Podcast 語速控制按鈕樣式 */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold header-title">犬淋巴瘤診斷指南</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#introduction" class="nav-link">核心問題</a>
+                <a href="#comparison" class="nav-link">工具比較</a>
+                <a href="#workflow" class="nav-link">決策流程</a>
+                <a href="#prognosis" class="nav-link">預後影響</a>
+                <a href="#summary" class="nav-link">最終建議</a>
+                <a href="#discussion" class="nav-link">AI Podcast</a>
+                <a href="#references" class="nav-link">參考文獻</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#a56c76]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-3">
+            <a href="#introduction" class="block py-2 nav-link text-center">核心問題</a>
+            <a href="#comparison" class="block py-2 nav-link text-center">工具比較</a>
+            <a href="#workflow" class="block py-2 nav-link text-center">決策流程</a>
+            <a href="#prognosis" class="block py-2 nav-link text-center">預後影響</a>
+            <a href="#summary" class="block py-2 nav-link text-center">最終建議</a>
+            <a href="#discussion" class="block py-2 nav-link text-center">AI Podcast</a>
+            <a href="#references" class="block py-2 nav-link text-center">參考文獻</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 space-y-16">
+        
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛貓咪的橫幅圖片" class="w-full h-auto block rounded-md" onerror="this.onerror=null;this.src='https://placehold.co/1200x400/e0b8be/5d5456?text=Banner+Image';">
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心問題 Section -->
+        <section id="introduction" class="text-center scroll-mt-20">
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">犬大細胞淋巴瘤的診斷十字路口</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                當初步診斷確立後，一個關鍵問題浮現：腫瘤是源自B細胞還是T細胞？這個問題的答案，是影響治療計畫與預後評估最重要的單一因素。然而，基礎的細胞學檢查無法提供此資訊，形成了一個「診斷缺口」。本指南將帶您了解 PARR 與流式細胞術這兩種先進工具，如何幫助我們跨越這個缺口，做出最明智的臨床決策。
+            </p>
+        </section>
+
+        <!-- 工具比較 Section -->
+        <section id="comparison" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-12">關鍵工具比較：PARR vs. 流式細胞術</h2>
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+                <div class="content-card">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-3xl mr-3">🧬</span>PARR (基因複製源頭分析)</h3>
+                    <p class="text-gray-700 mb-4 font-semibold">主要回答：「這個細胞群體是腫瘤性（單源複製）的嗎？」</p>
+                    <p class="mb-6 text-sm leading-relaxed">
+                        PARR 是一項分析細胞 **基因型** 的分子檢測。它透過尋找大量相同的抗原受體基因序列，來判斷淋巴細胞是源於單一惡性細胞的「單源複製」，還是正常免疫反應的「多源增生」。它是在診斷模糊不清時，確認癌症是否存在的「守門人」。
+                    </p>
+                    <div class="space-y-3 text-sm">
+                        <p><strong style="color: #a56c76;">優點：</strong>樣本要求彈性極高，可使用抹片、福馬林固定組織等存檔樣本。</p>
+                        <p><strong style="color: #c43a3a;">限制：</strong><span class="font-bold">無法可靠地區分B細胞或T細胞來源</span>（因「跨譜系重組」現象）。其預後價值為間接，僅確認治療的必要性。</p>
+                    </div>
+                </div>
+                <div class="content-card">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center"><span class="text-3xl mr-3">🔬</span>流式細胞術 (免疫表型分析)</h3>
+                    <p class="text-gray-700 mb-4 font-semibold">主要回答：「這個淋巴瘤是B細胞還是T細胞來源？以及有哪些預後特徵？」</p>
+                    <p class="mb-6 text-sm leading-relaxed">
+                        流式細胞術是一項分析細胞 **表型** 的技術。它使用螢光抗體標記細胞表面的特定蛋白質(CD標記)，從而精確識別並量化B細胞和T細胞。它是提供預後資訊、引導治療溝通的「導航員」。
+                    </p>
+                    <div class="space-y-3 text-sm">
+                        <p><strong style="color: #a56c76;">優點：</strong><span class="font-bold">準確判定B/T細胞來源</span>，這是最強的預後指標。可提供MHC II狀態等額外預後資訊。</p>
+                        <p><strong style="color: #c43a3a;">限制：</strong>必須使用新鮮、有活力的細胞樣本，對檢體處理要求嚴格。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 決策流程 Section -->
+        <section id="workflow" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4">互動式臨床決策流程</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">根據您的臨床情境，選擇最合適的檢測工具。請點擊下方最符合您目前狀況的選項。</p>
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-6 text-center" id="decision-scenarios">
+                    <div id="scenario1" class="decision-box">
+                        <h4 class="font-bold text-lg">情境一</h4>
+                        <p class="text-gray-600 mt-2">細胞學診斷<strong class="font-semibold" style="color: #5d5456;">明確</strong>為大細胞淋巴瘤。</p>
+                    </div>
+                    <div id="scenario2" class="decision-box">
+                        <h4 class="font-bold text-lg">情境二</h4>
+                        <p class="text-gray-600 mt-2">細胞學結果<strong class="font-semibold" style="color: #5d5456;">模稜兩可</strong>，無法區分腫瘤或反應性增生。</p>
+                    </div>
+                    <div id="scenario3" class="decision-box">
+                        <h4 class="font-bold text-lg">情境三</h4>
+                        <p class="text-gray-600 mt-2">影像學發現<strong class="font-semibold" style="color: #5d5456;">前縱膈腫塊</strong>，需區分淋巴瘤與胸腺瘤。</p>
+                    </div>
+                </div>
+                <div id="recommendation-output">
+                    <div id="rec1" class="recommendation bg-pink-50 border-l-4 border-[#c48a94]">
+                        <h5 class="font-bold text-xl mb-2 header-title">建議措施：直接進行流式細胞術</h5>
+                        <p>在診斷明確的情況下，PARR是不必要的。首要目標是獲取最重要的預後資訊。對新鮮淋巴結抽吸物進行<strong>流式細胞術</strong>，以確定B細胞或T細胞表型，這將直接指導後續的治療溝通與預後評估。</p>
+                    </div>
+                    <div id="rec2" class="recommendation bg-pink-50 border-l-4 border-[#c48a94]">
+                        <h5 class="font-bold text-xl mb-2 header-title">建議措施：優先進行PARR確認</h5>
+                        <p>這是PARR最理想的應用情境。對細胞學抹片或新採集的樣本進行<strong>PARR</strong>，以確認細胞群是否為「單源複製」。若結果為陽性（確認淋巴瘤），強烈建議再進行<strong>流式細胞術</strong>以獲取免疫表型，用於預後判斷。</p>
+                    </div>
+                    <div id="rec3" class="recommendation bg-pink-50 border-l-4 border-[#c48a94]">
+                        <h5 class="font-bold text-xl mb-2 header-title">建議措施：流式細胞術是首選</h5>
+                        <p>在此情境下，<strong>流式細胞術</strong>遠優於PARR。因為它不僅能判定是否為T細胞淋巴瘤，更能透過分析CD4/CD8雙陽性細胞比例，有效區分淋巴瘤與胸腺瘤。這兩種疾病的治療方式截然不同（化療 vs. 手術），準確鑑別至關重要。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 預後影響 Section -->
+        <section id="prognosis" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-4">為何重要：免疫表型對預後的決定性影響</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-3xl mx-auto">由流式細胞術確定的免疫表型，是預測存活時間和治療反應最關鍵的單一因子。B細胞與T細胞淋巴瘤的預後存在顯著差異。</p>
+            <div class="content-card p-4 sm:p-8">
+                <h3 class="text-xl font-bold text-center mb-6">B細胞 vs. T細胞淋巴瘤的中位存活時間 (MST) 比較</h3>
+                <div class="chart-container">
+                    <canvas id="prognosisChart"></canvas>
+                </div>
+                <div class="mt-6 text-center text-sm text-gray-500">
+                    <p>數據顯示，接受標準化療(如CHOP)的犬隻，B細胞淋巴瘤的預後明顯優於T細胞淋巴瘤。</p>
+                    <p>T細胞淋巴瘤通常具有更強的內在化療抗性，可能與P-醣蛋白(P-gp)等藥物外排泵的過度表達有關。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 最終建議 Section -->
+        <section id="summary" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-12">總結與最終臨床建議</h2>
+            <div class="content-card p-8">
+                <p class="mb-6 leading-relaxed">
+                    總結來說，PARR與流式細胞術在犬淋巴瘤的診斷中扮演著互補但截然不同的角色。選擇何種工具取決於當下面臨的核心臨床問題。
+                </p>
+                <ul class="space-y-4 list-disc list-inside text-gray-700">
+                    <li>
+                        <strong>PARR是「守門人」：</strong>當細胞學診斷<span class="font-bold">模稜兩可</span>時，用它來回答「這是否為癌症？」。它的影響是間接的，主要功能是確認是否需要啟動治療。
+                    </li>
+                    <li>
+                        <strong>流式細胞術是「導航員」：</strong>當診斷<span class="font-bold">已確立</span>時，用它來回答「這是哪種類型？預後如何？」。它提供的免疫表型資訊，能直接、有力地指導治療溝通與預後判斷。 
+                    </li>
+                    <li>
+                        <strong>整合性觀點：</strong>無論使用何種進階檢測，其結果都必須與病患的臨床分期、亞期（是否出現臨床症狀）及血鈣等其他數據結合，才能形成最完整的臨床圖像。
+                    </li>
+                </ul>
+                <p class="mt-8 font-semibold text-center text-lg bg-pink-50 p-4 rounded-md" style="color: #a56c76;">
+                    最終，PARR確認了戰鬥的必要性，而流式細胞術則揭示了如何戰鬥以及預期戰況。
+                </p>
+            </div>
+        </section>
+
+        <!-- AI Podcast Section -->
+        <section id="discussion" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">AI Podcast 討論</h2>
+            </div>
+            <div class="content-card p-4 md:p-6">
+                <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                    <source src="dogflowvsparr.wav" type="audio/mpeg">
+                    您的瀏覽器不支援 audio 標籤。
+                </audio>
+                <div class="controls flex justify-center gap-2 flex-wrap">
+                    <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                    <button data-speed="1" class="audio-speed-btn active">正常</button>
+                    <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                    <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                    <button data-speed="2" class="audio-speed-btn">2x</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 參考文獻 Section -->
+        <section id="references" class="scroll-mt-20 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold">參考文獻</h2>
+            </div>
+            <div class="content-card">
+                <div class="overflow-y-auto" style="max-height: 280px;">
+                    <ol class="list-decimal list-inside space-y-4 text-sm text-gray-600 pr-4">
+                        <li>Lymphoma in Dogs - Circulatory System - MSD Veterinary Manual, (檢索日期：2025年7月22日). <a href="https://www.msdvetmanual.com/circulatory-system/lymphoma-in-dogs/lymphoma-in-dogs" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.msdvetmanual.com/circulatory-system/lymphoma-in-dogs/lymphoma-in-dogs</a></li>
+                        <li>Canine Multicentric Lymphoma: Diagnostic, Treatment, and Prognostic Insights - MDPI, (檢索日期：2025年7月22日). <a href="https://www.mdpi.com/2076-2615/15/3/391" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.mdpi.com/2076-2615/15/3/391</a></li>
+                        <li>Full article: Canine lymphoma: a review - Taylor and Francis, (檢索日期：2025年7月22日). <a href="https://www.tandfonline.com/doi/full/10.1080/01652176.2016.1152633" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.tandfonline.com/doi/full/10.1080/01652176.2016.1152633</a></li>
+                        <li>Canine Lymphoma Research - Purdue University College of Veterinary Medicine, (檢索日期：2025年7月22日). <a href="https://vet.purdue.edu/wcorc/cancer-research/canine-lymphoma-research.php" target="_blank" rel="noopener noreferrer" class="ref-link">https://vet.purdue.edu/wcorc/cancer-research/canine-lymphoma-research.php</a></li>
+                        <li>Lymphoma in Dogs - Veterinary Partner - VIN, (檢索日期：2025年7月22日). <a href="https://veterinarypartner.vin.com/doc/?id=4951455" target="_blank" rel="noopener noreferrer" class="ref-link">https://veterinarypartner.vin.com/doc/?id=4951455</a></li>
+                        <li>A Practical Diagnostic Approach to Your Workup Background Canine lymphoma is one of the most common cancers dia, (檢索日期：2025年7月22日). <a href="https://www.isvma.org/wp-content/uploads/2021/09/CanineLymphomaAPracticalDiagnositcApproachtoyourWorkup.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.isvma.org/wp-content/uploads/2021/09/CanineLymphomaAPracticalDiagnositcApproachtoyourWorkup.pdf</a></li>
+                        <li>Cytodiagnostics of canine lymphomas – possibilities and limitations, (檢索日期：2025年7月22日). <a href="https://journals.pan.pl/Content/105369?format_id=1" target="_blank" rel="noopener noreferrer" class="ref-link">https://journals.pan.pl/Content/105369?format_id=1</a></li>
+                        <li>Cytodiagnostics of canine lymphomas - CABI Digital Library, (檢索日期：2025年7月22日). <a href="https://www.cabidigitallibrary.org/doi/pdf/10.5555/20163249025" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.cabidigitallibrary.org/doi/pdf/10.5555/20163249025</a></li>
+                        <li>Cytology, Biopsy, and Histopathology | VCA Animal Hospitals, (檢索日期：2025年7月22日). <a href="https://vcahospitals.com/know-your-pet/cytology-histopathology-biopsies" target="_blank" rel="noopener noreferrer" class="ref-link">https://vcahospitals.com/know-your-pet/cytology-histopathology-biopsies</a></li>
+                        <li>Diagnosis of Tumor Type - AAHA, (檢索日期：2025年7月22日). <a href="https://www.aaha.org/resources/2016-aaha-oncology-guidelines-for-dogs-and-cats/diagnosis-of-tumor-type/" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.aaha.org/resources/2016-aaha-oncology-guidelines-for-dogs-and-cats/diagnosis-of-tumor-type/</a></li>
+                        <li>Cytology of Lymph Nodes - WSAVA 2019 Congress - VIN, (檢索日期：2025年7月22日). <a href="https://www.vin.com/apputil/content/defaultadv1.aspx?pId=24437&catId=137416&id=9382829&ind=62&objTypeID=17" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.vin.com/apputil/content/defaultadv1.aspx?pId=24437&catId=137416&id=9382829&ind=62&objTypeID=17</a></li>
+                        <li>Diagnosing Canine Lymphoma: When Cytology Alone Isn't Enough - Kansas Veterinary Diagnostic Laboratory, (檢索日期：2025年7月22日). <a href="https://ksvdl.org/resources/news/diagnostic_insights/may2020/diagnosing-canine-lymphoma.html" target="_blank" rel="noopener noreferrer" class="ref-link">https://ksvdl.org/resources/news/diagnostic_insights/may2020/diagnosing-canine-lymphoma.html</a></li>
+                        <li>K9/Feline Oncology Diagnostic Lab - NC State College of Veterinary Medicine, (檢索日期：2025年7月22日). <a href="https://cvm.ncsu.edu/research/labs/clinical-sciences/k9feline-oncology-diagnostic/" target="_blank" rel="noopener noreferrer" class="ref-link">https://cvm.ncsu.edu/research/labs/clinical-sciences/k9feline-oncology-diagnostic/</a></li>
+                        <li>What does PARR tell me about my patient's specimen? - ImpriMed, (檢索日期：2025年7月22日). <a href="https://www.imprimedicine.com/help-center-article/what-does-parr-tell-me-about-my-patients-specimen" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.imprimedicine.com/help-center-article/what-does-parr-tell-me-about-my-patients-specimen</a></li>
+                        <li>Principles of Testing and Publications – Clinical Hematopathology Laboratory - College of Veterinary Medicine & Biomedical Sciences - Colorado State University, (檢索日期：2025年7月22日). <a href="https://vetmedbiosci.colostate.edu/chl/principles-of-testing/" target="_blank" rel="noopener noreferrer" class="ref-link">https://vetmedbiosci.colostate.edu/chl/principles-of-testing/</a></li>
+                        <li>Polymerase chain reaction for antigen receptor rearrangement: Benchmarking performance of a lymphoid clonality assay in diverse canine sample types, (檢索日期：2025年7月22日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6524097/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC6524097/</a></li>
+                        <li>The Utility of PCR for Antigen Receptor Rearrangement (PARR) in Staging and Predicting Prognosis in Canine Lymphoma | Request PDF - ResearchGate, (檢索日期：2025年7月22日). <a href="https://www.researchgate.net/publication/263493485_The_Utility_of_PCR_for_Antigen_Receptor_Rearrangement_PARR_in_Staging_and_Predicting_Prognosis_in_Canine_Lymphoma" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/263493485_The_Utility_of_PCR_for_Antigen_Receptor_Rearrangement_PARR_in_Staging_and_Predicting_Prognosis_in_Canine_Lymphoma</a></li>
+                        <li>Clonality testing in the lymph nodes from dogs with lymphadenomegaly due to Leishmania infantum infection - PMC, (檢索日期：2025年7月22日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6913964/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC6913964/</a></li>
+                        <li>Polymerase chain reaction for antigen receptor rearrangement: Benchmarking performance of a lymphoid clonality assay in diverse canine sample types - PubMed, (檢索日期：2025年7月22日). <a href="https://pubmed.ncbi.nlm.nih.gov/30939225/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pubmed.ncbi.nlm.nih.gov/30939225/</a></li>
+                        <li>Morphological, phenotypical and molecular characterization of canine lymphomas with dual T- and B-cell markers expression - Frontiers, (檢索日期：2025年7月22日). <a href="https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2025.1578425/full" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2025.1578425/full</a></li>
+                        <li>Use of flow cytometric immunophenotyping to refine the cytological diagnosis of canine lymphoma | Request PDF - ResearchGate, (檢索日期：2025年7月22日). <a href="https://www.researchgate.net/publication/43298950_Use_of_flow_cytometric_immunophenotyping_to_refine_the_cytological_diagnosis_of_canine_lymphoma" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/43298950_Use_of_flow_cytometric_immunophenotyping_to_refine_the_cytological_diagnosis_of_canine_lymphoma</a></li>
+                        <li>Small Animal Flow Cytometry: Introduction to Basics | Today's ..., (檢索日期：2025年7月22日). <a href="https://todaysveterinarypractice.com/clinical-pathology/flow-cytometry-introduction-to-basics/" target="_blank" rel="noopener noreferrer" class="ref-link">https://todaysveterinarypractice.com/clinical-pathology/flow-cytometry-introduction-to-basics/</a></li>
+                        <li>Application of flow cytometry in diagnosing lymphomas in dogs and cats - PMC, (檢索日期：2025年7月22日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4440007/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC4440007/</a></li>
+                        <li>Lineage differentiation of canine lymphoma/leukemias and aberrant expression of CD molecules, (檢索日期：2025年7月22日). <a href="https://www.vet.k-state.edu/docs/education/dmp/Lymphomawilkerson.pdf" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.vet.k-state.edu/docs/education/dmp/Lymphomawilkerson.pdf</a></li>
+                        <li>Flow Cytometry in the Diagnosis of Canine B-Cell Lymphoma - Frontiers, (檢索日期：2025年7月22日). <a href="https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2021.600986/full" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2021.600986/full</a></li>
+                        <li>Possibilities of Flow Cytometric Analysis for Immunophenotypic Characterization of Canine Lymphoma | Request PDF - ResearchGate, (檢索日期：2025年7月22日). <a href="https://www.researchgate.net/publication/11926169_Possibilities_of_Flow_Cytometric_Analysis_for_Immunophenotypic_Characterization_of_Canine_Lymphoma" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/11926169_Possibilities_of_Flow_Cytometric_Analysis_for_Immunophenotypic_Characterization_of_Canine_Lymphoma</a></li>
+                        <li>Medical Oncology: Canine Multicentric Lymphoma | Veterinary ..., (檢索日期：2025年7月22日). <a href="https://hospital.cvm.ncsu.edu/services/small-animals/cancer-oncology/oncology/canine-lymphoma/" target="_blank" rel="noopener noreferrer" class="ref-link">https://hospital.cvm.ncsu.edu/services/small-animals/cancer-oncology/oncology/canine-lymphoma/</a></li>
+                        <li>Canine Lymphoma, More Than a Morphological Diagnosis: What We Have Learned about Diffuse Large B-Cell Lymphoma - Frontiers, (檢索日期：2025年7月22日). <a href="https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2016.00077/full" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.frontiersin.org/journals/veterinary-science/articles/10.3389/fvets.2016.00077/full</a></li>
+                        <li>Treatment of T cell lymphoma in dogs | Request PDF - ResearchGate, (檢索日期：2025年7月22日). <a href="https://www.researchgate.net/publication/308186409_Treatment_of_T_cell_lymphoma_in_dogs" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.researchgate.net/publication/308186409_Treatment_of_T_cell_lymphoma_in_dogs</a></li>
+                        <li>Epigenetic Alterations in Canine Malignant Lymphoma: Future and Clinical Outcomes, (檢索日期：2025年7月22日). <a href="https://www.mdpi.com/2076-2615/13/3/468" target="_blank" rel="noopener noreferrer" class="ref-link">https://www.mdpi.com/2076-2615/13/3/468</a></li>
+                        <li>Mechanisms of Drug Resistance in Veterinary Oncology—A Review with an Emphasis on Canine Lymphoma, (檢索日期：2025年7月22日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5644636/" target="_blank" rel="noopener noreferrer" class="ref-link">https://pmc.ncbi.nlm.nih.gov/articles/PMC5644636/</a></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+           <p>
+                本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 <a href="https://www.facebook.com/atinsightveterinarydiagnosticimaging/posts/pfbid0hgJLpA6aEaSZjyaWCgLBzWzf3L6L8r317xEcwMpXGsJxWT3n1t5DonbFC7maDnG9l" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛叮寶犬貓影像專科醫院</a> 使用AI程式製作。本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。
+            </p>
+            <p class="mt-2">
+                © 2025 犬淋巴瘤診斷指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛力克獅獸醫影像學院</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 漢堡選單邏輯
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a, header .hidden.md\\:flex a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if(mobileMenu.classList.contains('hidden') === false) {
+                       mobileMenu.classList.add('hidden');
+                    }
+                    document.querySelector(link.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // 導覽列滾動監聽
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            const linkHref = link.getAttribute('href');
+                            if (linkHref === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // 互動決策流程邏輯
+            const scenarios = document.getElementById('decision-scenarios');
+            const scenarioBoxes = scenarios.querySelectorAll('.decision-box');
+            const recommendations = document.getElementById('recommendation-output').querySelectorAll('.recommendation');
+
+            scenarios.addEventListener('click', function(e) {
+                const targetBox = e.target.closest('.decision-box');
+                if (!targetBox) return;
+
+                const targetId = targetBox.id;
+                const wasActive = targetBox.classList.contains('active');
+                
+                // 移除所有 active class
+                scenarioBoxes.forEach(box => {
+                    box.classList.remove('active');
+                });
+                 // 隱藏所有推薦
+                recommendations.forEach(rec => {
+                    rec.classList.remove('visible');
+                });
+
+                // 如果點擊的不是已經 active 的，就將其設為 active 並顯示對應推薦
+                if (!wasActive) {
+                    targetBox.classList.add('active');
+                    const recId = 'rec' + targetId.slice(-1);
+                    document.getElementById(recId).classList.add('visible');
+                }
+            });
+
+            // 預後圖表
+            const ctx = document.getElementById('prognosisChart').getContext('2d');
+            const prognosisChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['B細胞淋巴瘤', 'T細胞淋巴瘤'],
+                    datasets: [{
+                        label: '中位存活時間 (月)',
+                        data: [12, 7.5], 
+                        backgroundColor: [
+                            'rgba(165, 108, 118, 0.6)', // 深粉紅
+                            'rgba(224, 184, 190, 0.7)'  // 淺粉紅
+                        ],
+                        borderColor: [
+                            'rgba(165, 108, 118, 1)',
+                            'rgba(224, 184, 190, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        if (context.label === 'T細胞淋巴瘤') {
+                                            label += '約 6-9 個月';
+                                        } else {
+                                            label += context.parsed.x + ' 個月';
+                                        }
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: '使用標準化療方案(如CHOP)的預後比較',
+                            font: {
+                                size: 16,
+                                family: "'Noto Sans TC', sans-serif"
+                            },
+                            color: '#5d5456',
+                            padding: {
+                                bottom: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '中位存活時間 (月)',
+                                color: '#5d5456'
+                            },
+                            ticks: { color: '#5d5456' },
+                            grid: { color: '#f0e8e9' }
+                        },
+                        y: {
+                           ticks: { color: '#5d5456' },
+                           grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // 音訊播放器語速控制邏輯
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = audioPlayer.nextElementSibling;
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
