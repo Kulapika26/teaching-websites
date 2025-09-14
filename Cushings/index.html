@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="深入了解犬隻庫欣氏症的成因、症狀與診斷的互動式教育指南">
+    <title>犬隻庫欣氏症互動指南 - 完整教育資源</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 風格靈感來自 index.html，主色調為 #e0b8be */
+        :root {
+            --primary-pink: #a56c76; /* 用於標題和強調元素 */
+            --accent-pink: #c48a94;  /* 用於次要強調和互動元素 */
+            --light-pink-bg: #fdf6f7; /* 頁面主背景色 */
+            --main-accent-bg: #e0b8be; /* 主要區塊和頁尾背景 */
+            --text-dark: #5d5456;     /* 主要文字顏色 */
+            --text-medium: #7a6e70;   /* 次要文字顏色 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--light-pink-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+        
+        .paw-print {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            animation: paw-bounce 1s ease-in-out infinite;
+            color: var(--primary-pink);
+        }
+
+        @keyframes paw-bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Enhanced Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.2s; }
+        .fade-in-delay-2 { animation-delay: 0.4s; }
+        .fade-in-delay-3 { animation-delay: 0.6s; }
+
+        /* Card Hover Effects */
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Interactive Buttons */
+        .toggle-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .active-btn {
+            background: linear-gradient(135deg, var(--primary-pink), var(--accent-pink));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(165, 108, 118, 0.4);
+        }
+
+        .inactive-btn {
+            background: white;
+            color: var(--text-medium);
+            border: 2px solid #e0b8be;
+        }
+
+        .inactive-btn:hover {
+            background: #fdf6f7;
+            border-color: var(--primary-pink);
+            color: var(--primary-pink);
+        }
+        
+        /* HPA Axis Diagram Enhancements */
+        .hpa-gland {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .hpa-gland::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 0.5rem;
+            background: linear-gradient(45deg, transparent, rgba(196, 138, 148, 0.4), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .highlight-active {
+            transform: scale(1.15);
+            box-shadow: 0 0 30px rgba(165, 108, 118, 0.5);
+        }
+
+        .highlight-active::after {
+            opacity: 1;
+            animation: rotate-gradient 2s linear infinite;
+        }
+        
+        @keyframes rotate-gradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hormone-flow::after {
+            background: linear-gradient(180deg, transparent, rgba(196, 138, 148, 0.5), transparent);
+        }
+
+        /* Symptom Cards */
+        .symptom-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .symptom-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--accent-pink));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .symptom-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .symptom-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .symptom-card:hover .symptom-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* NEW: Audio speed buttons */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--accent-pink));
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+            transition: transform 0.1s;
+        }
+        
+        /* General header colors */
+        h1, h2, h3 {
+            color: var(--primary-pink);
+        }
+
+        /* References List Style */
+        .references-list a {
+            color: var(--primary-pink);
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.2s ease;
+        }
+        .references-list a:hover {
+            color: var(--accent-pink);
+            text-decoration: underline;
+        }
+        /* Custom Scrollbar for References */
+        .references-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .references-list::-webkit-scrollbar-track {
+            background: #fceef0; /* light pink background */
+            border-radius: 10px;
+        }
+        .references-list::-webkit-scrollbar-thumb {
+            background-color: var(--accent-pink); /* accent pink */
+            border-radius: 10px;
+            border: 2px solid #fceef0;
+        }
+        .references-list::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-pink); /* darker pink on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="paw-print">🐾</div>
+            <p class="text-xl font-bold" style="color: var(--primary-pink);">載入中...</p>
+        </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- New Banner Section -->
+        <section class="mb-12 fade-in">
+            <div style="background-color: #ddb5bb;" class="p-4 md:p-6 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto">
+                    <img src="https://i.imgur.com/UjjErEs.png" alt="一隻可愛貓咪的橫幅" class="w-full h-auto block rounded-md shadow-inner">
+                </div>
+            </div>
+        </section>
+
+        <!-- Header -->
+        <header class="text-center mb-12 fade-in fade-in-delay-1">
+            <h1 class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-pink-700 to-rose-500 bg-clip-text text-transparent mb-4" style="--tw-gradient-from: #a56c76; --tw-gradient-to: #d38e99;">
+                犬隻庫欣氏症互動指南
+            </h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto" style="color: var(--text-dark);">
+                深入了解腎上腺功能亢進的成因、症狀與診斷 - 為您的愛犬健康把關
+            </p>
+            <div class="mt-6 flex justify-center gap-4 flex-wrap">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" style="background-color: #fceef0; color: #a56c76;">
+                    📚 教育資源
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" style="background-color: #fceef0; color: #a56c76;">
+                    🔬 醫學知識
+                </span>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium" style="background-color: #fceef0; color: #a56c76;">
+                    ❤️ 寵物健康
+                </span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Section 1: HPA Axis Interactive -->
+            <section class="mb-16 fade-in fade-in-delay-2">
+                <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 card">
+                    <h2 class="text-3xl font-bold text-center mb-4">
+                        荷爾蒙調節系統：HPA軸
+                    </h2>
+                    <p class="text-center mb-8 max-w-3xl mx-auto leading-relaxed" style="color: var(--text-medium);">
+                        下視丘-腦下垂體-腎上腺軸（HPA Axis）是身體內精密的荷爾蒙調節系統。
+                        點擊下方按鈕，觀察不同類型的庫欣氏症如何影響這個系統的運作。
+                    </p>
+
+                    <!-- Toggle Buttons -->
+                    <div class="flex flex-wrap justify-center gap-4 mb-10">
+                        <button id="btn-pdh" class="toggle-btn px-8 py-4 rounded-full font-bold text-lg active-btn" 
+                                aria-label="切換至腦下垂體依賴型">
+                            腦下垂體依賴型 (PDH)
+                        </button>
+                        <button id="btn-adh" class="toggle-btn px-8 py-4 rounded-full font-bold text-lg inactive-btn"
+                                aria-label="切換至腎上腺依賴型">
+                            腎上腺依賴型 (ADH)
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <!-- Interactive Diagram -->
+                        <div class="hpa-diagram relative bg-pink-50 rounded-2xl p-8 min-h-[450px] flex flex-col justify-between items-center">
+                             <!-- Hypothalamus -->
+                             <div class="text-center text-sm mb-4">
+                                <div class="inline-block px-3 py-1 bg-purple-100 rounded-lg text-purple-800">
+                                    下視丘 (起始點)
+                                </div>
+                            </div>
+
+                            <!-- Pituitary -->
+                            <div id="pituitary" class="hpa-gland w-52 p-5 rounded-xl border-2 highlight-active" style="border-color: #a56c76; background: linear-gradient(135deg, #fceef0, #f8dce2); color: #8e5a65;">
+                                <h3 class="font-bold text-lg" style="color: #8e5a65;">腦下垂體</h3>
+                                <p class="text-sm mt-1">荷爾蒙指揮中心</p>
+                                <div id="pituitary-status" class="mt-2 text-xs font-medium"></div>
+                            </div>
+
+                            <!-- Arrow -->
+                            <div class="relative w-full h-20 flex items-center justify-center my-4">
+                                <div id="hormone-arrow" class="w-2 h-full rounded hormone-flow" style="background: linear-gradient(180deg, #c48a94, #a56c76);"></div>
+                                <div class="font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm px-2 rounded" id="acth-label" style="color: #a56c76; background-color: var(--light-pink-bg);">
+                                    ACTH (促腎上腺皮質素)
+                                </div>
+                            </div>
+
+                            <!-- Adrenal Glands -->
+                            <div id="adrenal" class="hpa-gland w-52 p-5 rounded-xl border-2" style="border-color: #d38e99; background: linear-gradient(135deg, #fef2f2, #fee2e2); color: #b91c1c;">
+                                <h3 class="font-bold text-lg" style="color: #b91c1c;">腎上腺</h3>
+                                <p class="text-sm mt-1">皮質醇生產工廠</p>
+                                <div id="adrenal-status" class="mt-2 text-xs font-medium"></div>
+                            </div>
+
+                            <!-- Cortisol Output -->
+                            <div class="mt-4 text-center">
+                                <div class="inline-block px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 rounded-lg">
+                                    <span class="text-sm font-medium text-orange-700">
+                                        皮質醇釋放至全身 ↓
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Explanation Panel -->
+                        <div class="p-8 rounded-2xl" style="background-color: #fdf6f7;">
+                            <div class="mb-4">
+                                <span id="type-badge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white" style="background-color: var(--primary-pink);">
+                                    PDH - 85% 病例
+                                </span>
+                            </div>
+                            <h3 id="explanation-title" class="text-2xl font-bold mb-4"></h3>
+                            <div id="explanation-text" class="leading-relaxed space-y-3" style="color: var(--text-dark);"></div>
+                            
+                            <!-- Key Points -->
+                            <div id="key-points" class="mt-6 p-4 rounded-lg" style="background-color: #fceef0;">
+                                <h4 class="font-bold text-sm mb-2" style="color: var(--primary-pink);">關鍵要點：</h4>
+                                <ul id="key-points-list" class="text-sm space-y-1" style="color: var(--text-medium);">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Statistics and Symptoms -->
+            <section class="mb-16 fade-in fade-in-delay-3">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <!-- Prevalence Chart -->
+                    <div class="lg:col-span-2 bg-white rounded-3xl shadow-xl p-8 card">
+                        <h2 class="text-2xl font-bold text-center mb-4">
+                            病例統計分析
+                        </h2>
+                        <p class="text-center text-sm mb-6" style="color: var(--text-medium);">
+                            了解不同類型的發生率有助於診斷方向
+                        </p>
+                        <div class="chart-container mx-auto" style="position: relative; height:300px; width:100%; max-width: 350px;">
+                            <canvas id="prevalenceChart"></canvas>
+                        </div>
+                        <!-- Statistics Summary -->
+                        <div class="mt-6 grid grid-cols-2 gap-4">
+                            <div class="text-center p-3 rounded-lg" style="background-color: #fceef0;">
+                                <div class="text-2xl font-bold" style="color: #a56c76;">85%</div>
+                                <div class="text-xs" style="color: var(--text-medium);">腦下垂體型</div>
+                            </div>
+                            <div class="text-center p-3 rounded-lg" style="background-color: #fef2f2;">
+                                <div class="text-2xl font-bold" style="color: #d38e99;">15%</div>
+                                <div class="text-xs" style="color: var(--text-medium);">腎上腺型</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms Grid -->
+                    <div class="lg:col-span-3 bg-white rounded-3xl shadow-xl p-8 card">
+                        <h2 class="text-2xl font-bold text-center mb-4">
+                            臨床症狀觀察
+                        </h2>
+                        <p class="text-center text-sm mb-8" style="color: var(--text-medium);">
+                            點擊卡片了解更多症狀細節
+                        </p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="symptoms-grid">
+                            <!-- Symptoms will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Diagnosis Process -->
+            <section class="mb-16 fade-in">
+                <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 card">
+                    <h2 class="text-3xl font-bold text-center mb-4">
+                        診斷流程與治療方案
+                    </h2>
+                    <p class="text-center mb-10 max-w-3xl mx-auto" style="color: var(--text-medium);">
+                        診斷庫欣氏症需要系統性的檢查流程，每個步驟都至關重要
+                    </p>
+
+                    <!-- Diagnosis Steps -->
+                    <div class="max-w-4xl mx-auto">
+                        <div class="space-y-6" id="diagnosis-steps">
+                            <!-- Steps will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Treatment Options -->
+                    <div class="mt-12 grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-2xl" style="background: linear-gradient(135deg, #fceef0, #f8dce2);">
+                            <h3 class="text-xl font-bold mb-3 flex items-center" style="color: #8e5a65;">
+                                💊 PDH 治療方案
+                            </h3>
+                            <ul class="space-y-2" style="color: var(--text-medium);">
+                                <li class="flex items-start"><span class="mr-2" style="color: #a56c76;">✓</span><span>Trilostane (Vetoryl) - 首選藥物</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #a56c76;">✓</span><span>定期監測 ACTH 刺激試驗</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #a56c76;">✓</span><span>終身用藥，劑量需個別調整</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #a56c76;">✓</span><span>監測肝腎功能與電解質</span></li>
+                            </ul>
+                        </div>
+                        <div class="p-6 rounded-2xl" style="background: linear-gradient(135deg, #fef2f2, #fee2e2);">
+                            <h3 class="text-xl font-bold mb-3 flex items-center" style="color: #b91c1c;">
+                                🔪 ADH 治療方案
+                            </h3>
+                            <ul class="space-y-2" style="color: var(--text-medium);">
+                                <li class="flex items-start"><span class="mr-2" style="color: #cb6f3a;">✓</span><span>單側或雙側腎上腺切除術（如適用）</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #cb6f3a;">✓</span><span>術前影像學評估轉移風險</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #cb6f3a;">✓</span><span>無法手術者採藥物控制</span></li>
+                                <li class="flex items-start"><span class="mr-2" style="color: #cb6f3a;">✓</span><span>術後密切追蹤對側腎上腺</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Additional Resources -->
+            <section class="mb-16 fade-in">
+                <div class="rounded-3xl shadow-xl p-8" style="background-color: #fceef0;">
+                    <h2 class="text-2xl font-bold text-center mb-6">需要專業協助？</h2>
+                    <div class="grid md:grid-cols-3 gap-6 text-center">
+                        <div>
+                            <div class="text-4xl mb-3">🏥</div>
+                            <h3 class="font-bold mb-2">立即就醫</h3>
+                            <p class="text-sm opacity-90">發現症狀應盡早諮詢獸醫師</p>
+                        </div>
+                        <div>
+                            <div class="text-4xl mb-3">📋</div>
+                            <h3 class="font-bold mb-2">定期檢查</h3>
+                            <p class="text-sm opacity-90">7歲以上犬隻建議年度健檢</p>
+                        </div>
+                        <div>
+                            <div class="text-4xl mb-3">📚</div>
+                            <h3 class="font-bold mb-2">持續學習</h3>
+                            <p class="text-sm opacity-90">了解更多有助早期發現</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Podcast Section -->
+            <section id="audio-guide" class="mb-16 fade-in">
+                <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 card">
+                    <h2 class="text-3xl font-bold text-center mb-4">AI生成Podcast討論</h2>
+                    <p class="text-center text-sm mb-8" style="color: var(--text-medium);">
+                        您可以聆聽AI生成的對話討論，也可以使用下方的按鈕調整播放速度。
+                    </p>
+                    <div class="w-full md:w-2/3 lg:w-1/2 mx-auto">
+                        <div class="p-4 md:p-6 shadow-inner border-2 rounded-lg" style="border-color: #e0b8be;">
+                            <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                                <source src="cushings.mp3" type="audio/mpeg">
+                                您的瀏覽器不支援 audio 標籤。
+                            </audio>
+                            <div class="controls flex justify-center gap-2 flex-wrap">
+                                <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                                <button data-speed="1" class="audio-speed-btn active">正常</button>
+                                <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                                <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                                <button data-speed="2" class="audio-speed-btn">2x</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            
+
+            <!-- References Section -->
+            <section id="references" class="mb-16 fade-in">
+                <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 card">
+                    <h2 class="text-3xl font-bold text-center mb-8">參考文獻</h2>
+                    <div class="references-list max-w-4xl mx-auto max-h-96 overflow-y-auto pr-4">
+                        <ol class="list-decimal list-inside space-y-4 text-sm" style="color: var(--text-medium);">
+                            <li>狗狗庫欣氏症的治療與生活管理：藥物、手術、放射治療哪種最適合你的寵物？ (檢索日期：2025年9月13日). <a href="https://pethealth.com.tw/dog-cushings-disease/" target="_blank" rel="noopener noreferrer">https://pethealth.com.tw/dog-cushings-disease/</a></li>
+                            <li>Facts about Canine Cushing's Disease - SASH Vets. (檢索日期：2025年9月13日). <a href="https://sashvets.com/diseases/canine-cushings-disease/" target="_blank" rel="noopener noreferrer">https://sashvets.com/diseases/canine-cushings-disease/</a></li>
+                            <li>Treating Cushing's Disease in Dogs - FDA. (檢索日期：2025年9月13日). <a href="https://www.fda.gov/consumers/consumer-updates/treating-cushings-disease-dogs" target="_blank" rel="noopener noreferrer">https://www.fda.gov/consumers/consumer-updates/treating-cushings-disease-dogs</a></li>
+                            <li>Cushing Syndrome (Hyperadrenocorticism) in Animals - Endocrine System - Merck Veterinary Manual. (檢索日期：2025年9月13日). <a href="https://www.merckvetmanual.com/endocrine-system/the-adrenal-glands/cushing-syndrome-hyperadrenocorticism-in-animals" target="_blank" rel="noopener noreferrer">https://www.merckvetmanual.com/endocrine-system/the-adrenal-glands/cushing-syndrome-hyperadrenocorticism-in-animals</a></li>
+                            <li>Update on Managing Canine Hyperadrenocorticism - Illinois State Veterinary Medical Association. (檢索日期：2025年9月13日). <a href="https://www.isvma.org/wp-content/uploads/2023/10/Update_on_managing_canine_hyperadrenocorticism.pdf" target="_blank" rel="noopener noreferrer">https://www.isvma.org/wp-content/uploads/2023/10/Update_on_managing_canine_hyperadrenocorticism.pdf</a></li>
+                            <li>老年狗狗最常見的內分泌疾病-庫欣氏症 - 博愛動物醫院. (檢索日期：2025年9月13日). <a href="https://www.poaipets.com.tw/%E8%80%81%E5%B9%B4%E7%8B%97%E7%8B%97%E6%9C%80%E5%B8%B8%E8%A6%8B%E7%9A%84%E5%85%A7%E5%88%86%E6%B3%8C%E7%96%BE%E7%97%85-%E5%BA%AB%E6%AC%A3%E6%B0%8F%E7%97%87/" target="_blank" rel="noopener noreferrer">https://www.poaipets.com.tw/...</a></li>
+                            <li>Canine Hyperadrenocorticism - Iowa Veterinary Specialties. (檢索日期：2025年9月13日). <a href="https://www.iowaveterinaryspecialties.com/student-scholars/canine-hyperadrenocorticism" target="_blank" rel="noopener noreferrer">https://www.iowaveterinaryspecialties.com/student-scholars/canine-hyperadrenocorticism</a></li>
+                            <li>Cushing's syndrome | Cornell University College of Veterinary Medicine. (檢索日期：2025年9月13日). <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/riney-canine-health-center/canine-health-information/cushings-syndrome" target="_blank" rel="noopener noreferrer">https://www.vet.cornell.edu/.../cushings-syndrome</a></li>
+                            <li>好發於中老年犬的內分泌疾病-庫欣氏症 - 全國動物醫院. (檢索日期：2025年9月13日). <a href="https://www.vet.com.tw/news/knowledge-cushings-syndrome-a" target="_blank" rel="noopener noreferrer">https://www.vet.com.tw/news/knowledge-cushings-syndrome-a</a></li>
+                            <li>Cushings Disease | Veterinarian in MONTGOMERY, AL. (檢索日期：2025年9月13日). <a href="https://ahmontgomery.com/cushings-disease" target="_blank" rel="noopener noreferrer">https://ahmontgomery.com/cushings-disease</a></li>
+                            <li>腎上腺搞什麼鬼（二）：庫欣氏症 - 米花犬貓物語. (檢索日期：2025年9月13日). <a href="https://blog.mihuavet.tw/endocrine/cushings-disease/" target="_blank" rel="noopener noreferrer">https://blog.mihuavet.tw/endocrine/cushings-disease/</a></li>
+                            <li>庫興氏症不是老，是病!? 毛小孩的：腎上腺高低篇. (檢索日期：2025年9月13日). <a href="https://www.maoaulife.com/%E6%AF%9B%E7%9B%8A%E7%94%9F%E5%B0%8F%E5%AD%B8%E5%A0%82%EF%BC%8D%E7%9F%A5%E8%AD%98%E5%88%86%E4%BA%AB/%E5%BA%AB%E8%88%88%E6%B0%8F%E7%97%87%E4%B8%8D%E6%98%AF%E8%80%81%EF%BC%8C%E6%98%AF%E7%97%85-%E6%AF%9B%E5%B0%8F%E5%AD%A9%E7%9A%84%EF%BC%9A%E8%85%8E%E4%B8%8A%E8%85%BA%E9%AB%98%E4%BD%8E%E7%AF%87/" target="_blank" rel="noopener noreferrer">https://www.maoaulife.com/.../</a></li>
+                            <li>Cushing's Disease in Dogs: Causes, Symptoms, & Treatment | Premier Veterinary Group. (檢索日期：2025年9月13日). <a href="https://www.premiervets.net/blog/cushings-disease-in-dogs-causes-symptoms-and-treatment" target="_blank" rel="noopener noreferrer">https://www.premiervets.net/blog/cushings-disease-in-dogs...</a></li>
+                            <li>犬腎上腺皮質功能亢進(庫興氏症候群) 杜杰憲杜昇茂陳瑞雄 - 高雄市獸醫師公會. (檢索日期：2025年9月13日). <a href="https://www.kva.idv.tw/?p=mdoc&SETid=873&Msoft=860" target="_blank" rel="noopener noreferrer">https://www.kva.idv.tw/?p=mdoc&SETid=873&Msoft=860</a></li>
+                            <li>Classifying Cushing's Syndrome: Pituitary vs. Adrenal. (檢索日期：2025年9月13日). <a href="https://www.marvistavet.com/classifying-cushings-syndrome-pituitary-vs-adrenal.pml" target="_blank" rel="noopener noreferrer">https://www.marvistavet.com/classifying-cushings-syndrome-pituitary-vs-adrenal.pml</a></li>
+                            <li>Cushing Disease (Pituitary-Dependent Hyperadrenocorticism) in Animals - Endocrine System - Merck Veterinary Manual. (檢索日期：2025年9月13日). <a href="https://www.merckvetmanual.com/endocrine-system/the-pituitary-gland/cushing-disease-pituitary-dependent-hyperadrenocorticism-in-animals" target="_blank" rel="noopener noreferrer">https://www.merckvetmanual.com/.../cushing-disease...</a></li>
+                            <li>Cushing's Disease in Dogs: Symptoms, Diagnosis, and Treatment .... (檢索日期：2025年9月13日). <a href="https://www.petmd.com/dog/conditions/endocrine/cushings-disease-in-dogs-symptoms-diagnosis" target="_blank" rel="noopener noreferrer">https://www.petmd.com/dog/conditions/endocrine/cushings-disease-in-dogs-symptoms-diagnosis</a></li>
+                            <li>www.iowaveterinaryspecialties.com. (檢索日期：2025年9月13日). <a href="https://www.iowaveterinaryspecialties.com/student-scholars/canine-hyperadrenocorticism#:~:text=The%20first%2C%20Adrenal%2D%20Dependent%20Hyperadrenocorticism,carcinoma%20of%20the%20adrenal%20gland.&text=The%20second%20form%2C%20Pituitary%2D%20Dependent,secretes%20adrenocorticotropic%20hormone%20(ACTH)." target="_blank" rel="noopener noreferrer">https://www.iowaveterinaryspecialties.com/...</a></li>
+                            <li>Cushing's Disease in Dogs Part 2: Diagnostic Approach - Today's Veterinary Practice. (檢索日期：2025年9月13日). <a href="https://todaysveterinarypractice.com/endocrinology/cushings-disease-dog-diagnostics/" target="_blank" rel="noopener noreferrer">https://todaysveterinarypractice.com/endocrinology/cushings-disease-dog-diagnostics/</a></li>
+                            <li>New Treatment Options in Canine Cushing's Syndrome - WSAVA2002 - VIN. (檢索日期：2025年9月13日). <a href="https://www.vin.com/apputil/content/defaultadv1.aspx?id=3846172&pid=11147" target="_blank" rel="noopener noreferrer">https://www.vin.com/apputil/content/defaultadv1.aspx?id=3846172&pid=11147</a></li>
+                            <li>Adrenal Tumor Treatment in Cushing's Syndrome - Veterinary Partner. (檢索日期：2025年9月13日). <a href="https://veterinarypartner.vin.com/doc/?id=4951494" target="_blank" rel="noopener noreferrer">https://veterinarypartner.vin.com/doc/?id=4951494</a></li>
+                            <li>Cushing's Disease - Testing - VCA Animal Hospitals. (檢索日期：2025年9月13日). <a href="https://vcahospitals.com/know-your-pet/cushings-disease-testing" target="_blank" rel="noopener noreferrer">https://vcahospitals.com/know-your-pet/cushings-disease-testing</a></li>
+                            <li>一文读懂库欣氏综合征 - 宠物医师网. (檢索日期：2025年9月13日). <a href="https://www.cnsav.com/newsdetails/2460" target="_blank" rel="noopener noreferrer">https://www.cnsav.com/newsdetails/2460</a></li>
+                            <li>Adrenal Testing in Dogs | College of Veterinary Medicine at MSU. (檢索日期：2025年9月13日). <a href="https://cvm.msu.edu/vdl/laboratory-sections/endocrinology/adrenal-testing-in-dogs" target="_blank" rel="noopener noreferrer">https://cvm.msu.edu/vdl/laboratory-sections/endocrinology/adrenal-testing-in-dogs</a></li>
+                            <li>ACTH Stimulation Test for Dogs: What Is It, and How Does It Work? | PetMD. (檢索日期：2025年9月13日). <a href="https://www.petmd.com/dog/procedure/acth-stim-test-for-dogs" target="_blank" rel="noopener noreferrer">https://www.petmd.com/dog/procedure/acth-stim-test-for-dogs</a></li>
+                            <li>About Cushing's Disease in Dogs - LakeCross Veterinary Hospital. (檢索日期：2025年9月13日). <a href="https://www.lakecross.com/site/blog-huntersville-vet/2021/01/28/about-cushings-disease-in-dogs" target="_blank" rel="noopener noreferrer">https://www.lakecross.com/site/blog-huntersville-vet/2021/01/28/about-cushings-disease-in-dogs</a></li>
+                            <li>Cushing's Disease in Dogs (Hyperadrenocorticism): What Is It? - Veterinary Partner - VIN. (檢索日期：2025年9月13日). <a href="https://veterinarypartner.vin.com/default.aspx?pid=19239&catId=254094&id=4951983" target="_blank" rel="noopener noreferrer">https://veterinarypartner.vin.com/default.aspx?pid=19239&catId=254094&id=4951983</a></li>
+                            <li>Canine Cushing's Disease - MSPCA-Angell. (檢索日期：2025年9月13日). <a href="https://www.mspca.org/angell_services/canine-cushings-disease/" target="_blank" rel="noopener noreferrer">https://www.mspca.org/angell_services/canine-cushings-disease/</a></li>
+                            <li>How to Interpret Tests for Canine Hyperadrenocorticism - WSAVA2008 - VIN. (檢索日期：2025年9月13日). <a href="https://www.vin.com/apputil/content/defaultadv1.aspx?pId=11268&id=3866502&print=1" target="_blank" rel="noopener noreferrer">https://www.vin.com/apputil/content/defaultadv1.aspx?pId=11268&id=3866502&print=1</a></li>
+                            <li>Interpretation of laboratory tests for canine Cushing's syndrome - PubMed. (檢索日期：2025年9月13日). <a href="https://pubmed.ncbi.nlm.nih.gov/21596349/" target="_blank" rel="noopener noreferrer">https://pubmed.ncbi.nlm.nih.gov/21596349/</a></li>
+                            <li>Canine Adrenal and Pituitary Function Tests | Cornell University College of Veterinary Medicine. (檢索日期：2025年9月13日). <a href="https://www.vet.cornell.edu/animal-health-diagnostic-center/testing/testing-protocols-interpretations/canine-adrenal-and-pituitary-function-tests" target="_blank" rel="noopener noreferrer">https://www.vet.cornell.edu/.../canine-adrenal-and-pituitary-function-tests</a></li>
+                            <li>Diagnosing and treating cases of suspected canine Cushing's syndrome or Addison's disease - Idexx. (檢索日期：2025年9月13日). <a href="https://www.idexx.com/files/cortisol-testing-guide-en.pdf" target="_blank" rel="noopener noreferrer">https://www.idexx.com/files/cortisol-testing-guide-en.pdf</a></li>
+                            <li>Diagnosis and Monitoring of Hyperadrenocorticism – General Guidelines - Gribbles Veterinary Pathology. (檢索日期：2025年9月13日). <a href="https://www.gribblesvets.com.au/veterinarians/our-tests/companion-animals/tests-by-dept/endocrine/diagnosis-and-monitoring-of-hyperadrenocorticism-general-guidelines/" target="_blank" rel="noopener noreferrer">https://www.gribblesvets.com.au/.../diagnosis-and-monitoring-of-hyperadrenocorticism...</a></li>
+                            <li>Canine Hypercortisolism Therapy - AAHA. (檢索日期：2025年9月13日). <a href="https://www.aaha.org/resources/2023-aaha-selected-endocrinopathies-of-dogs-and-cats-guidelines/therapy-2/" target="_blank" rel="noopener noreferrer">https://www.aaha.org/resources/2023-aaha-selected-endocrinopathies-of-dogs-and-cats-guidelines/therapy-2/</a></li>
+                            <li>Cushing's Syndrome: Classifying the Type - Veterinary Partner - VIN. (檢索日期：2025年9月13日). <a href="https://veterinarypartner.vin.com/doc/?id=4951504" target="_blank" rel="noopener noreferrer">https://veterinarypartner.vin.com/doc/?id=4951504</a></li>
+                            <li>Cushing Syndrome (Hyperadrenocorticism) in Animals - Endocrine System - MSD Veterinary Manual. (檢索日期：2025年9月13日). <a href="https://www.msdvetmanual.com/endocrine-system/the-adrenal-glands/cushing-syndrome-hyperadrenocorticism-in-animals" target="_blank" rel="noopener noreferrer">https://www.msdvetmanual.com/endocrine-system/the-adrenal-glands/cushing-syndrome-hyperadrenocorticism-in-animals</a></li>
+                            <li>Update on the use of trilostane in dogs - PMC. (檢索日期：2025年9月13日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5855282/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC5855282/</a></li>
+                            <li>Treatment of Pituitary-Dependent Hyperadrenocorticism in Dogs. (檢索日期：2025年9月13日). <a href="https://todaysveterinarypractice.com/endocrinology/treatment-of-pituitary-dependent-hyperadrenocorticism/" target="_blank" rel="noopener noreferrer">https://todaysveterinarypractice.com/endocrinology/treatment-of-pituitary-dependent-hyperadrenocorticism/</a></li>
+                            <li>Treating canine Cushing's syndrome: Current options and future prospects - PubMed. (檢索日期：2025年9月13日). <a href="https://pubmed.ncbi.nlm.nih.gov/30340659/" target="_blank" rel="noopener noreferrer">https://pubmed.ncbi.nlm.nih.gov/30340659/</a></li>
+                            <li>Pituitary-Dependent Cushing's Disease Treatments - MU Veterinary Health Center. (檢索日期：2025年9月13日). <a href="https://vhc.missouri.edu/small-animal-hospital/small-animal-internal-medicine/diseases-and-treatments/pituitary-dependent-cushings-disease-treatments/" target="_blank" rel="noopener noreferrer">https://vhc.missouri.edu/.../pituitary-dependent-cushings-disease-treatments/</a></li>
+                            <li>【獸醫監製】狗狗庫欣氏症會好嗎？5大狗狗庫欣氏症狀&照顧 - 爪爪電台-. (檢索日期：2025年9月13日). <a href="https://www.forpetsupply.com/cushings-syndrome/" target="_blank" rel="noopener noreferrer">https://www.forpetsupply.com/cushings-syndrome/</a></li>
+                            <li>Long‐Term Survival of Dogs with Adrenal‐Dependent Hyperadrenocorticism: A Comparison between Mitotane and Twice Daily Trilostane Treatment - PMC. (檢索日期：2025年9月13日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4858016/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC4858016/</a></li>
+                            <li>Complications of hyperadrenocorticism (Proceedings) - DVM360. (檢索日期：2025年9月13日). <a href="https://www.dvm360.com/view/complications-hyperadrenocorticism-proceedings" target="_blank" rel="noopener noreferrer">https://www.dvm360.com/view/complications-hyperadrenocorticism-proceedings</a></li>
+                            <li>Conquering Cushing's: Life After Diagnosis - Texas A&M College of Veterinary Medicine. (檢索日期：2025年9月13日). <a href="https://vetmed.tamu.edu/news/pet-talk/life-after-cushings-disease-diagnosis/" target="_blank" rel="noopener noreferrer">https://vetmed.tamu.edu/news/pet-talk/life-after-cushings-disease-diagnosis/</a></li>
+                            <li>Cushing's Disease in Dogs Life Expectancy & Care Options. (檢索日期：2025年9月13日). <a href="https://cushingsindogs.com/cushings-disease-in-dogs-life-expectancy/" target="_blank" rel="noopener noreferrer">https://cushingsindogs.com/cushings-disease-in-dogs-life-expectancy/</a></li>
+                            <li>Comparison of Survival Times for Dogs with Pituitary‐Dependent Hyperadrenocorticism in a Primary‐Care Hospital: Treated with Trilostane versus Untreated. (檢索日期：2025年9月13日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5259634/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC5259634/</a></li>
+                            <li>Prevalence and risk factors associated with systemic hypertension in dogs with spontaneous hyperadrenocorticism - PMC - PubMed Central. (檢索日期：2025年9月13日). <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7517838/" target="_blank" rel="noopener noreferrer">https://pmc.ncbi.nlm.nih.gov/articles/PMC7517838/</a></li>
+                            <li>Proteinuria in Dogs - MSPCA-Angell. (檢索日期：2025年9月13日). <a href="https://www.mspca.org/angell_services/proteinuria-in-dogs/" target="_blank" rel="noopener noreferrer">https://www.mspca.org/angell_services/proteinuria-in-dogs/</a></li>
+                            <li>Management of Proteinuria - WSAVA 2014 Congress - VIN. (檢索日期：2025年9月13日). <a href="https://www.vin.com/apputil/content/defaultadv1.aspx?id=7054749&pid=12886&print=1" target="_blank" rel="noopener noreferrer">https://www.vin.com/apputil/content/defaultadv1.aspx?id=7054749&pid=12886&print=1</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center py-8 text-sm" style="color: var(--text-medium);">
+            <p class="mb-2">
+                本網頁由 美國獸醫影像專科醫師 謝淯紘醫師 與 愛叮寶犬貓影像專科醫院 使用AI程式製作。⚠️本頁面資訊僅供教育參考，不能取代專業獸醫師的診斷與治療建議。 
+            </p>
+           <p class="mb-2"> 
+            © 2025 犬淋巴瘤診斷指南。更多獸醫影像診斷學習：<a href="https://www.alex-ray.com/" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300 transition-colors">愛力克獅獸醫影像學院</a>
+            </p>
+            <div class="mt-4 flex justify-center gap-4">
+                <button onclick="window.print()" class="px-4 py-2 rounded-lg transition no-print" style="background-color: #fceef0; color: #a56c76;">
+                    🖨️ 列印
+                </button>
+                <button onclick="shareContent()" class="px-4 py-2 rounded-lg transition no-print" style="background-color: #fceef0; color: #a56c76;">
+                    📤 分享
+                </button>
+                <button onclick="cushingGuide.showInfoModal()" class="px-4 py-2 rounded-lg transition no-print" style="background-color: #fceef0; color: #a56c76;">
+                    ℹ️ 說明
+                </button>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // JS內容維持不變，僅修改顏色相關的變數
+        class CushingGuide {
+            constructor() {
+                this.currentType = 'pdh';
+                this.prevalenceChart = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.createChart();
+                this.renderSymptoms();
+                this.renderDiagnosisSteps();
+                this.updateDisplay('pdh');
+                this.hideLoader();
+                this.initAnimations();
+                this.initializeAdvancedFeatures();
+                this.setupAudioPlayer(); // Add this line
+            }
+
+            hideLoader() {
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hidden');
+                }, 500);
+            }
+
+            initAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+            }
+
+            setupEventListeners() {
+                document.getElementById('btn-pdh').addEventListener('click', () => {
+                    this.updateDisplay('pdh');
+                    this.saveUserPreference('pdh');
+                });
+                document.getElementById('btn-adh').addEventListener('click', () => {
+                    this.updateDisplay('adh');
+                    this.saveUserPreference('adh');
+                });
+            }
+
+            diseaseData = {
+                pdh: {
+                    title: "腦下垂體依賴型 (PDH)",
+                    badge: "PDH - 85% 病例",
+                    badgeStyle: 'background-color: #a56c76;',
+                    text: `這是最常見的庫欣氏症類型，約佔所有病例的85%。病因是腦下垂體發生了微小腺瘤（通常是良性），導致ACTH分泌失控。過量的ACTH持續刺激雙側腎上腺，使其過度生產皮質醇。這種類型的特點是兩側腎上腺都會對稱性腫大，因為它們都在回應過多的ACTH刺激。`,
+                    pituitaryStatus: "⚠️ 過度活躍",
+                    adrenalStatus: "被動刺激中",
+                    acthLabel: "⬆️ 過量 ACTH 分泌",
+                    keyPoints: ["腦下垂體腺瘤造成", "雙側腎上腺對稱性腫大", "ACTH 水平異常升高", "約85%的病例屬於此型"]
+                },
+                adh: {
+                    title: "腎上腺依賴型 (ADH)",
+                    badge: "ADH - 15% 病例",
+                    badgeStyle: 'background-color: #cb6f3a;',
+                    text: `較少見的類型，約佔15%的病例。問題源自腎上腺本身，通常是單側腎上腺發生腫瘤（但少數可能是雙側、且可能是良性也可能惡性）。這個腫瘤會自主分泌大量皮質醇，不受腦下垂體控制。身體偵測到高皮質醇後，會透過負回饋機制抑制腦下垂體分泌ACTH，但腎上腺腫瘤仍持續產生皮質醇。`,
+                    pituitaryStatus: "被抑制中",
+                    adrenalStatus: "⚠️ 自主分泌",
+                    acthLabel: "⬇️ ACTH 被抑制",
+                    keyPoints: ["腎上腺腫瘤引起", "通常為單側腎上腺腫大，但少數也能是雙側", "ACTH 水平降低或測不到", "約15%的病例屬於此型"]
+                }
+            };
+
+            symptomsData = [
+                { icon: "💧", title: "多渴多尿", detail: "每日飲水量可能超過100ml/kg" },
+                { icon: "🍽️", title: "食慾異常增加", detail: "總是感到飢餓，可能出現異食癖" },
+                { icon: "🎈", title: "腹部膨大", detail: "俗稱「水桶腰」，肝臟腫大造成" },
+                { icon: "💨", title: "喘氣增加", detail: "即使在休息時也容易喘" },
+                { icon: "💪", title: "肌肉萎縮", detail: "四肢變細，腹部肌肉無力" },
+                { icon: "🦲", title: "對稱性脫毛", detail: "軀幹兩側對稱性掉毛，皮膚變薄" }
+            ];
+
+            diagnosisSteps = [
+                { title: "初步評估", content: "詳細病史詢問與理學檢查，觀察典型症狀。基礎血液檢查常見肝指數(ALKP)升高、血糖輕微上升。", icon: "🔍" },
+                { title: "篩檢試驗", content: "尿液皮質醇/肌酸酐比值(UCCR)作為初步篩檢，陽性需進一步確診。", icon: "🧪" },
+                { title: "確診試驗", content: "ACTH刺激試驗或低劑量類固醇抑制試驗(LDDST)，確認皮質醇分泌異常。", icon: "💉" },
+                { title: "分型檢查", content: "腹部超音波評估腎上腺大小形態，高劑量類固醇抑制試驗區分PDH與ADH。", icon: "📊" },
+                { title: "治療計畫", content: "根據診斷結果制定個別化治療方案，定期監測調整。", icon: "💊" }
+            ];
+            
+            updateDisplay(type) {
+                this.currentType = type;
+                const data = this.diseaseData[type];
+                const btnPdh = document.getElementById('btn-pdh');
+                const btnAdh = document.getElementById('btn-adh');
+                if (type === 'pdh') {
+                    btnPdh.className = 'toggle-btn px-8 py-4 rounded-full font-bold text-lg active-btn';
+                    btnAdh.className = 'toggle-btn px-8 py-4 rounded-full font-bold text-lg inactive-btn';
+                } else {
+                    btnAdh.className = 'toggle-btn px-8 py-4 rounded-full font-bold text-lg active-btn';
+                    btnPdh.className = 'toggle-btn px-8 py-4 rounded-full font-bold text-lg inactive-btn';
+                }
+
+                const pituitary = document.getElementById('pituitary');
+                const adrenal = document.getElementById('adrenal');
+                const arrow = document.getElementById('hormone-arrow');
+                if (type === 'pdh') {
+                    pituitary.classList.add('highlight-active');
+                    adrenal.classList.remove('highlight-active');
+                } else {
+                    adrenal.classList.add('highlight-active');
+                    pituitary.classList.remove('highlight-active');
+                }
+
+                this.animateTextChange('type-badge', data.badge);
+                document.getElementById('type-badge').style.cssText = data.badgeStyle;
+                this.animateTextChange('explanation-title', data.title);
+                this.animateTextChange('explanation-text', data.text);
+                this.animateTextChange('acth-label', data.acthLabel);
+                this.animateTextChange('pituitary-status', data.pituitaryStatus);
+                this.animateTextChange('adrenal-status', data.adrenalStatus);
+
+                const keyPointsList = document.getElementById('key-points-list');
+                keyPointsList.innerHTML = data.keyPoints.map(point => 
+                    `<li class="flex items-start">
+                        <span style="color: #a56c76;" class="mr-2">•</span>
+                        <span>${point}</span>
+                    </li>`
+                ).join('');
+            }
+            
+            animateTextChange(elementId, newText) {
+                const element = document.getElementById(elementId);
+                element.style.opacity = '0';
+                setTimeout(() => {
+                    if (elementId === 'explanation-text') {
+                        element.innerHTML = newText.split('\n\n').map(p => `<p>${p}</p>`).join('');
+                    } else {
+                        element.textContent = newText;
+                    }
+                    element.style.opacity = '1';
+                }, 200);
+            }
+
+            createChart() {
+                const chartElement = document.getElementById('prevalenceChart');
+                if (!chartElement) return; // <-- FIX: Check if element exists
+                const ctx = chartElement.getContext('2d');
+                this.prevalenceChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['腦下垂體依賴型 (PDH)', '腎上腺依賴型 (ADH)'],
+                        datasets: [{
+                            data: [85, 15],
+                            backgroundColor: ['rgba(165, 108, 118, 0.8)', 'rgba(211, 142, 153, 0.7)'],
+                            borderColor: ['#a56c76', '#d38e99'],
+                            borderWidth: 2,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', labels: { padding: 15, font: { size: 12, family: "'Noto Sans TC', sans-serif" } } },
+                            tooltip: { backgroundColor: 'rgba(93, 84, 86, 0.95)', titleFont: { size: 14 }, bodyFont: { size: 13 }, padding: 12,
+                                callbacks: {
+                                    label: context => context.label + ': ' + context.parsed + '%',
+                                    afterLabel: context => context.dataIndex === 0 ? '最常見類型' : '較少見類型'
+                                }
+                            }
+                        },
+                        animation: { animateRotate: true, animateScale: true, duration: 1000 }
+                    }
+                });
+            }
+
+            renderSymptoms() {
+                const grid = document.getElementById('symptoms-grid');
+                if (!grid) return; // <-- FIX: Check if element exists
+                grid.innerHTML = this.symptomsData.map((symptom, index) => `
+                    <div class="symptom-card" data-index="${index}">
+                        <div class="symptom-icon">${symptom.icon}</div>
+                        <h4 class="font-bold" style="color: var(--text-dark);">${symptom.title}</h4>
+                        <p class="text-xs mt-2 hidden detail-text" style="color: var(--text-medium);">${symptom.detail}</p>
+                    </div>
+                `).join('');
+                grid.querySelectorAll('.symptom-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        card.querySelector('.detail-text').classList.toggle('hidden');
+                        card.classList.toggle('bg-pink-50');
+                    });
+                });
+            }
+
+            renderDiagnosisSteps() {
+                const container = document.getElementById('diagnosis-steps');
+                if (!container) return; // <-- FIX: Check if element exists
+                container.innerHTML = this.diagnosisSteps.map((step, index) => `
+                    <div class="bg-pink-50 rounded-xl p-6 hover:bg-rose-50 transition-all duration-300 cursor-pointer" onclick="this.classList.toggle('bg-rose-100')">
+                        <div>
+                            <h3 class="text-lg font-bold mb-2 flex items-center">
+                                <span class="mr-2 text-2xl">${step.icon}</span>
+                                ${step.title}
+                            </h3>
+                            <p class="text-sm leading-relaxed" style="color: var(--text-medium);">${step.content}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            setupAudioPlayer() {
+                const audioPlayer = document.getElementById('interactiveGuideAudio');
+                if (audioPlayer) {
+                    const speedButtonsContainer = audioPlayer.nextElementSibling;
+                    speedButtonsContainer.addEventListener('click', (event) => {
+                        const button = event.target.closest('.audio-speed-btn');
+                        if (button) {
+                            const speed = parseFloat(button.dataset.speed);
+                            audioPlayer.playbackRate = speed;
+                            speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                                btn.classList.remove('active');
+                            });
+                            button.classList.add('active');
+                        }
+                    });
+                }
+            }
+            
+            initializeAdvancedFeatures() { this.addProgressIndicator(); this.setupKeyboardNavigation(); this.setupTouchGestures(); this.loadUserPreferences(); }
+            addProgressIndicator() { window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = (winScroll / height); document.getElementById('scroll-progress').style.transform = `scaleX(${scrolled})`; }); }
+            setupKeyboardNavigation() { document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { const newType = this.currentType === 'pdh' ? 'adh' : 'pdh'; this.updateDisplay(newType); this.saveUserPreference(newType); } if (e.key === 'i' && !e.ctrlKey && !e.metaKey) { this.showInfoModal(); } }); }
+            setupTouchGestures() { let touchStartX = 0; let touchEndX = 0; const handleSwipe = () => { if (touchEndX < touchStartX - 50) { if (this.currentType === 'pdh') { this.updateDisplay('adh'); this.saveUserPreference('adh'); } } if (touchEndX > touchStartX + 50) { if (this.currentType === 'adh') { this.updateDisplay('pdh'); this.saveUserPreference('pdh'); } } }; const diagram = document.querySelector('.hpa-diagram'); if (diagram) { diagram.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }); diagram.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }); } }
+            loadUserPreferences() { try { const savedType = localStorage.getItem('cushingGuideType'); if (savedType && (savedType === 'pdh' || savedType === 'adh')) { this.updateDisplay(savedType); } } catch (e) { console.log('Unable to load preferences'); } }
+            saveUserPreference(type) { try { localStorage.setItem('cushingGuideType', type); } catch (e) { console.log('Unable to save preferences'); } }
+            showInfoModal() { const modal = document.createElement('div'); modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'; modal.innerHTML = `<div class="bg-white rounded-2xl p-6 max-w-md w-full"> <h3 class="text-xl font-bold mb-4">快速鍵說明</h3> <ul class="space-y-2 text-sm text-slate-600"> <li>⬅️➡️ 左右鍵：切換疾病類型</li> <li>🖱️ 點擊症狀卡片：查看詳細資訊</li> <li>📱 左右滑動：行動裝置切換類型</li> <li>🖨️ Ctrl+P：列印指南</li> <li>ℹ️ 按 i 鍵：顯示此說明</li> </ul> <button onclick="this.parentElement.parentElement.remove()" class="mt-4 w-full py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition" style="background-color: var(--primary-pink);"> 關閉 </button> </div>`; document.body.appendChild(modal); modal.addEventListener('click', (e) => { if (e.target === modal) { modal.remove(); } }); }
+        }
+
+        let cushingGuide;
+        function shareContent() { if (navigator.share) { navigator.share({ title: '犬隻庫欣氏症互動指南', text: '了解犬隻庫欣氏症的成因、症狀與診斷', url: window.location.href }).then(() => { showNotification('分享成功！'); }).catch(err => { if (err.name !== 'AbortError') { console.log('分享失敗', err); } }); } else { const url = window.location.href; navigator.clipboard.writeText(url).then(() => { showNotification('連結已複製到剪貼簿！'); }); } }
+        function showNotification(message) { const notification = document.createElement('div'); notification.className = 'fixed bottom-4 right-4 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-y-full transition-transform duration-300'; notification.style.backgroundColor = 'var(--text-dark)'; notification.textContent = message; document.body.appendChild(notification); setTimeout(() => { notification.style.transform = 'translateY(0)'; }, 100); setTimeout(() => { notification.style.transform = 'translateY(200%)'; setTimeout(() => notification.remove(), 300); }, 3000); }
+        document.addEventListener('DOMContentLoaded', () => { cushingGuide = new CushingGuide(); });
+    </script>
+</body>
+</html>
+
+
+
