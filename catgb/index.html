@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貓科膽道與膽囊疾病：病因、診斷與治療</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #fef9fa; /* Light pink background */
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fceef0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e0b8be;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1a3aa;
+        }
+        .theme-text-dark { color: #8c5a63; }
+        .theme-text-header { color: #7c4a53; }
+        .theme-bg-light { background-color: #fceef0; }
+        .theme-border { border-color: #e0b8be; }
+        .theme-accent-text { color: #a66a76; }
+        
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="w-full md:w-64 bg-white border-r border-[#f0dce0] p-4 md:fixed md:h-full overflow-y-auto">
+            <h1 class="text-xl font-bold theme-text-header mb-4">貓科膽道疾病指南</h1>
+            <ul class="space-y-2">
+                <li><a href="#intro" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">簡介與健康肝臟</a></li>
+                <li><a href="#cholestasis" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">膽汁滯留 (Cholestasis)</a></li>
+                <li><a href="#ehbdo" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">肝外膽管阻塞 (EHBDO)</a></li>
+                <li><a href="#inflammation" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">膽道系統炎症</a>
+                    <ul class="pl-4 mt-1 space-y-1 text-sm">
+                        <li><a href="#neutrophilic" class="block text-gray-500 hover:theme-text-dark">- 嗜中性球性膽管炎 (NC)</a></li>
+                        <li><a href="#lymphocytic" class="block text-gray-500 hover:theme-text-dark">- 淋巴球性膽管炎 (LC)</a></li>
+                        <li><a href="#flukes" class="block text-gray-500 hover:theme-text-dark">- 肝吸蟲引起的膽管炎</a></li>
+                    </ul>
+                </li>
+                <li><a href="#cholecystitis" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">膽囊炎 (Cholecystitis)</a></li>
+                <li><a href="#gallbladder-diseases" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">膽囊疾病</a>
+                    <ul class="pl-4 mt-1 space-y-1 text-sm">
+                        <li><a href="#accessory-gallbladder" class="block text-gray-500 hover:theme-text-dark">- 副膽囊</a></li>
+                        <li><a href="#cholelithiasis" class="block text-gray-500 hover:theme-text-dark">- 膽結石 (Cholelithiasis)</a></li>
+                        <li><a href="#mucocele" class="block text-gray-500 hover:theme-text-dark">- 膽囊黏液囊腫</a></li>
+                        <li><a href="#infarctions" class="block text-gray-500 hover:theme-text-dark">- 膽囊梗塞</a></li>
+                    </ul>
+                </li>
+                <li><a href="#neoplasia" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">腫瘤 (Neoplasia)</a></li>
+                <li><a href="#cystic-diseases" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">囊腫性疾病</a></li>
+                <li><a href="#video-guide" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">影片導覽</a></li>
+                <li><a href="#audio-guide" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">AI Podcast 討論</a></li>
+                <li><a href="#summary" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">重點摘要</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 lg:p-10">
+            <header class="mb-6">
+                <h1 class="text-4xl font-bold theme-text-header">貓科膽道與膽囊疾病</h1>
+                <p class="text-lg theme-text-dark mt-2">病因、診斷與治療的全面性回顧</p>
+            </header>
+
+            <!-- Banner Image -->
+            <div class="mb-8 max-w-4xl mx-auto">
+                <img src="https://i.imgur.com/UjjErEs.png" alt="可愛貓咪橫幅" class="w-full h-auto rounded-lg shadow-md object-cover">
+            </div>
+
+            <!-- Introduction Section -->
+            <section id="intro" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">簡介與健康肝臟</h2>
+                <div class="space-y-4 text-gray-700">
+                    <p>相較於肝實質疾病，膽道與膽囊的疾病在貓科動物中更為常見。肝實質通常是繼發於全身性疾病，而膽道系統則是感染源（如細菌、吸蟲）和非感染性狀況（如腫瘤、囊腫）的主要目標。</p>
+                    <div class="theme-bg-light border-l-4 theme-border p-4 rounded-md">
+                        <p class="font-semibold theme-accent-text">核心觀點：</p>
+                        <p>在貓科動物中，疾病的主要目標是<strong class="theme-accent-text font-bold">膽道系統</strong>，而非肝實質。</p>
+                    </div>
+                    <p>貓的肝臟是最大的內部器官，約佔總體重的3-4%。健康的肝臟在代謝、解毒、蛋白質合成（如白蛋白、凝血因子）、維持血糖平衡、脂質代謝以及排出內外源性毒素和藥物方面扮演關鍵角色。</p>
+                    <p>貓的膽汁 (pH 5.9-7.8) 由多種膽汁酸和膽固醇組成。牛磺酸是貓用來結合膽汁酸的唯一營養素，且貓自身合成牛磺酸的能力有限，因此牛磺酸被視為必需的膳食成分。</p>
+                    <h3 class="text-xl font-semibold mt-4 theme-accent-text">藥物肝毒性</h3>
+                    <p>貓科動物對於藥物和毒素的葡萄醣醛酸化結合能力較低，這限制了它們將物質轉化為水溶性物質以便排泄的能力。這使得貓在接觸某些藥物和毒素時更容易遭受肝毒性影響。常見具肝毒性的藥物包括：</p>
+                    <ul class="list-disc list-inside bg-red-50 p-4 rounded-md text-red-800">
+                        <li>Methimazole (甲硫嗎唑)</li>
+                        <li>Carbimazole (卡比馬唑)</li>
+                        <li>口服 Diazepam (地西泮)</li>
+                        <li>Acetaminophen (乙醯胺酚)</li>
+                        <li>Cyclosporin A (環孢素 A)</li>
+                        <li>Rifampicin (利福平)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Cholestasis Section -->
+            <section id="cholestasis" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">膽汁滯留 (Cholestasis)</h2>
+                <p class="text-gray-700 mb-4">膽汁滯留是與膽道疾病相關的重要臨床症候群，定義為膽汁流動受損。它本身不是一種疾病，而是一種與膽道系統功能障礙相關的病理生理現象。通常分為兩種形式：</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="border theme-border theme-bg-light p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">肝內膽汁滯留 (Intrahepatic)</h3>
+                        <p class="mt-2 text-gray-700">主要發生在肝細胞、膽小管或小葉間膽管的層面。在貓中，這與膽管炎後膽小管的破壞和肝纖維化有關。某些藥物（如methimazole、cyclosporin）也可能導致此現象。</p>
+                    </div>
+                    <div class="border theme-border theme-bg-light p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">肝外膽汁滯留 (Extrahepatic)</h3>
+                        <p class="mt-2 text-gray-700">由總膽管 (CBD) 的阻塞引起。這是更為常見的臨床問題。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EHBDO Section -->
+            <section id="ehbdo" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">肝外膽管阻塞 (EHBDO)</h2>
+                <div class="space-y-4 text-gray-700">
+                    <h3 class="text-xl font-semibold theme-accent-text">病因</h3>
+                    <p>最常見的原因包括與膽管炎、膽囊炎相關的<strong class="text-red-600">膽泥</strong>和<strong class="text-red-600">膽結石</strong>。其他原因包括胰腺炎、膽道腫瘤、異物或胃腸道疾病。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">臨床症狀</h3>
+                    <p>症狀通常不具特異性，包括腹痛、嘔吐、脫水、噁心、厭食、體重減輕、嗜睡、發燒和黃疸。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">診斷</h3>
+                    <p>診斷主要依賴<strong class="theme-accent-text font-bold">超音波檢查</strong>。在正常貓中，肝內外膽管是不可見的，因此任何可見的膽管都被認為是擴張的。</p>
+                    <div class="theme-bg-light border-l-4 theme-border p-4 rounded-md">
+                        <p class="font-semibold theme-accent-text">診斷關鍵：</p>
+                        <p>總膽管 (CBD) 直徑是診斷 EHBDO 的有用參數。健康貓的上限為 4 mm，而 97% 的患病貓<strong class="theme-accent-text font-bold">大於 5 mm</strong>。</p>
+                    </div>
+                    <h3 class="text-xl font-semibold theme-accent-text">治療與預後</h3>
+                    <p>治療取決于阻塞原因，可能包括使用利膽藥物（如熊去氧膽酸 UDCA）、手術（移除結石、異物）、抗生素等。預後與根本原因密切相關。</p>
+                </div>
+            </section>
+            
+            <!-- Inflammation Section -->
+            <section id="inflammation" class="mb-12">
+                <h2 class="text-3xl font-semibold mb-4 theme-text-header">膽道系統炎症</h2>
+                
+                <div id="neutrophilic" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">嗜中性球性膽管炎 (NC)</h3>
+                    <p class="mb-2">這是一種由腸道細菌上行感染引起的急性炎症。通常伴隨膽囊炎。</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>臨床症狀:</strong> 噁心、嘔吐、厭食和發燒。黃疸不常見。</li>
+                        <li><strong>診斷:</strong> 診斷黃金標準是<strong class="theme-accent-text">膽汁採樣</strong>，可通過超音波引導下的膽囊穿刺術 (cholecystocentesis) 獲得。膽汁細胞學檢查會顯示嗜中性球，有時可見細菌。</li>
+                        <li><strong>治療:</strong> 首選<strong class="theme-accent-text">抗生素治療</strong>，如 Amoxicillin/clavulanate，療程至少4週。</li>
+                        <li><strong>預後:</strong> 若及時給予適當抗生素，預後良好。但若延誤治療，可能致命。</li>
+                    </ul>
+                </div>
+
+                <div id="lymphocytic" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">淋巴球性膽管炎 (LC)</h3>
+                    <p class="mb-2">這是一種慢性、免疫介導的疾病，病因尚不完全清楚。病程可持續數月至數年。</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>臨床症狀:</strong> 慢性嘔吐、腹瀉、厭食、黃疸、多食和體重減輕。公貓似乎更易受影響。</li>
+                        <li><strong>診斷:</strong> 最一致的生化異常是<strong class="theme-accent-text">高丙種球蛋白血症</strong>，常被誤診為貓傳染性腹膜炎 (FIP)。診斷的黃金標準是<strong class="theme-accent-text">肝臟組織活檢</strong>。超音波常可見擴張的膽管，這有助於排除 FIP。</li>
+                        <li><strong>治療:</strong> 主要使用<strong class="theme-accent-text">皮質類固醇</strong>（如 Prednisolone）和 UDCA。</li>
+                        <li><strong>預後:</strong> 預後相對較好，中位存活時間約為 26 個月。</li>
+                    </ul>
+                </div>
+
+                <div id="flukes" class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">肝吸蟲引起的膽管炎</h3>
+                    <p class="mb-2">主要由 Opisthorchiidae 或 Dicrocoeliidae 科的肝吸蟲引起，常見於（亞）熱帶地區。貓通過捕食攜帶蟲體的蝸牛和蜥蜴而感染。</p>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li><strong>診斷:</strong> 肝臟活檢、膽汁或糞便鏡檢可能發現蟲卵。血液學檢查有時會顯示<strong class="theme-accent-text">嗜酸性球增多</strong>，這在 LC 中不會出現。</li>
+                        <li><strong>治療:</strong> 使用<strong class="theme-accent-text">Praziquantel</strong> (20 mg/kg，口服，每日一次，持續3天) 治療效果良好。</li>
+                        <li><strong>預後:</strong> 預後極佳，但膽道樹的擴張等變化可能會持續存在，增加未來細菌感染的風險。</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Cholecystitis Section -->
+            <section id="cholecystitis" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">膽囊炎 (Cholecystitis)</h2>
+                <div class="space-y-4 text-gray-700">
+                    <p>在貓中，膽囊炎通常與嗜中性球性膽管炎 (NC) 同時發生，可能不是獨立的疾病實體。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">病因</h3>
+                    <p>通常由腸道細菌經血液或上行感染引起。膽汁中的溶細胞劑和膽鹽會造成組織壞死，有助於細菌定植。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">診斷</h3>
+                    <p>超音波可能顯示膽囊壁增厚、水腫（急性期）或變薄（慢性期）。膽囊穿刺可獲得細菌培養和細胞學樣本。</p>
+                     <h3 class="text-xl font-semibold theme-accent-text">治療</h3>
+                    <p>治療以<strong class="theme-accent-text">抗生素</strong>為主，如氯黴素、氟喹諾酮類、阿莫西林/克拉維酸和甲硝唑，這些藥物在膽汁中濃度較高。一些研究也指出非類固醇消炎藥 (NSAIDs) 可能有治療作用。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">預後</h3>
+                    <p>根據現有研究，如果確定並使用了正確的抗生素，預後良好。</p>
+                </div>
+            </section>
+
+            <!-- Gallbladder Diseases Section -->
+            <section id="gallbladder-diseases" class="mb-12">
+                <h2 class="text-3xl font-semibold mb-4 theme-text-header">膽囊疾病</h2>
+                
+                <div id="accessory-gallbladder" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">副膽囊 (Accessory Gallbladder)</h3>
+                    <p>這是貓中相對常見的解剖變異，超過12%的貓有某種形式的副膽囊。這些通常是<strong class="theme-accent-text">偶然發現</strong>，在超音波、手術或解剖時看到，並且<strong class="theme-accent-text">不會引起臨床症狀</strong>。</p>
+                </div>
+
+                <div id="cholelithiasis" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">膽結石 (Cholelithiasis)</h3>
+                    <p class="mb-2">在貓中不常見。貓的結石多為色素性結石（黑色或棕色），由膽紅素或細菌降解產物構成。可能與膽汁淤積、膽囊運動異常、細菌感染等因素有關。</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>臨床症狀:</strong> 大多數無症狀，若引起阻塞則可能出現嘔吐、脫水、厭食、黃疸等。</li>
+                        <li><strong>診斷:</strong> 可通過放射線學、超音波或對比造影來確診。</li>
+                        <li><strong>治療:</strong> 無症狀者可使用 UDCA 等藥物嘗試溶解。有症狀或色素性結石通常需要<strong class="theme-accent-text">手術移除</strong>膽囊或結石。</li>
+                    </ul>
+                </div>
+
+                <div id="mucocele" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">膽囊黏液囊腫 (Mucocele)</h3>
+                    <p class="mb-2">貓比狗少見，因為貓的膽囊黏液腺體較少。這是由於膽囊黏液過度分泌和積聚，形成膠狀物質。目前僅有少數案例報告。</p>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li><strong>診斷:</strong> 超音波可見膽囊內有特徵性的條紋狀或星芒狀內容物。</li>
+                        <li><strong>治療:</strong> <strong class="theme-accent-text">膽囊切除術 (cholecystectomy)</strong> 是最有效的治療方法。</li>
+                        <li><strong>預後:</strong> 預後謹慎，取決於是否存在併發症（如膽囊破裂、EHBDO）。</li>
+                    </ul>
+                </div>
+                
+                <div id="infarctions" class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">膽囊梗塞 (Infarctions)</h3>
+                    <p class="mb-2">由供應膽囊的唯一動脈——膽囊動脈的血栓形成引起。這可能導致膽囊缺血、壞死，甚至破裂。在狗中有報導，但在貓中<strong class="theme-accent-text">從未被描述過</strong>。</p>
+                </div>
+            </section>
+            
+            <!-- Neoplasia Section -->
+            <section id="neoplasia" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">腫瘤 (Neoplasia)</h2>
+                <div class="space-y-4 text-gray-700">
+                     <div class="theme-bg-light border-l-4 theme-border p-4 rounded-md">
+                        <p class="font-semibold theme-accent-text">重要發現：</p>
+                        <p>在貓中，<strong class="theme-accent-text font-bold">膽道系統的腫瘤</strong>比肝細胞來源的腫瘤更常見。</p>
+                    </div>
+                    <p>最常見的膽道腫瘤是膽管腺瘤（良性）和膽管腺癌（惡性）。膽管炎可能與膽管細胞腫瘤的發生有關。</p>
+                    <h3 class="text-xl font-semibold theme-accent-text">臨床症狀</h3>
+                    <p>高達38%的貓可能無症狀。有症狀的貓表現與其他肝膽疾病相似，包括黃疸。公貓在膽道腺癌中佔比較高。</p>
+                     <h3 class="text-xl font-semibold theme-accent-text">治療與預後</h3>
+                    <p>手術切除是局部病變的最佳選擇。高達65%的原發性肝膽腫瘤是良性的，但惡性膽道腫瘤的轉移率高於肝細胞癌。</p>
+                </div>
+            </section>
+            
+            <!-- Cystic Diseases Section -->
+            <section id="cystic-diseases" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">囊腫性疾病 (Cystic Diseases)</h2>
+                <p class="text-gray-700 mb-4">肝臟中的囊腫總是起源於膽道系統，因此也被認為是膽道疾病。</p>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-2xl font-semibold theme-accent-text mb-2">單一膽道囊腫 (Solitary Biliary Cysts)</h3>
+                        <p>偶爾在貓中發現。病因尚不清楚，可能與上皮細胞增殖差異、胰液逆流或膽管壁局部薄弱有關。治療通常是手術切除。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold theme-accent-text mb-2">先天性膽道囊腫疾病</h3>
+                        <p>貓的囊腫性肝病通常是多發性的，並且與<strong class="theme-accent-text">多囊腎病 (PKD)</strong> 有很強的關聯性。在患有PKD的貓中，有68%同時發現肝囊腫。這在波斯貓中是一種體染色體顯性遺傳病。</p>
+                        <p>臨床症狀主要由腎臟疾病引起，而非肝囊腫。目前沒有治療方法，但基因篩檢有助於減少患病貓的數量。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Video Section -->
+            <section id="video-guide" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold text-center mb-6 theme-text-header">貓科膽道疾病：貓咪的隱形殺手</h2>
+                <div class="w-full max-w-2xl mx-auto rounded-lg overflow-hidden shadow-lg border-2 theme-border">
+                    <video controls playsinline loop class="w-full h-auto">
+                        <source src="catvideo.mp4" type="video/mp4">
+                        您的瀏覽器不支援 video 標籤。
+                    </video>
+                </div>
+            </section>
+
+            <!-- AI Podcast Section -->
+            <section id="audio-guide" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold text-center mb-4 theme-text-header">AI生成Podcast討論</h2>
+                <p class="text-center text-sm mb-8 theme-text-dark">
+                    您可以聆聽AI生成的對話討論，也可以使用下方的按鈕調整播放速度。
+                </p>
+                <div class="w-full md:w-2/3 lg:w-1/2 mx-auto">
+                    <div class="p-4 md:p-6 shadow-inner border-2 rounded-lg theme-border">
+                        <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                            <source src="catgb.mp4" type="audio/mpeg">
+                            您的瀏覽器不支援 audio 標籤。
+                        </audio>
+                        <div class="controls flex justify-center gap-2 flex-wrap" id="audio-speed-controls">
+                            <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                            <button data-speed="1" class="audio-speed-btn active">正常</button>
+                            <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                            <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                            <button data-speed="2" class="audio-speed-btn">2x</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <section id="summary" class="mb-12 theme-bg-light border-t-4 theme-border p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-semibold theme-text-header border-b-2 border-[#f0dce0] pb-2 mb-4">重點摘要</h2>
+                <ul class="list-disc list-inside space-y-3 theme-text-dark">
+                    <li>膽道疾病在貓中比肝實質疾病更常見。</li>
+                    <li>由於葡萄醣醛酸化能力有限，貓對許多藥物具有肝毒性風險。</li>
+                    <li>腸道細菌是炎症性肝病的重要原因。</li>
+                    <li>約有1/8的貓有副膽囊，通常無臨床意義。</li>
+                    <li>膽結石、淋巴球性膽管炎和腫瘤在公貓中更常見。</li>
+                    <li>肝囊腫通常與遺傳性的多囊腎病 (PKD) 相關。</li>
+                    <li>組織學、細胞學和細菌培養是診斷貓膽道疾病的寶貴工具。</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            const speedControls = document.getElementById('audio-speed-controls');
+
+            if (audioPlayer && speedControls) {
+                speedControls.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        // Update active class
+                        speedControls.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
