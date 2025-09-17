@@ -2574,46 +2574,51 @@
                                  background: linear-gradient(135deg, rgba(224, 184, 190, 0.05), rgba(240, 230, 232, 0.05));">
                                 <div style="width: 50px; height: 50px; border: 4px solid rgba(224, 184, 190, 0.3);
                                      border-top: 4px solid #e0b8be; border-radius: 50%; animation: spin 1s linear infinite;"></div>
-                                <p style="margin-top: 1rem; color: #c89297; font-size: 1rem;">載入AI診斷工具中...</p>
+                                <p style="margin-top: 1rem; color: #c89297; font-size: 1rem;">正在載入AI診斷工具...</p>
+                                <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">首次載入可能需要稍等片刻</p>
                             </div>
                             
-                            <!-- 錯誤顯示 -->
+                            <!-- 錯誤顯示（備用方案） -->
                             <div id="ai-tool-error" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
                                  flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
                                  background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.1));">
                                 <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 1rem;"></i>
-                                <h4 style="color: #c89297; margin-bottom: 1rem;">AI工具暫時無法載入</h4>
+                                <h4 style="color: #c89297; margin-bottom: 1rem;">AI工具載入受限</h4>
                                 <p style="color: #6d4c41; margin-bottom: 1.5rem; line-height: 1.5;">
-                                    可能是網路連線問題或跨域限制。<br>
-                                    請點擊下方按鈕在新視窗中開啟完整功能。
+                                    由於瀏覽器安全策略，無法直接嵌入AI工具。<br>
+                                    請點擊下方按鈕在新視窗中使用完整功能。
                                 </p>
                                 <a href="http://atinsight.alex-ray.com/7sj88g" target="_blank" rel="noopener"
+                                   onclick="window.open(this.href, 'ai-tool', 'width=1200,height=800,scrollbars=yes,resizable=yes'); return false;"
                                    style="display: inline-flex; align-items: center; padding: 0.8rem 1.5rem;
-                                          background: linear-gradient(45deg, #e0b8be, #c89297); color: white; 
+                                          background: linear-gradient(45deg, #1976d2, #42a5f5); color: white; 
                                           text-decoration: none; border-radius: 25px; transition: all 0.3s ease;
-                                          box-shadow: 0 3px 10px rgba(224, 184, 190, 0.3);">
+                                          box-shadow: 0 3px 10px rgba(25, 118, 210, 0.3);">
                                     <i class="fas fa-external-link-alt" style="margin-right: 0.5rem;"></i>
                                     開啟AI診斷工具
                                 </a>
                             </div>
                             
-                            <!-- 實際的iframe -->
+                            <!-- 實際的iframe - 嘗試多個可能的URL -->
                             <iframe id="ai-tool-iframe" 
-                                    src="about:blank" 
+                                    src=""
                                     style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
-                                           border: none; padding: 0; margin: 0; border-radius: 13px; opacity: 0;"
+                                           border: none; padding: 0; margin: 0; border-radius: 13px; opacity: 0;
+                                           transition: opacity 0.8s ease;"
                                     allow="fullscreen"
+                                    referrerpolicy="no-referrer-when-downgrade"
                                     title="AI互動式診斷輔助工具">
                             </iframe>
                         </div>
                         
-                        <!-- 底部連結 -->
                         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                            如果上方工具無法正常顯示，
+                            如果工具無法顯示，請
                             <a href="http://atinsight.alex-ray.com/7sj88g" 
-                               target="_blank" rel="noopener" style="color: #e0b8be; text-decoration: none;">
+                               target="_blank" rel="noopener" 
+                               onclick="window.open(this.href, 'ai-tool', 'width=1200,height=800,scrollbars=yes,resizable=yes'); return false;"
+                               style="color: #e0b8be; text-decoration: none;">
                                <i class="fas fa-external-link-alt" style="margin-right: 0.3rem;"></i>
-                               請點此在新視窗中開啟完整版本
+                               點此使用完整版本
                             </a>
                         </p>
                     </div>
@@ -3258,7 +3263,7 @@
             }, 500);
         });
 
-        // AI工具iframe初始化和錯誤處理
+        // AI工具iframe智能載入系統
         function initAIToolFrame() {
             const iframe = document.getElementById('ai-tool-iframe');
             const loading = document.getElementById('ai-tool-loading');
@@ -3269,83 +3274,129 @@
                 return;
             }
 
-            let loadTimeout;
             let hasLoaded = false;
+            let loadTimeout;
 
-            // 延遲載入iframe src 避免初始載入問題
-            setTimeout(() => {
-                if (!hasLoaded) {
-                    console.log('開始載入AI工具');
-                    iframe.src = 'http://atinsight.alex-ray.com/7sj88g';
+            // 嘗試載入策略
+            const loadStrategies = [
+                // 策略1: 嘗試HTTPS版本
+                'https://atinsight.alex-ray.com/7sj88g',
+                // 策略2: 原HTTP版本 (可能被阻擋但值得嘗試)
+                'http://atinsight.alex-ray.com/7sj88g',
+                // 策略3: 使用代理服務 (如果有的話)
+                // 'https://cors-anywhere.herokuapp.com/http://atinsight.alex-ray.com/7sj88g'
+            ];
+
+            let currentStrategy = 0;
+
+            function tryLoadIframe(url) {
+                console.log(`嘗試載入AI工具: ${url}`);
+                
+                // 清除之前的超時
+                if (loadTimeout) {
+                    clearTimeout(loadTimeout);
                 }
-            }, 2000);
 
-            // 設置載入超時 (15秒)
-            loadTimeout = setTimeout(() => {
-                if (!hasLoaded) {
-                    console.log('AI工具載入超時');
-                    showAIToolError();
+                // 設置超時 (10秒後嘗試下一個策略)
+                loadTimeout = setTimeout(() => {
+                    if (!hasLoaded) {
+                        console.log(`載入超時: ${url}`);
+                        tryNextStrategy();
+                    }
+                }, 10000);
+
+                // 設置iframe src
+                iframe.src = url;
+            }
+
+            function tryNextStrategy() {
+                currentStrategy++;
+                if (currentStrategy < loadStrategies.length) {
+                    tryLoadIframe(loadStrategies[currentStrategy]);
+                } else {
+                    // 所有策略都失敗，顯示錯誤
+                    console.log('所有載入策略均失敗，顯示備用方案');
+                    showError();
                 }
-            }, 15000);
+            }
 
-            // iframe載入成功事件
+            // iframe載入成功
             iframe.addEventListener('load', function() {
-                // 檢查是否真的載入了內容
+                // 檢查iframe是否真的載入了內容
                 if (iframe.src && iframe.src !== 'about:blank') {
+                    // 額外檢查：嘗試判斷是否真的載入成功
+                    setTimeout(() => {
+                        try {
+                            // 對於同源內容，可以檢查document
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+                            if (iframeDoc && iframeDoc.body && iframeDoc.body.children.length > 0) {
+                                onLoadSuccess();
+                                return;
+                            }
+                        } catch (e) {
+                            // 跨域情況下無法訪問，但如果沒有其他錯誤，認為載入成功
+                            console.log('跨域內容，無法檢查內容但假設載入成功');
+                        }
+                        
+                        // 如果無法檢查內容，等待一段時間後認為載入成功
+                        onLoadSuccess();
+                    }, 2000);
+                }
+            });
+
+            // iframe載入錯誤
+            iframe.addEventListener('error', function(e) {
+                console.log('iframe載入錯誤:', e);
+                if (!hasLoaded) {
+                    tryNextStrategy();
+                }
+            });
+
+            // 載入成功處理
+            function onLoadSuccess() {
+                if (!hasLoaded) {
                     hasLoaded = true;
                     clearTimeout(loadTimeout);
-                    hideLoading();
-                    showIframe();
                     console.log('AI工具載入成功');
-                }
-            });
-
-            // iframe載入錯誤事件
-            iframe.addEventListener('error', function(e) {
-                console.log('AI工具載入失敗:', e);
-                showAIToolError();
-            });
-
-            // 檢查跨域或嵌入限制
-            setTimeout(() => {
-                if (!hasLoaded && iframe.src !== 'about:blank') {
-                    try {
-                        // 嘗試檢測iframe狀態
-                        if (!iframe.contentDocument && !iframe.contentWindow) {
-                            console.log('檢測到可能的跨域限制');
-                            // 繼續等待，但準備顯示錯誤
-                        }
-                    } catch (e) {
-                        console.log('確認跨域限制存在');
-                        // 但不立即顯示錯誤，等待超時
+                    
+                    // 隱藏載入指示器
+                    if (loading) {
+                        loading.style.opacity = '0';
+                        loading.style.transition = 'opacity 0.5s ease';
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                        }, 500);
                     }
-                }
-            }, 5000);
-
-            // 隱藏載入指示器
-            function hideLoading() {
-                if (loading) {
-                    loading.style.display = 'none';
-                }
-            }
-
-            // 顯示iframe
-            function showIframe() {
-                if (iframe) {
+                    
+                    // 顯示iframe
                     iframe.style.opacity = '1';
-                    iframe.style.transition = 'opacity 0.8s ease';
                 }
             }
 
-            // 顯示錯誤信息
-            function showAIToolError() {
+            // 顯示錯誤
+            function showError() {
                 hasLoaded = true;
                 clearTimeout(loadTimeout);
+                
                 if (loading) loading.style.display = 'none';
                 if (error) error.style.display = 'flex';
-                if (iframe) iframe.style.display = 'none';
-                console.log('顯示AI工具錯誤提示');
+                
+                console.log('顯示AI工具錯誤備用方案');
             }
+
+            // 開始載入第一個策略
+            setTimeout(() => {
+                tryLoadIframe(loadStrategies[0]);
+            }, 1000);
+
+            // 網頁可見性變化時重新嘗試
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'visible' && !hasLoaded) {
+                    console.log('頁面變為可見，重新嘗試載入AI工具');
+                    currentStrategy = 0;
+                    tryLoadIframe(loadStrategies[0]);
+                }
+            });
         }
 
         // 頁面完全載入後的處理
