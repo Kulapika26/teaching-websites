@@ -1,219 +1,2361 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>獸醫教學網站</title>
+    <title>愛叮寶犬貓影像專科醫院 - 專業超音波影像診斷</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <!-- External Resources -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    
     <style>
-        body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #5d4037;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(224, 184, 190, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff8e1, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
             transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
             overflow: hidden;
         }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 0,100 1000,80 1000,0"/></svg>');
+            background-size: cover;
         }
-        .card-content {
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #b8860b, #daa520);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.6s both;
+            box-shadow: 0 5px 15px rgba(184, 134, 11, 0.4);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(184, 134, 11, 0.6);
+            background: linear-gradient(45deg, #daa520, #ffd700);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #e0b8be, #c89297);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, #f7f2f3 0%, #f0e6e8 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #5d4037;
+        }
+
+        /* About section highlight boxes */
+        .highlight-box {
+            background: rgba(224, 184, 190, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #e0b8be;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(224, 184, 190, 0.1);
+        }
+
+        .highlight-box:hover {
+            background: rgba(224, 184, 190, 0.15);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(224, 184, 190, 0.2);
+        }
+
+        .highlight-box h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: #5d4037;
+        }
+
+        /* Equipment highlight section */
+        .equipment-highlight {
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(212, 165, 171, 0.1));
             padding: 2rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+            border: 1px solid rgba(224, 184, 190, 0.2);
         }
-        .topic-icon {
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            align-items: stretch;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(224, 184, 190, 0.1);
+            min-height: 60px;
+            text-align: center;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.2);
+        }
+
+        .feature-item span {
+            font-weight: 500;
+            color: #5d4037;
+            font-size: 1rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            line-height: 1.4;
+            width: 100%;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        /* 醫院照片幻燈片樣式 */
+        .hospital-slideshow {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(45deg, #e0b8be, #f0e6e8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(224, 184, 190, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .slideshow-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(224, 184, 190, 0.4);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-image {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .slide-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* 導航按鈕 */
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(224, 184, 190, 0.8);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background: rgba(200, 146, 151, 0.9);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.4);
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        /* 幻燈片指示器 */
+        .slide-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .indicator.active {
+            background: rgba(224, 184, 190, 0.9);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(224, 184, 190, 0.6);
+        }
+
+        /* 播放/暫停按鈕 */
+        .play-pause-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(224, 184, 190, 0.8);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .play-pause-btn:hover {
+            background: rgba(200, 146, 151, 0.9);
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(224, 184, 190, 0.4);
+        }
+
+        /* 載入失敗時的樣式 */
+        .slide-image-error {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #c89297;
+            font-size: 1rem;
+            background: rgba(224, 184, 190, 0.1);
+        }
+
+        .slide-image-error i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #e0b8be, #f0e6e8);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8d6e63;
+            font-size: 1.1rem;
+            border: 2px dashed #c89297;
+            transition: all 0.3s ease;
+        }
+
+        .image-placeholder:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(224, 184, 190, 0.3);
+        }
+
+        /* Team Section */
+        .team {
+            padding: 80px 0;
+            background: #fdfcfc;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(224, 184, 190, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid #f0e6e8;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(224, 184, 190, 0.3);
+            border-color: #e0b8be;
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #e0b8be, #d4a5ab);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.3);
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #5d4037;
+        }
+
+        .team-title {
+            color: #c89297;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: #6d4c41;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Huang Chunling special styling */
+        .huang-special {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f5f7 50%, #f0e6e8 100%);
+            border: 2px solid #e0b8be;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .huang-special::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 60px 60px 0;
+            border-color: transparent #e0b8be transparent transparent;
+            z-index: 1;
+        }
+
+        .huang-special::after {
+            content: '🇹🇼';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .huang-special:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(224, 184, 190, 0.4);
+            border-color: #c89297;
+        }
+
+        .huang-special .team-title {
+            background: linear-gradient(45deg, #e0b8be, #c89297);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(224, 184, 190, 0.3);
+        }
+
+        .huang-bio {
+            text-align: left;
+            color: #5d4037;
+        }
+
+        .huang-specialty {
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(200, 146, 151, 0.1));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(224, 184, 190, 0.2);
+        }
+
+        .huang-specialty h4 {
+            color: #e0b8be;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .certification-list, .teaching-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .cert-item, .teaching-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #e0b8be;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .cert-item:hover, .teaching-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(224, 184, 190, 0.2);
+        }
+
+        .cert-item::before {
+            content: '📜';
+            margin-right: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .teaching-item::before {
+            content: '🎓';
+            margin-right: 0.8rem;
+            font-size: 1rem;
+        }
+
+        /* Alex Hsieh special styling */
+        .alex-special {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #e3f2fd 100%);
+            border: 2px solid #e0b8be;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alex-special::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 60px 60px 0;
+            border-color: transparent #ffd700 transparent transparent;
+            z-index: 1;
+        }
+
+        .alex-special::after {
+            content: '🇺🇸';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        .alex-special:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(224, 184, 190, 0.4);
+            border-color: #c89297;
+        }
+
+        .alex-special .team-title {
+            background: linear-gradient(45deg, #1976d2, #42a5f5);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(25, 118, 210, 0.3);
+        }
+
+        .alex-bio {
+            text-align: left;
+            color: #5d4037;
+        }
+
+        .bio-section {
+            background: rgba(224, 184, 190, 0.08);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #e0b8be;
+        }
+
+        .bio-section h4 {
+            color: #c89297;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bio-section p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .specialty-section {
+            background: linear-gradient(135deg, rgba(25, 118, 210, 0.1), rgba(66, 165, 245, 0.1));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(25, 118, 210, 0.2);
+        }
+
+        .specialty-section h4 {
+            color: #1976d2;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .specialty-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+        }
+
+        .specialty-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #1976d2;
+        }
+
+        .specialty-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(25, 118, 210, 0.2);
+        }
+
+        .specialty-item i {
+            color: #1976d2;
+            font-size: 1.1rem;
+            min-width: 20px;
+        }
+
+        .specialty-item span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5d4037;
+        }
+
+        /* Boss Cat Styles - 院貓老大專用樣式 */
+        .boss-cat-card {
+            background: linear-gradient(135deg, #f8bbd9 0%, #f4a6cd 50%, #e91e63 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(233, 30, 99, 0.3);
+            transition: all 0.3s ease;
+            border: 3px solid #ffd700;
+            max-width: 700px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boss-cat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.15), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .boss-cat-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(233, 30, 99, 0.4);
+            border-color: #ff6b6b;
+        }
+
+        .boss-cat-photo {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #ffd700;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .boss-cat-name {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.3);
+        }
+
+        .boss-cat-title {
+            color: #ad1457;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            background: rgba(255,255,255,0.4);
+            padding: 1rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .boss-cat-bio {
+            color: #1a1a1a;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            background: rgba(255,255,255,0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .boss-cat-achievements {
+            background: rgba(255,255,255,0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .achievement-badge {
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-badge:hover {
+            background: rgba(255,255,255,1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .achievement-badge p {
+            margin: 0.5rem 0 0 0;
+            font-weight: bold;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+        }
+
+        /* Services Section */
+        .services {
+            background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
+            color: white;
+        }
+
+        .services .section-title {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: white;
+            background-clip: unset;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff8e1, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .service-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .service-description {
+            opacity: 1;
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(135deg, #f7f2f3 0%, #f0e6e8 100%);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(224, 184, 190, 0.2);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f7f2f3;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: #f0e6e8;
+            transform: translateX(5px);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: #e0b8be;
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        .line-button {
+            background: linear-gradient(45deg, #00C300, #4caf50);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 195, 0, 0.3);
+        }
+
+        .line-button:hover {
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 195, 0, 0.4);
+        }
+
+        /* Line QR Code Modal */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Google Maps 樣式 */
+        .map-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.15);
+        }
+
+        .google-map {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .google-map:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .google-map iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 10px;
+        }
+
+        .qr-modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .qr-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .qr-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .qr-close:hover {
+            color: #c89297;
+            transform: scale(1.1);
+        }
+
+        .qr-content {
+            text-align: center;
+        }
+
+        .qr-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-instructions {
+            text-align: left;
+            color: #5d4037;
+        }
+
+        .qr-instructions p {
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: #f7f2f3;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid #e0b8be;
+        }
+
+        .contact-method i {
+            color: #e0b8be;
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+
+        .contact-method span {
+            font-size: 0.95rem;
+        }
+
+        .qr-error {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: #999;
+        }
+
+        .qr-error i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #00C300;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Education Section */
+        .education {
+            background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
+            color: white;
+        }
+
+        .education .section-title {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: white;
+            background-clip: unset;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .education-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: all 0.3s ease;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .education-card h3 {
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .education-card p {
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+
+        .education-card ul {
+            color: #ffffff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .education p {
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+
+        /* Education Links Styling */
+        .education-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .education-link {
+            display: block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .education-link:hover::before {
+            left: 100%;
+        }
+
+        .education-link:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            color: white;
+        }
+
+        .link-icon {
             width: 60px;
             height: 60px;
-            margin: 0 auto 1rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .link-icon i {
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .education-link:hover .link-icon {
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.2));
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .education-link h3 {
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .education-link p {
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .link-arrow {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .link-arrow i {
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .education-link:hover .link-arrow {
+            background: rgba(255,255,255,0.3);
+            transform: translate(5px, -5px) scale(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #8d6e63 0%, #6d4c41 100%);
+            color: #f5f5f5;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+            }
+            50% {
+                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.7);
+            }
+            100% {
+                box-shadow: 0 10px 30px rgba(233, 30, 99, 0.4);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .team-grid,
+            .services-grid,
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            /* 院貓二索手機版調整 */
+            .boss-cat-card {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .boss-cat-photo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .boss-cat-name {
+                font-size: 2rem;
+            }
+
+            .boss-cat-title {
+                font-size: 1.1rem;
+                padding: 0.8rem;
+            }
+
+            .boss-cat-bio {
+                font-size: 1rem;
+                padding: 1.5rem;
+            }
+
+            .achievement-badge {
+                padding: 0.8rem;
+            }
+
+            .achievement-badge i {
+                font-size: 1.2rem !important;
+            }
+
+            /* About section mobile adjustments */
+            .highlight-box {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .highlight-box h3 {
+                font-size: 1.1rem;
+            }
+
+            .equipment-highlight {
+                padding: 1.5rem;
+                margin-top: 1.5rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .feature-item {
+                padding: 1rem;
+                min-height: 50px;
+            }
+
+            .feature-item span {
+                font-size: 0.9rem;
+                gap: 0.4rem;
+            }
+
+            /* Alex special card mobile adjustments */
+            .alex-special::before {
+                border-width: 0 40px 40px 0;
+            }
+
+            .alex-special::after {
+                font-size: 1rem;
+                top: 5px;
+                right: 5px;
+            }
+
+            .alex-special .team-title {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .bio-section {
+                padding: 0.8rem;
+            }
+
+            .bio-section h4 {
+                font-size: 0.9rem;
+            }
+
+            .bio-section p {
+                font-size: 0.85rem;
+            }
+
+            .specialty-section {
+                padding: 1rem;
+            }
+
+            .specialty-item {
+                padding: 0.6rem;
+            }
+
+            .specialty-item span {
+                font-size: 0.8rem;
+            }
+
+            /* 幻燈片手機版調整 */
+            .hospital-slideshow {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .slideshow-container {
+                height: 250px;
+                margin: 0 0.5rem;
+            }
+
+            .prev-btn, .next-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+
+            .prev-btn {
+                left: 5px;
+            }
+
+            .next-btn {
+                right: 5px;
+            }
+
+            .slide-indicators {
+                bottom: 10px;
+                gap: 6px;
+            }
+
+            .indicator {
+                width: 10px;
+                height: 10px;
+            }
+
+            .play-pause-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+                top: 10px;
+                right: 10px;
+            }
+
+            .slide-image-error {
+                font-size: 0.9rem;
+            }
+
+            .slide-image-error i {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            /* QR Code Modal 手機版調整 */
+            .qr-modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+                max-width: 350px;
+            }
+
+            .qr-close {
+                top: 10px;
+                right: 15px;
+                font-size: 1.8rem;
+            }
+
+            .qr-image {
+                width: 180px;
+                height: 180px;
+                margin-bottom: 1rem;
+            }
+
+            .contact-method {
+                padding: 0.6rem;
+                gap: 0.6rem;
+            }
+
+            .contact-method i {
+                font-size: 1.1rem;
+            }
+
+            .contact-method span {
+                font-size: 0.9rem;
+            }
+
+            /* Google Maps 手機版調整 */
+            .map-container {
+                padding: 1rem;
+                margin: 0 0.5rem;
+            }
+
+            .google-map iframe {
+                height: 250px;
+            }
+
+            /* Education Links 手機版調整 */
+            .education-links-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .education-link {
+                padding: 1.5rem;
+            }
+
+            .education-link h3 {
+                font-size: 1.1rem;
+            }
+
+            .education-link p {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .link-icon {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 1rem;
+            }
+
+            .link-icon i {
+                font-size: 1.5rem;
+            }
+
+            .link-arrow {
+                width: 30px;
+                height: 30px;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .link-arrow i {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Interactive Elements */
+        .interactive-element {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .interactive-element:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Additional decorative elements */
+        .section:nth-child(even) {
+            position: relative;
+        }
+
+        .section:nth-child(even)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e0b8be, transparent);
         }
     </style>
 </head>
-<body class="antialiased">
-    <div class="min-h-screen py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4">
-                    獸醫教學網站
-                </h1>
-                <p class="text-xl text-white/80 max-w-2xl mx-auto">
-                    探索各種獸醫診斷與治療主題的互動式學習資源
-                </p>
-            </div>
-
-            <!-- Navigation Cards -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- 犬淋巴瘤 PARR vs 流式細胞術 -->
-                <a href="/dogflowvsparr/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🧬
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">犬大細胞淋巴瘤</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            PARR vs. 流式細胞術診斷決策互動指南
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- CAH -->
-                <a href="/CAH/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🫀
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">CAH</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            慢性腎上腺皮質功能亢進症診斷與治療
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- CITB -->
-                <a href="/CITB/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🩺
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">CITB</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            臨床影像診斷技術與應用
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Feline Triaditis -->
-                <a href="/Feline%20Triaditis/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🐱
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">貓三聯症</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            貓咪三聯症的診斷與綜合治療方法
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- GBWE -->
-                <a href="/GBWE/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🍃
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">GBWE</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            膽囊壁水腫的影像診斷與鑑別診斷
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- IBDSCL -->
-                <a href="/IBDSCL/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🌀
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">IBD vs SCL</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            炎症性腸病與小細胞淋巴瘤的鑑別診斷
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- TTWBAL -->
-                <a href="/TTWBAL/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            🫁
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">TTWBAL</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            氣管支氣管灌洗液的細胞學分析
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Flow vs PARR -->
-                <a href="/flowvsparr/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            ⚖️
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">Flow vs PARR</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            流式細胞術與PARR檢測的比較分析
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Status -->
-                <a href="/status/" class="card group">
-                    <div class="card-content text-center">
-                        <div class="topic-icon text-white mb-4">
-                            📊
-                        </div>
-                        <h3 class="text-xl font-bold mb-3 text-gray-800">Status</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            診斷狀態評估與追蹤管理系統
-                        </p>
-                        <div class="mt-4 text-blue-500 font-medium group-hover:text-blue-600">
-                            進入學習 →
-                        </div>
-                    </div>
-                </a>
-
-            </div>
-
-            <!-- Footer -->
-            <div class="text-center mt-16">
-                <p class="text-white/60 text-sm">
-                    © 2025 獸醫教學網站 | 由愛叮寶犬貓影像專科醫院提供
-                </p>
-            </div>
-
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">愛叮寶犬貓影像專科醫院</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#home">首頁</a></li>
+                    <li><a href="#about">關於我們</a></li>
+                    <li><a href="#team">醫療團隊</a></li>
+                    <li><a href="#services">服務項目</a></li>
+                    <li><a href="#education">教學內容</a></li>
+                    <li><a href="#contact">聯絡我們</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-</body>
-</html>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>愛叮寶犬貓影像專科醫院</h1>
+            <p>專業超音波影像診斷服務，為您的毛小孩提供最精確的醫療照護</p>
+            <a href="https://us.atinsight.vet" target="_blank" class="cta-button">立即預約</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <h2 class="section-title">關於我們</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <div class="highlight-box">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <i class="fas fa-stethoscope" style="margin-right: 0.5rem; color: #e0b8be;"></i>
+                            專業領軍團隊
+                        </h3>
+                        <p>由獸醫影像專科醫師領軍，愛叮寶犬貓影像專科團隊提供最精準、專業及迅速的超音波影像診斷服務。</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <i class="fas fa-robot" style="margin-right: 0.5rem; color: #e0b8be;"></i>
+                            頂尖AI技術設備
+                        </h3>
+                        <p>我們引進<strong style="color: #c89297;">台灣首台也是唯一配備AI技術的富士850DI超音波機</strong>，採用目前業界最先進的技術，以確保毛小孩們都能接受最高品質的醫療服務。</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <i class="fas fa-heart-pulse" style="margin-right: 0.5rem; color: #e0b8be;"></i>
+                            全方位診斷服務
+                        </h3>
+                        <p>我們的服務範圍涵蓋<strong style="color: #c89297;">全腹腔、頸部、胸腔及肌肉骨骼</strong>的超音波檢查，並提供超音波引導的採樣服務和遠程影像專科諮詢。</p>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <i class="fas fa-file-medical" style="margin-right: 0.5rem; color: #e0b8be;"></i>
+                            專業報告服務
+                        </h3>
+                        <p>通過提供<strong style="color: #c89297;">專業的中英文影像報告</strong>，我們確保提供最專業且可靠的影像診斷服務，也確保飼主與獸醫之間的醫療溝通更加順暢無阻，幫助您了解毛小孩的健康狀況。</p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <!-- 醫院照片幻燈片 -->
+                    <div class="hospital-slideshow">
+                        <div class="slideshow-container">
+                            <div class="slide active">
+                                <img src="7.jpg" alt="醫院照片 1" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="8.jpg" alt="醫院照片 2" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="9.jpg" alt="醫院照片 3" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="10.jpg" alt="醫院照片 4" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="11.jpg" alt="醫院照片 5" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="12.jpg" alt="醫院照片 6" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="13.jpg" alt="醫院照片 7" class="slide-image">
+                            </div>
+                            
+                            <!-- 導航按鈕 -->
+                            <button class="prev-btn" onclick="changeSlide(-1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="next-btn" onclick="changeSlide(1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            
+                            <!-- 幻燈片指示器 -->
+                            <div class="slide-indicators">
+                                <span class="indicator active" onclick="currentSlide(1)"></span>
+                                <span class="indicator" onclick="currentSlide(2)"></span>
+                                <span class="indicator" onclick="currentSlide(3)"></span>
+                                <span class="indicator" onclick="currentSlide(4)"></span>
+                                <span class="indicator" onclick="currentSlide(5)"></span>
+                                <span class="indicator" onclick="currentSlide(6)"></span>
+                                <span class="indicator" onclick="currentSlide(7)"></span>
+                            </div>
+                            
+                            <!-- 播放/暫停按鈕 -->
+                            <button class="play-pause-btn" onclick="togglePlayPause()">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增設備特色展示 -->
+                    <div class="equipment-highlight">
+                        <h4 style="color: #c89297; margin-bottom: 1rem; text-align: center;">
+                            <i class="fas fa-star" style="color: #ffd700;"></i>
+                            設備特色
+                        </h4>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <span>🧠 AI智慧辨識</span>
+                            </div>
+                            <div class="feature-item">
+                                <span>👁️ 高解析度影像</span>
+                            </div>
+                            <div class="feature-item">
+                                <span>⏰ 快速診斷</span>
+                            </div>
+                            <div class="feature-item">
+                                <span>🛡️ 安全無痛</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+        <div class="container">
+            <h2 class="section-title">專業醫療團隊</h2>
+            
+            <h3 style="text-align: center; margin-bottom: 2rem; color: #c89297; font-size: 1.8rem;">獸醫師團隊</h3>
+            <div class="team-grid">
+                <div class="team-card interactive-element huang-special">
+                    <div class="team-photo">
+                        <img src="1.png" alt="獸醫師 黃淳鈴" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    <h3 class="team-name">獸醫師 黃淳鈴</h3>
+                    <p class="team-title">
+                        <i class="fas fa-star" style="color: #ffd700; margin-right: 0.3rem;"></i>
+                        院長 & 影像診斷專家
+                        <i class="fas fa-star" style="color: #ffd700; margin-left: 0.3rem;"></i>
+                    </p>
+                    
+                    <div class="huang-bio">
+                        <div class="bio-section">
+                            <h4><i class="fas fa-graduation-cap"></i> 學經歷背景</h4>
+                            <p>於2009年畢業於國立台灣大學獸醫學系，同年考取台灣獸醫師執照，並在台灣大學附設動物醫院完成學士後住院醫師訓練及一年的內科住院醫師訓練。進入臨床後專注於犬貓內科診療，並持續在獸醫影像學深耕。在貓診所執業期間，也培養出對貓習性更多的了解，後續亦完成為期一年的獸醫專業進階貓行為學訓練課程。</p>
+                        </div>
+
+                        <div class="specialty-section huang-specialty">
+                            <h4><i class="fas fa-stethoscope"></i> 專業領域</h4>
+                            <div class="specialty-grid">
+                                <div class="specialty-item">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <span>犬貓超音波影像診斷</span>
+                                </div>
+                                <div class="specialty-item">
+                                    <i class="fas fa-syringe"></i>
+                                    <span>超音波導引穿刺採樣</span>
+                                </div>
+                                <div class="specialty-item">
+                                    <i class="fas fa-paw"></i>
+                                    <span>犬貓一般內科</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bio-section">
+                            <h4><i class="fas fa-certificate"></i> 專業認證</h4>
+                            <div class="certification-list">
+                                <div class="cert-item">腹腔超音波訓練 | 歐洲獸醫高級學院亞洲分部 | 2013</div>
+                                <div class="cert-item">獸醫超音波臨床實操課程 | 新北市獸醫臨床醫學會 | 2017</div>
+                                <div class="cert-item">超音波臨床實習課程 | 美國獸醫影像專科醫師 | 2019</div>
+                                <div class="cert-item">超音波影像進階實作課程 | 財團法人動物醫學研究基金會 | 2019</div>
+                                <div class="cert-item">獸醫專業進階貓行為學課程 | 國際貓科醫學會 | 2023</div>
+                            </div>
+                        </div>
+
+                        <div class="bio-section">
+                            <h4><i class="fas fa-chalkboard-teacher"></i> 授課經歷</h4>
+                            <div class="teaching-list">
+                                <div class="teaching-item">美國獸醫影像專科醫師超音波臨床實習課程 助教 | 2022-2024</div>
+                                <div class="teaching-item">富士超音波臨床病例分享 特邀講師 | 2024</div>
+                                <div class="teaching-item">第74屆世界獸醫學生會年會 影像課程 特邀講師 | 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card interactive-element alex-special">
+                    <div class="team-photo">
+                        <img src="2.png" alt="謝淯紘醫師" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
+                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-md\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>請確認 2.png 檔案位置</small>';">
+                    </div>
+                    <h3 class="team-name">謝淯紘 醫師 (Alex Hsieh)</h3>
+                    <p class="team-title">
+                        <i class="fas fa-star" style="color: #ffd700; margin-right: 0.3rem;"></i>
+                        美國獸醫影像專科醫師
+                        <i class="fas fa-star" style="color: #ffd700; margin-left: 0.3rem;"></i>
+                    </p>
+                    
+                    <div class="alex-bio">
+                        <div class="bio-section">
+                            <h4><i class="fas fa-graduation-cap"></i> 學經歷背景</h4>
+                            <p>謝淯紘 (Alex Hsieh) 是2006年於台灣國立中興大學獸醫系畢業的獸醫師。2008年結束臨床小動物內外科住院醫師訓練後，於2009年開始美國獸醫生涯的闖蕩。</p>
+                        </div>
+
+                        <div class="bio-section">
+                            <h4><i class="fas fa-trophy"></i> 專業認證</h4>
+                            <p>Alex 於2013年在美國科羅拉多州立大學完成美國獸醫同等學歷認證，並考取美國獸醫師執照，2014年在美國馬里蘭州完成實習醫師訓練，2017年在俄亥俄州立大學完成獸醫影像專科訓練，並於2018年考取美國獸醫影像專科醫師執照，<strong style="color: #c89297;">成為第一位台灣土生土長，且目前唯一一位考取美國獸醫影像專科醫師執照的台灣獸醫師</strong> (Diplomate, American College of Veterinary Radiology, DACVR)。</p>
+                        </div>
+
+                        <div class="bio-section">
+                            <h4><i class="fas fa-heart"></i> 使命與貢獻</h4>
+                            <p>目前Alex致力於台灣獸醫影像學教學，並於2020年創立愛力克獅獸醫影像學院，盼能將美國所學帶回台灣獸醫界，幫助更多獸醫師以及動物。</p>
+                        </div>
+
+                        <div class="specialty-section">
+                            <h4><i class="fas fa-stethoscope"></i> 專業領域</h4>
+                            <div class="specialty-grid">
+                                <div class="specialty-item">
+                                    <i class="fas fa-certificate"></i>
+                                    <span>美國獸醫影像專科醫師</span>
+                                </div>
+                                <div class="specialty-item">
+                                    <i class="fas fa-x-ray"></i>
+                                    <span>X光、超音波影像診斷</span>
+                                </div>
+                                <div class="specialty-item">
+                                    <i class="fas fa-brain"></i>
+                                    <span>電腦斷層、核磁共振與核子醫學影像診斷</span>
+                                </div>
+                                <div class="specialty-item">
+                                    <i class="fas fa-crosshairs"></i>
+                                    <span>超音波與電腦斷層導引採樣</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-card interactive-element">
+                    <div class="team-photo">
+                        <img src="3.png" alt="獸醫師 張雅綸" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    <h3 class="team-name">獸醫師 張雅綸</h3>
+                    <p class="team-title">獸醫師</p>
+                    <p class="team-bio">
+                        [請在此處添加張雅綸醫師的專業背景、學經歷、專長領域等詳細資訊]
+                        <br><br>
+                        專長：<br>
+                        • 超音波檢查<br>
+                        • 寵物醫療<br>
+                        • 影像診斷協助
+                    </p>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #c89297; font-size: 1.8rem;">專業助理團隊</h3>
+            <div class="team-grid">
+                <div class="team-card interactive-element">
+                    <div class="team-photo">
+                        <img src="4.png" alt="蔣昀蓉" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    <h3 class="team-name">蔣昀蓉</h3>
+                    <p class="team-title">專業助理</p>
+                    <p class="team-bio">
+                        [請在此處添加蔣昀蓉助理的工作經驗、專業技能等資訊]
+                        <br><br>
+                        專長：<br>
+                        • 超音波檢查協助<br>
+                        • 動物保定與照護<br>
+                        • 設備維護管理
+                    </p>
+                </div>
+
+                <div class="team-card interactive-element">
+                    <div class="team-photo">
+                        <img src="5.png" alt="李映函" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    </div>
+                    <h3 class="team-name">李映函</h3>
+                    <p class="team-title">專業助理</p>
+                    <p class="team-bio">
+                        [請在此處添加李映函助理的工作經驗、專業技能等資訊]
+                        <br><br>
+                        專長：<br>
+                        • 檢查流程協調<br>
+                        • 動物行為管理<br>
+                        • 客戶服務與溝通
+                    </p>
+                </div>
+            </div>
+
+            <!-- 院貓二索 - 真正的老大 -->
+            <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #e91e63; font-size: 2rem;">
+                <i class="fas fa-crown" style="color: #ffd700; margin-right: 0.5rem;"></i>
+                院貓老大
+                <i class="fas fa-crown" style="color: #ffd700; margin-left: 0.5rem;"></i>
+            </h3>
+            
+            <div style="display: flex; justify-content: center; margin-top: 2rem;">
+                <div class="boss-cat-card">
+                    <div class="boss-cat-photo">
+                        <img src="6.png" alt="院貓二索" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
+                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-cat\' style=\'font-size: 4rem; color: #fff;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>請確認 6.png 檔案位置</small>';">
+                    </div>
+                    <h3 class="boss-cat-name">二索</h3>
+                    <p class="boss-cat-title">
+                        <i class="fas fa-crown" style="color: #ffd700;"></i>
+                        院貓老大 & 首席監督官
+                        <i class="fas fa-crown" style="color: #ffd700;"></i>
+                    </p>
+                    <p class="boss-cat-bio">
+                        [請在此處添加二索的可愛介紹，包括她的個性、喜好、日常工作等]
+                        <br><br>
+                        <strong style="color: #e91e63;">專業技能：</strong><br>
+                        • 全院安全監督 🏥<br>
+                        • 員工工作態度管理 👁️<br>
+                        • 醫院氣氛調節 😸<br>
+                        • 客戶心情安撫 💝<br>
+                        • 深度睡眠示範教學 😴<br>
+                        • 專業賣萌治療 🐾<br><br>
+                        
+                        <strong style="color: #e91e63;">工作時間：</strong><br>
+                        全年無休 24/7 (但午睡時間不受打擾) 😴<br><br>
+                        
+                        <strong style="color: #e91e63;">座右銘：</strong><br>
+                        "喵的一聲令下，全院動起來！" 🐱‍👤
+                    </p>
+                    
+                    <div class="boss-cat-achievements">
+                        <h4 style="color: #e91e63; margin: 1.5rem 0 1rem 0;">
+                            <i class="fas fa-trophy"></i> 主要成就
+                        </h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: center;">
+                            <div class="achievement-badge">
+                                <i class="fas fa-medal" style="color: #ffd700; font-size: 1.5rem;"></i>
+                                <p>年度最佳老大</p>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-heart" style="color: #ff69b4; font-size: 1.5rem;"></i>
+                                <p>客戶最愛</p>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-eye" style="color: #4a90e2; font-size: 1.5rem;"></i>
+                                <p>監督專家</p>
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="fas fa-paw" style="color: #8e44ad; font-size: 1.5rem;"></i>
+                                <p>賣萌大師</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section">
+        <div class="container">
+            <h2 class="section-title">專業服務項目</h2>
+            <div class="services-grid">
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="service-name">腹腔超音波</h3>
+                    <p class="service-description">
+                        專業腹腔超音波檢查，包括肝臟、腎臟、脾臟、胰臟、膀胱等器官的詳細檢查，能夠早期發現器官異常並協助診斷。
+                        <br><br>
+                        [在此處可以添加更詳細的服務說明、檢查流程、注意事項等]
+                    </p>
+                </div>
+
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        <i class="fas fa-lungs"></i>
+                    </div>
+                    <h3 class="service-name">胸腔超音波</h3>
+                    <p class="service-description">
+                        胸腔超音波檢查服務，檢查心臟、肺臟及胸腔積液等狀況，協助診斷心肺相關疾病。
+                        <br><br>
+                        [在此處可以添加更詳細的服務說明、適用症狀等]
+                    </p>
+                </div>
+
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        🪜
+                    </div>
+                    <h3 class="service-name">頸部超音波</h3>
+                    <p class="service-description">
+                        頸部區域超音波檢查，包括甲狀腺、淋巴結、唾液腺等結構的詳細評估。
+                        <br><br>
+                        [在此處可以添加檢查範圍、常見發現等資訊]
+                    </p>
+                </div>
+
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        <i class="fas fa-bone"></i>
+                    </div>
+                    <h3 class="service-name">肌肉骨骼超音波</h3>
+                    <p class="service-description">
+                        肌肉、韌帶、關節等軟組織超音波檢查，協助診斷運動傷害或骨骼肌肉系統疾病。
+                        <br><br>
+                        [在此處可以添加適用情況、檢查部位等說明]
+                    </p>
+                </div>
+
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3 class="service-name">超音波導引採樣</h3>
+                    <p class="service-description">
+                        在超音波導引下進行精確的組織採樣或液體抽取，提高採樣成功率並降低併發症風險。
+                        <br><br>
+                        [在此處可以添加採樣流程、安全性說明等]
+                    </p>
+                </div>
+
+                <div class="service-card interactive-element">
+                    <div class="service-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="service-name">綜合超音波服務</h3>
+                    <p class="service-description">
+                        提供全面性的超音波檢查服務，依據個別動物的需求制定最適合的檢查計畫。
+                        <br><br>
+                        [在此處可以添加整合服務內容說明]
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <div class="image-placeholder" style="max-width: 600px; margin: 0 auto;">
+                    <i class="fas fa-procedures" style="font-size: 4rem; color: white;"></i><br>
+                    醫療設備與診療過程照片區域
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="education section">
+        <div class="container">
+            <h2 class="section-title">教學內容</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; opacity: 0.95;">
+                我們定期分享專業的獸醫影像診斷知識，幫助獸醫師提升診斷技能
+            </p>
+            
+            <div class="education-links-grid">
+                <a href="https://teaching.atinsight.vet/IBDSCL" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-cat"></i>
+                    </div>
+                    <h3>貓咪IBD跟小細胞淋巴癌</h3>
+                    <p>深入探討貓咪炎症性腸病(IBD)與小細胞淋巴癌的鑑別診斷，包括影像特徵分析、診斷流程及治療建議。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/GBWE" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-droplet"></i>
+                    </div>
+                    <h3>犬貓膽囊水腫</h3>
+                    <p>全面解析犬貓膽囊水腫的超音波診斷要點、鑑別診斷與臨床處理策略。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/TTWBAL" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-lungs"></i>
+                    </div>
+                    <h3>TTW vs. BAL</h3>
+                    <p>比較經氣管洗滌(TTW)與支氣管肺泡洗滌(BAL)的臨床應用、操作技巧及診斷價值。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/cah" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3>犬隻銅蓄積病</h3>
+                    <p>詳細介紹犬隻銅蓄積性肝病的病理機制、診斷方法及治療管理要點。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/Feline%20Triaditis" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    <h3>貓咪三腺炎</h3>
+                    <p>探討貓咪三腺炎(胰臟炎、膽管炎、炎症性腸病)的複雜病理、診斷挑戰及綜合治療方案。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/CITB" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3>犬隻感染性氣管支氣管炎(CITB)與肺炎</h3>
+                    <p>詳解犬隻感染性氣管支氣管炎與肺炎的臨床表現、影像診斷特徵及治療原則。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/cushings" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>犬隻庫欣氏症互動指南</h3>
+                    <p>互動式庫欣氏症診斷指南，包含診斷流程圖、檢驗解讀及治療監控要點。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/dogflowvsparr" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <h3>犬淋巴癌 PARR vs Flow Cytometry</h3>
+                    <p>比較PCR for Antigen Receptor Rearrangement(PARR)與流式細胞術在犬淋巴癌診斷中的應用。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+
+                <a href="https://teaching.atinsight.vet/catgb" target="_blank" class="education-link">
+                    <div class="link-icon">
+                        <i class="fas fa-syringe"></i>
+                    </div>
+                    <h3>貓科膽道疾病：貓咪的隱形殺手</h3>
+                    <p>深入解析貓咪膽道疾病的早期診斷與治療策略，揭開這個常被忽視的隱形健康威脅。</p>
+                    <div class="link-arrow">
+                        <i class="fas fa-external-link-alt"></i>
+                    </div>
+                </a>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <p style="font-size: 1.1rem; opacity: 0.95;">
+                    持續更新專業獸醫影像診斷教學內容，提升臨床診斷能力
+                </p>
+                <p style="font-size: 1rem; opacity: 0.8; margin-top: 1rem;">
+                    點擊上方連結前往相應的教學頁面，獲取詳細的專業知識與實務經驗分享
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <h2 class="section-title">聯絡我們</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3 style="margin-bottom: 2rem; color: #c89297;">聯絡資訊</h3>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <strong>醫院地址</strong><br>
+                            新北市板橋區合宜一路175號
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>電話</strong><br>
+                            0958639972
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email</strong><br>
+                            atinsightdi@gmail.com
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>營業時間</strong><br>
+                            週一至週五：09:00–12:00, 12:30–17:30<br>
+                            週六週日：休息
+                        </div>
+                    </div>
+
+                    <button class="line-button" onclick="document.getElementById('lineQRModal').style.display='flex'; document.body.style.overflow='hidden';">
+                        <i class="fab fa-line"></i>
+                        透過 Line 聯繫我們
+                    </button>
+
+                    <!-- Line QR Code 彈出視窗 -->
+                    <div id="lineQRModal" class="qr-modal" style="display: none;" onclick="document.getElementById('lineQRModal').style.display='none'; document.body.style.overflow='auto';">
+                        <div class="qr-modal-content" onclick="event.stopPropagation()">
+                            <span class="qr-close" onclick="document.getElementById('lineQRModal').style.display='none'; document.body.style.overflow='auto';">&times;</span>
+                            <h3 style="color: #c89297; margin-bottom: 1rem; text-align: center;">
+                                <i class="fab fa-line" style="color: #00C300;"></i> 
+                                Line 聯繫方式
+                            </h3>
+                            <div class="qr-content">
+                                <img src="14.png" alt="Line QR Code" class="qr-image" 
+                                     onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'qr-error\'><i class=\'fab fa-line\'></i><p>QR Code 載入失敗<br>請確認 14.png 檔案位置</p></div>';">
+                                <div class="qr-instructions">
+                                    <p><strong>聯繫方式：</strong></p>
+                                    <div class="contact-method">
+                                        <i class="fab fa-line"></i>
+                                        <span>Line ID：<strong>ATinsight</strong></span>
+                                    </div>
+                                    <div class="contact-method">
+                                        <i class="fas fa-phone"></i>
+                                        <span>或用電話搜尋我們：<strong>0958639972</strong></span>
+                                    </div>
+                                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                                        掃描上方QR Code 或使用Line ID加入好友
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-info">
+                    <h3 style="margin-bottom: 2rem; color: #c89297;">預約與諮詢</h3>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 15px rgba(224, 184, 190, 0.15);">
+                        <p style="margin-bottom: 1.5rem; color: #6d4c41;">
+                            如需預約檢查或有任何問題，歡迎透過以下方式聯繫我們：
+                        </p>
+                        
+                        <div style="background: #f7f2f3; padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem;">
+                            <h4 style="color: #c89297; margin-bottom: 1rem;">預約注意事項</h4>
+                            <ul style="color: #6d4c41; line-height: 1.6;">
+                                <li>建議提前1-2天預約</li>
+                                <li>緊急狀況請直接電話聯繫</li>
+                                <li>檢查前請依醫師指示準備</li>
+                                <li>攜帶過往醫療記錄</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="map-container">
+                            <h4 style="color: #c89297; margin-bottom: 1rem; text-align: center;">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i>
+                                醫院位置
+                            </h4>
+                            <div class="google-map">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.1273233814495!2d121.44548399999998!3d24.995789199999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34681d399ea2a63f%3A0xc824c21bd1e9d0ed!2z5oSt5Y-u5a-254qs6LKz5b2x5YCP5bCI56eR6Yaq6Zmi!5e0!3m2!1szh-TW!2stw!4v1758077280376!5m2!1szh-TW!2stw" 
+                                        width="100%" 
+                                        height="300" 
+                                        style="border:0; border-radius: 10px;" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 愛叮寶犬貓影像專科醫院. 版權所有.</p>
+            <p>專業超音波影像診斷服務 | 為您的毛小孩提供最精確的醫療照護</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(224, 184, 190, 0.95)';
+                header.style.backdropFilter = 'blur(15px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%)';
+                header.style.backdropFilter = 'blur(10px)';
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0
