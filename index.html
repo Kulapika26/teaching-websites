@@ -3277,14 +3277,14 @@
             let hasLoaded = false;
             let loadTimeout;
 
-            // 嘗試載入策略
+            // 嘗試載入策略 - 使用發現的實際URL
             const loadStrategies = [
-                // 策略1: 嘗試HTTPS版本
+                // 策略1: 使用重定向後的實際HTTPS網址
+                'https://classy-crostata-5a4ec5.netlify.app/',
+                // 策略2: 原始HTTPS版本
                 'https://atinsight.alex-ray.com/7sj88g',
-                // 策略2: 原HTTP版本 (可能被阻擋但值得嘗試)
-                'http://atinsight.alex-ray.com/7sj88g',
-                // 策略3: 使用代理服務 (如果有的話)
-                // 'https://cors-anywhere.herokuapp.com/http://atinsight.alex-ray.com/7sj88g'
+                // 策略3: 原始HTTP版本 (備用)
+                'http://atinsight.alex-ray.com/7sj88g'
             ];
 
             let currentStrategy = 0;
