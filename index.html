@@ -2358,4 +2358,198 @@
         // Animation on scroll
         const observerOptions = {
             threshold: 0.1,
-            rootMargin: '0px 0px -50px 0
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and interactive elements including boss cat
+        document.querySelectorAll('.team-card, .service-card, .education-card, .contact-info, .boss-cat-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Line contact function
+        function openLineContact() {
+            // 請在此處設定實際的 Line 聯繫方式
+            // 可以是 Line 官方帳號連結或 Line@ 帳號
+            alert('請設定您的 Line 聯繫方式\n\n可以是：\n1. Line 官方帳號連結\n2. Line@ 帳號 ID\n3. 或其他 Line 聯繫方式');
+            
+            // 範例：
+            // window.open('https://line.me/ti/p/YOUR_LINE_ID', '_blank');
+        }
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+        });
+
+        // Mobile menu toggle (如果需要手機版選單)
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // 幻燈片功能
+        let currentSlideIndex = 0;
+        let slideInterval;
+        let isPlaying = true;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        // 自動播放幻燈片
+        function startSlideshow() {
+            slideInterval = setInterval(() => {
+                if (isPlaying) {
+                    nextSlide();
+                }
+            }, 4000); // 每4秒切換一張
+        }
+
+        // 停止自動播放
+        function stopSlideshow() {
+            clearInterval(slideInterval);
+        }
+
+        // 顯示指定幻燈片
+        function showSlide(index) {
+            // 隱藏所有幻燈片
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            // 顯示當前幻燈片
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            
+            currentSlideIndex = index;
+        }
+
+        // 下一張幻燈片
+        function nextSlide() {
+            const nextIndex = (currentSlideIndex + 1) % totalSlides;
+            showSlide(nextIndex);
+        }
+
+        // 上一張幻燈片
+        function prevSlide() {
+            const prevIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            showSlide(prevIndex);
+        }
+
+        // 手動切換幻燈片
+        function changeSlide(direction) {
+            stopSlideshow();
+            if (direction === 1) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+            if (isPlaying) {
+                startSlideshow();
+            }
+        }
+
+        // 點擊指示器跳轉到指定幻燈片
+        function currentSlide(index) {
+            stopSlideshow();
+            showSlide(index - 1);
+            if (isPlaying) {
+                startSlideshow();
+            }
+        }
+
+        // 播放/暫停切換
+        function togglePlayPause() {
+            const playPauseBtn = document.querySelector('.play-pause-btn i');
+            
+            if (isPlaying) {
+                isPlaying = false;
+                stopSlideshow();
+                playPauseBtn.className = 'fas fa-play';
+            } else {
+                isPlaying = true;
+                startSlideshow();
+                playPauseBtn.className = 'fas fa-pause';
+            }
+        }
+
+        // 處理圖片載入錯誤
+        function handleImageError(img, slideIndex) {
+            const slide = img.closest('.slide');
+            slide.innerHTML = `
+                <div class="slide-image-error">
+                    <i class="fas fa-image"></i>
+                    <p>照片 ${slideIndex + 7}.jpg 載入失敗</p>
+                </div>
+            `;
+        }
+
+        // 初始化幻燈片
+        function initSlideshow() {
+            // 為所有圖片添加錯誤處理
+            slides.forEach((slide, index) => {
+                const img = slide.querySelector('.slide-image');
+                if (img) {
+                    img.onerror = () => handleImageError(img, index);
+                }
+            });
+
+            // 開始自動播放
+            startSlideshow();
+            
+            // 滑鼠懸停時暫停，離開時繼續
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            if (slideshowContainer) {
+                slideshowContainer.addEventListener('mouseenter', () => {
+                    if (isPlaying) stopSlideshow();
+                });
+                
+                slideshowContainer.addEventListener('mouseleave', () => {
+                    if (isPlaying) startSlideshow();
+                });
+            }
+        }
+
+        // 鍵盤導航支援
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                togglePlayPause();
+            }
+        });
+
+        // Add gentle floating animation to elements
+        function addFloatingAnimation() {
+            const cards = document.querySelectorAll('.team-card, .service-card, .education-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `float ${3 + (index % 3) * 0.5}s ease-in-out infinite`;
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        }
+
+        // Create floating keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize floating animation and slideshow after page load
+        setTimeout(() => {
+            addFloatingAnimation();
+            initSlideshow();
+        }, 1000);
