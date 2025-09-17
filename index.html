@@ -262,7 +262,7 @@
             text-align: center;
         }
 
-        /* 醫院照片幻燈片樣式 */
+        /* 醫院照片幻燈片樣式 - 修復版本 */
         .hospital-slideshow {
             width: 100%;
             max-width: 500px;
@@ -292,14 +292,16 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            transition: opacity 0.8s ease-in-out;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 1;
         }
 
         .slide.active {
             opacity: 1;
+            z-index: 2;
         }
 
         .slide-image {
@@ -2249,15 +2251,15 @@
                         </div>
                     </div>
 
-                    <button class="line-button" onclick="document.getElementById('lineQRModal').style.display='flex'; document.body.style.overflow='hidden';">
+                    <button class="line-button" onclick="openLineModal()">
                         <i class="fab fa-line"></i>
                         透過 Line 聯繫我們
                     </button>
 
                     <!-- Line QR Code 彈出視窗 -->
-                    <div id="lineQRModal" class="qr-modal" style="display: none;" onclick="document.getElementById('lineQRModal').style.display='none'; document.body.style.overflow='auto';">
+                    <div id="lineQRModal" class="qr-modal">
                         <div class="qr-modal-content" onclick="event.stopPropagation()">
-                            <span class="qr-close" onclick="document.getElementById('lineQRModal').style.display='none'; document.body.style.overflow='auto';">&times;</span>
+                            <span class="qr-close" onclick="closeLineModal()">&times;</span>
                             <h3 style="color: #c89297; margin-bottom: 1rem; text-align: center;">
                                 <i class="fab fa-line" style="color: #00C300;"></i> 
                                 Line 聯繫方式
@@ -2333,102 +2335,82 @@
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Add scroll effect to header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(224, 184, 190, 0.95)';
-                header.style.backdropFilter = 'blur(15px)';
-            } else {
-                header.style.background = 'linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%)';
-                header.style.backdropFilter = 'blur(10px)';
-            }
-        });
-
-        // Animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = '0.1s';
-                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards and interactive elements including boss cat
-        document.querySelectorAll('.team-card, .service-card, .education-card, .contact-info, .boss-cat-card').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Line contact function
-        function openLineContact() {
-            // 請在此處設定實際的 Line 聯繫方式
-            // 可以是 Line 官方帳號連結或 Line@ 帳號
-            alert('請設定您的 Line 聯繫方式\n\n可以是：\n1. Line 官方帳號連結\n2. Line@ 帳號 ID\n3. 或其他 Line 聯繫方式');
-            
-            // 範例：
-            // window.open('https://line.me/ti/p/YOUR_LINE_ID', '_blank');
-        }
-
-        // Add loading animation
-        window.addEventListener('load', function() {
-            document.body.style.opacity = '1';
-        });
-
-        // Mobile menu toggle (如果需要手機版選單)
-        function toggleMobileMenu() {
-            const navMenu = document.querySelector('.nav-menu');
-            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
-        }
-
-        // 幻燈片功能
+        // 幻燈片功能 - 修復版本
         let currentSlideIndex = 0;
         let slideInterval;
         let isPlaying = true;
-        const slides = document.querySelectorAll('.slide');
-        const indicators = document.querySelectorAll('.indicator');
-        const totalSlides = slides.length;
+        let slides = [];
+        let indicators = [];
+        let totalSlides = 0;
 
-        // 自動播放幻燈片
-        function startSlideshow() {
-            slideInterval = setInterval(() => {
-                if (isPlaying) {
-                    nextSlide();
+        // 初始化幻燈片
+        function initSlideshow() {
+            slides = document.querySelectorAll('.slide');
+            indicators = document.querySelectorAll('.indicator');
+            totalSlides = slides.length;
+            
+            if (totalSlides === 0) {
+                console.log('沒有找到幻燈片元素');
+                return;
+            }
+
+            console.log(`找到 ${totalSlides} 張幻燈片`);
+            
+            // 確保第一張幻燈片顯示
+            showSlide(0);
+            
+            // 為所有圖片添加錯誤處理
+            slides.forEach((slide, index) => {
+                const img = slide.querySelector('.slide-image');
+                if (img) {
+                    img.onerror = () => handleImageError(img, index);
+                    // 如果圖片已經載入失敗，立即處理
+                    if (img.complete && !img.naturalWidth) {
+                        handleImageError(img, index);
+                    }
                 }
-            }, 4000); // 每4秒切換一張
-        }
+            });
 
-        // 停止自動播放
-        function stopSlideshow() {
-            clearInterval(slideInterval);
+            // 開始自動播放
+            startSlideshow();
+            
+            // 滑鼠懸停控制
+            const slideshowContainer = document.querySelector('.slideshow-container');
+            if (slideshowContainer) {
+                slideshowContainer.addEventListener('mouseenter', () => {
+                    if (isPlaying) stopSlideshow();
+                });
+                
+                slideshowContainer.addEventListener('mouseleave', () => {
+                    if (isPlaying) startSlideshow();
+                });
+            }
+
+            console.log('幻燈片初始化完成');
         }
 
         // 顯示指定幻燈片
         function showSlide(index) {
-            // 隱藏所有幻燈片
+            if (totalSlides === 0) return;
+            
+            // 確保索引在有效範圍內
+            if (index >= totalSlides) index = 0;
+            if (index < 0) index = totalSlides - 1;
+            
+            // 隱藏所有幻燈片和指示器
             slides.forEach(slide => slide.classList.remove('active'));
             indicators.forEach(indicator => indicator.classList.remove('active'));
             
-            // 顯示當前幻燈片
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
+            // 顯示當前幻燈片和指示器
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+            if (indicators[index]) {
+                indicators[index].classList.add('active');
+            }
             
             currentSlideIndex = index;
+            console.log(`顯示第 ${index + 1} 張幻燈片`);
         }
 
         // 下一張幻燈片
@@ -2459,9 +2441,30 @@
         // 點擊指示器跳轉到指定幻燈片
         function currentSlide(index) {
             stopSlideshow();
-            showSlide(index - 1);
+            showSlide(index - 1); // 因為指示器是從1開始的
             if (isPlaying) {
                 startSlideshow();
+            }
+        }
+
+        // 開始自動播放
+        function startSlideshow() {
+            if (totalSlides <= 1) return; // 如果只有一張或沒有圖片，不需要自動播放
+            
+            slideInterval = setInterval(() => {
+                if (isPlaying) {
+                    nextSlide();
+                }
+            }, 4000); // 每4秒切換一張
+            console.log('開始自動播放');
+        }
+
+        // 停止自動播放
+        function stopSlideshow() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+                console.log('停止自動播放');
             }
         }
 
@@ -2469,65 +2472,140 @@
         function togglePlayPause() {
             const playPauseBtn = document.querySelector('.play-pause-btn i');
             
+            if (!playPauseBtn) return;
+            
             if (isPlaying) {
                 isPlaying = false;
                 stopSlideshow();
                 playPauseBtn.className = 'fas fa-play';
+                console.log('暫停播放');
             } else {
                 isPlaying = true;
                 startSlideshow();
                 playPauseBtn.className = 'fas fa-pause';
+                console.log('繼續播放');
             }
         }
 
         // 處理圖片載入錯誤
         function handleImageError(img, slideIndex) {
             const slide = img.closest('.slide');
-            slide.innerHTML = `
-                <div class="slide-image-error">
-                    <i class="fas fa-image"></i>
-                    <p>照片 ${slideIndex + 7}.jpg 載入失敗</p>
-                </div>
-            `;
-        }
-
-        // 初始化幻燈片
-        function initSlideshow() {
-            // 為所有圖片添加錯誤處理
-            slides.forEach((slide, index) => {
-                const img = slide.querySelector('.slide-image');
-                if (img) {
-                    img.onerror = () => handleImageError(img, index);
-                }
-            });
-
-            // 開始自動播放
-            startSlideshow();
-            
-            // 滑鼠懸停時暫停，離開時繼續
-            const slideshowContainer = document.querySelector('.slideshow-container');
-            if (slideshowContainer) {
-                slideshowContainer.addEventListener('mouseenter', () => {
-                    if (isPlaying) stopSlideshow();
-                });
-                
-                slideshowContainer.addEventListener('mouseleave', () => {
-                    if (isPlaying) startSlideshow();
-                });
+            if (slide) {
+                slide.innerHTML = `
+                    <div class="slide-image-error">
+                        <i class="fas fa-image"></i>
+                        <p>照片 ${slideIndex + 7}.jpg 載入失敗</p>
+                        <small>請確認圖片檔案是否存在</small>
+                    </div>
+                `;
+                console.log(`第 ${slideIndex + 1} 張圖片載入失敗`);
             }
         }
+
+        // Line QR Modal 功能
+        function openLineModal() {
+            const modal = document.getElementById('lineQRModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                console.log('打開 Line QR 彈窗');
+            }
+        }
+
+        function closeLineModal() {
+            const modal = document.getElementById('lineQRModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                console.log('關閉 Line QR 彈窗');
+            }
+        }
+
+        // 點擊彈窗外部關閉
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('lineQRModal');
+            if (modal && event.target === modal) {
+                closeLineModal();
+            }
+        });
 
         // 鍵盤導航支援
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                changeSlide(-1);
-            } else if (e.key === 'ArrowRight') {
-                changeSlide(1);
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                togglePlayPause();
+            // 只有在沒有輸入框獲得焦點時才響應鍵盤事件
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    changeSlide(-1);
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    changeSlide(1);
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    togglePlayPause();
+                    break;
+                case 'Escape':
+                    closeLineModal();
+                    break;
             }
         });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (header) {
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(224, 184, 190, 0.95)';
+                    header.style.backdropFilter = 'blur(15px)';
+                } else {
+                    header.style.background = 'linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%)';
+                    header.style.backdropFilter = 'blur(10px)';
+                }
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.1s';
+                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and interactive elements
+        function observeElements() {
+            const elements = document.querySelectorAll('.team-card, .service-card, .education-card, .contact-info, .boss-cat-card');
+            elements.forEach(el => {
+                observer.observe(el);
+            });
+        }
 
         // Add gentle floating animation to elements
         function addFloatingAnimation() {
@@ -2548,8 +2626,42 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize floating animation and slideshow after page load
-        setTimeout(() => {
-            addFloatingAnimation();
-            initSlideshow();
-        }, 1000);
+        // 頁面載入完成後初始化所有功能
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('頁面載入完成，開始初始化...');
+            
+            // 等待一小段時間確保所有元素都已渲染
+            setTimeout(() => {
+                initSlideshow();
+                observeElements();
+                addFloatingAnimation();
+                console.log('所有功能初始化完成');
+            }, 500);
+        });
+
+        // 頁面完全載入後的處理
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+            console.log('頁面完全載入完成');
+        });
+
+        // 移動端選單切換（如果需要）
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (navMenu) {
+                navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            }
+        }
+
+        // 錯誤處理
+        window.addEventListener('error', function(e) {
+            console.error('頁面發生錯誤:', e.error);
+        });
+
+        // 在頁面卸載前清理
+        window.addEventListener('beforeunload', function() {
+            stopSlideshow();
+        });
+    </script>
+</body>
+</html>
