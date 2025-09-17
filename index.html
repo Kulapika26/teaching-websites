@@ -497,6 +497,13 @@
             box-shadow: 0 5px 15px rgba(224, 184, 190, 0.3);
         }
 
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
         .team-name {
             font-size: 1.3rem;
             font-weight: bold;
@@ -1568,6 +1575,229 @@
             background: rgba(255,255,255,0.3);
             transform: translate(5px, -5px) scale(1.1);
         }
+        
+        /* START: Added styles from test.html */
+        .video-teaching {
+            background: linear-gradient(135deg, #f7f2f3 0%, #f0e6e8 100%);
+            position: relative;
+        }
+
+        .video-teaching::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e0b8be, transparent);
+        }
+
+        .video-showcase {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: stretch;
+        }
+
+        .video-container {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 40px rgba(224, 184, 190, 0.2);
+            border: 1px solid rgba(224, 184, 190, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(224, 184, 190, 0.3);
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.1));
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .video-wrapper video, .video-wrapper object {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .video-wrapper:hover video, .video-wrapper:hover object {
+            transform: scale(1.02);
+        }
+
+        .video-info {
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.05), rgba(240, 230, 232, 0.05));
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #e0b8be;
+            flex-grow: 1;
+        }
+
+        .video-description p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .teaching-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #e0b8be;
+        }
+
+        .highlight-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(224, 184, 190, 0.2);
+        }
+
+        .highlight-item span {
+            color: #5d4037;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .monthly-column {
+            background: white;
+            border-radius: 25px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 40px rgba(66, 165, 245, 0.2);
+            border: 1px solid rgba(66, 165, 245, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .monthly-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(66, 165, 245, 0.3);
+        }
+
+        .monthly-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .monthly-header h3 {
+            color: #1976d2;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #1976d2, #42a5f5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .monthly-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .monthly-text-area {
+            background: linear-gradient(135deg, rgba(66, 165, 245, 0.05), rgba(144, 202, 249, 0.05));
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #1976d2;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: calc(100% - 80px);
+            min-height: 200px;
+        }
+
+        .monthly-text-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .monthly-text-area::-webkit-scrollbar-track {
+            background: rgba(66, 165, 245, 0.1);
+            border-radius: 4px;
+        }
+
+        .monthly-text-area::-webkit-scrollbar-thumb {
+            background: rgba(66, 165, 245, 0.3);
+            border-radius: 4px;
+        }
+
+        .monthly-text-area::-webkit-scrollbar-thumb:hover {
+            background: rgba(66, 165, 245, 0.5);
+        }
+
+        .monthly-text-area h4 {
+            color: #1976d2;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .monthly-text-area p {
+            color: #5d4037;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .monthly-cta {
+            margin-top: 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .monthly-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, #1976d2, #42a5f5);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(25, 118, 210, 0.3);
+        }
+
+        .monthly-button:hover {
+            background: linear-gradient(45deg, #42a5f5, #64b5f6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 118, 210, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+        /* END: Added styles from test.html */
 
         /* Footer */
         .footer {
@@ -1876,6 +2106,84 @@
             .link-arrow i {
                 font-size: 0.8rem;
             }
+            
+            /* START: Added responsive styles */
+            .video-showcase {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .video-container,
+            .monthly-column {
+                padding: 2rem 1.5rem;
+                margin: 0;
+            }
+
+            .video-wrapper {
+                margin-bottom: 1.5rem;
+            }
+
+            .video-info {
+                padding: 1.5rem;
+            }
+
+            .video-info h3 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .video-description p {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .teaching-highlights {
+                gap: 0.6rem;
+            }
+
+            .highlight-item {
+                padding: 0.6rem;
+            }
+            
+            .highlight-item span {
+                 font-size: 0.9rem;
+            }
+
+            .monthly-header h3 {
+                font-size: 1.3rem;
+            }
+
+            .monthly-header p {
+                font-size: 0.9rem;
+            }
+
+            .monthly-text-area {
+                padding: 1.2rem;
+                min-height: 180px;
+                max-height: calc(100% - 60px);
+            }
+
+            .monthly-text-area h4 {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .monthly-text-area p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                margin-bottom: 0.8rem;
+            }
+
+            .monthly-cta {
+                margin-top: 1.2rem;
+            }
+
+            .monthly-button {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            /* END: Added responsive styles */
+
 
             /* Reports Section 手機版調整 */
             .report-container {
@@ -2119,25 +2427,25 @@
                     <div class="hospital-slideshow">
                         <div class="slideshow-container">
                             <div class="slide active">
-                                <img src="7.jpg" alt="醫院照片 1" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+1" alt="醫院照片 1" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="8.jpg" alt="醫院照片 2" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+2" alt="醫院照片 2" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="9.jpg" alt="醫院照片 3" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+3" alt="醫院照片 3" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="10.jpg" alt="醫院照片 4" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+4" alt="醫院照片 4" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="11.jpg" alt="醫院照片 5" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+5" alt="醫院照片 5" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="12.jpg" alt="醫院照片 6" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+6" alt="醫院照片 6" class="slide-image">
                             </div>
                             <div class="slide">
-                                <img src="13.jpg" alt="醫院照片 7" class="slide-image">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+7" alt="醫院照片 7" class="slide-image">
                             </div>
                             
                             <!-- 導航按鈕 -->
@@ -2201,7 +2509,7 @@
             <div class="team-grid">
                 <div class="team-card interactive-element huang-special">
                     <div class="team-photo">
-                        <img src="1.png" alt="獸醫師 黃淳鈴" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        <img src="https://placehold.co/150x150/e0b8be/ffffff?text=黃淳鈴醫師" alt="獸醫師 黃淳鈴">
                     </div>
                     <h3 class="team-name">院長 黃淳鈴獸醫師</h3>
                     <p class="team-title">
@@ -2258,8 +2566,7 @@
 
                 <div class="team-card interactive-element alex-special">
                     <div class="team-photo">
-                        <img src="2.png" alt="謝淯紘醫師" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-md\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>請確認 2.png 檔案位置</small>';">
+                        <img src="https://placehold.co/150x150/e0b8be/ffffff?text=謝淯紘醫師" alt="謝淯紘醫師">
                     </div>
                     <h3 class="team-name">謝淯紘 獸醫師 (Alex Hsieh)</h3>
                     <p class="team-title">
@@ -2310,8 +2617,7 @@
 
                 <div class="team-card interactive-element">
                     <div class="team-photo">
-                        <img src="3.png" alt="獸醫師 張雅綸" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-md\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>張雅綸醫師</small>';">
+                        <img src="https://placehold.co/150x150/e0b8be/ffffff?text=張雅綸醫師" alt="獸醫師 張雅綸">
                     </div>
                     <h3 class="team-name">獸醫師 張雅綸</h3>
                     <p class="team-title">獸醫師</p>
@@ -2330,8 +2636,7 @@
             <div class="team-grid">
                 <div class="team-card interactive-element">
                     <div class="team-photo">
-                        <img src="4.png" alt="蔣昀蓉" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-nurse\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>蔣昀蓉</small>';">
+                        <img src="https://placehold.co/150x150/e0b8be/ffffff?text=蔣昀蓉" alt="蔣昀蓉">
                     </div>
                     <h3 class="team-name">蔣昀蓉</h3>
                     <p class="team-title">專業助理</p>
@@ -2347,8 +2652,7 @@
 
                 <div class="team-card interactive-element">
                     <div class="team-photo">
-                        <img src="5.png" alt="李映函" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-nurse\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>李映函</small>';">
+                        <img src="https://placehold.co/150x150/e0b8be/ffffff?text=李映函" alt="李映函">
                     </div>
                     <h3 class="team-name">李映函</h3>
                     <p class="team-title">專業助理</p>
@@ -2373,8 +2677,7 @@
             <div style="display: flex; justify-content: center; margin-top: 2rem;">
                 <div class="boss-cat-card">
                     <div class="boss-cat-photo">
-                        <img src="6.png" alt="院貓二索" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
-                             onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-cat\' style=\'font-size: 4rem; color: #fff;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>請確認 6.png 檔案位置</small>';">
+                        <img src="https://placehold.co/190x190/f8bbd9/ffffff?text=院貓二索" alt="院貓二索">
                     </div>
                     <h3 class="boss-cat-name">二索</h3>
                     <p class="boss-cat-title">
@@ -2504,15 +2807,60 @@
                         全身健檢包含常見的腹腔超音波與頸部超音波。
                     </p>
                 </div>
-            </div>
+            </div> 
+<br><br>
+            <div class="about-image">
+                    <!-- 醫院照片幻燈片 -->
+                    <div class="hospital-slideshow">
+                        <div class="slideshow-container">
+                            <div class="slide active">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+8" alt="醫院照片 1" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+2" alt="醫院照片 2" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+3" alt="醫院照片 3" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+4" alt="醫院照片 4" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+5" alt="醫院照片 5" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+6" alt="醫院照片 6" class="slide-image">
+                            </div>
+                            <div class="slide">
+                                <img src="https://placehold.co/500x350/e0b8be/ffffff?text=醫院照片+7" alt="醫院照片 7" class="slide-image">
+                            </div>
+                            
+                            <!-- 導航按鈕 -->
+                            <button class="prev-btn" onclick="changeSlide(-1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="next-btn" onclick="changeSlide(1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            
+                            <!-- 幻燈片指示器 -->
+                            <div class="slide-indicators">
+                                <span class="indicator active" onclick="currentSlide(1)"></span>
+                                <span class="indicator" onclick="currentSlide(2)"></span>
+                                <span class="indicator" onclick="currentSlide(3)"></span>
+                                <span class="indicator" onclick="currentSlide(4)"></span>
+                                <span class="indicator" onclick="currentSlide(5)"></span>
+                                <span class="indicator" onclick="currentSlide(6)"></span>
+                                <span class="indicator" onclick="currentSlide(7)"></span>
+                            </div>
+                            
+                            <!-- 播放/暫停按鈕 -->
+                            <button class="play-pause-btn" onclick="togglePlayPause()">
+                                <i class="fas fa-pause"></i>
+                            </button>
+                        </div>
+                    </div>
 
-            <div style="text-align: center; margin-top: 3rem;">
-                <div class="image-placeholder" style="max-width: 600px; margin: 0 auto;">
-                    <i class="fas fa-procedures" style="font-size: 4rem; color: white;"></i><br>
-                    醫療設備與診療過程照片區域
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Reports and AI Tools Combined Section -->
@@ -2841,6 +3189,98 @@
         </div>
     </section>
 
+    <!-- START: Added section from test.html -->
+    <section id="video-teaching" class="video-teaching section">
+        <div class="container">
+            <h2 class="section-title">每周影片教學分享 & 每月專欄</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #5d4037;">
+                定期更新專業獸醫影像診斷教學影片，分享實用的臨床知識與技巧
+            </p>
+            
+            <div class="video-showcase">
+                <!-- 左欄 - 每周影片教學 -->
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <video id="teaching-video" controls preload="metadata">
+                            <source src="teaching.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div id="video-error" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 230, 232, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #c89297; margin-bottom: 1rem;"></i>
+                            <h4 style="color: #c89297;">影片載入失敗</h4>
+                            <p style="color: #6d4c41; text-align: center; padding: 0 1rem;">請確認 'teaching.mp4' 檔案與<br>'index.html' 位於相同資料夾內。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="video-info">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; font-size: 1.3rem;">
+                            <i class="fas fa-graduation-cap" style="margin-right: 0.5rem;"></i>
+                            本周教學重點
+                        </h3>
+                        <div class="video-description">
+                            <p style="color: #6d4c41; line-height: 1.6; margin-bottom: 1rem;">
+                                高階超音波的是什麼？怎麼利用高階超音波來獲得準確的診斷？
+                            </p>
+                            <div class="teaching-highlights">
+                                <div class="highlight-item">
+                                    <i class="fas fa-check-circle" style="color: #e0b8be; margin-right: 0.5rem;"></i>
+                                    <span>高階超音波的硬體與軟體</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-check-circle" style="color: #e0b8be; margin-right: 0.5rem;"></i>
+                                    <span>高階超音波如何提供高畫質影像</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <i class="fas fa-check-circle" style="color: #e0b8be; margin-right: 0.5rem;"></i>
+                                    <span>高階超音波如何提供精準診斷</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右欄 - 每月專欄 -->
+                <div class="monthly-column">
+                    <div class="monthly-header">
+                        <h3>
+                            <i class="fas fa-calendar-alt" style="margin-right: 0.5rem;"></i>
+                            每月專欄
+                        </h3>
+                        <p style="color: #6d4c41; font-size: 1rem;">
+                            深度專業主題探討與案例分析
+                        </p>
+                    </div>
+                    
+                    <div class="monthly-content">
+                        <div class="monthly-text-area">
+                            <h4>
+                                <i class="fas fa-star"></i>
+                                本月焦點：心臟超音波進階技術
+                            </h4>
+                            <p>
+                                探討心臟超音波檢查的最新技術發展，包括3D心臟影像、心肌功能評估新方法，以及在複雜心臟病例中的應用技巧。本月將分享多個實際臨床案例，展示如何運用進階技術提升診斷準確度。
+                            </p>
+                            <p>
+                                [在此處可以添加更多專欄內容，文字過多時會自動出現滾動條，不會影響整體版面高度]
+                            </p>
+                            <p>
+                                心臟超音波技術的持續進步為獸醫師提供了更精確的診斷工具。透過深入了解這些新技術，我們能夠為毛小孩提供更好的醫療照護，及早發現並治療心臟相關疾病。
+                            </p>
+                        </div>
+                        
+                        <div class="monthly-cta">
+                            <a href="mailto:atinsightdi@gmail.com?subject=每月專欄諮詢" class="monthly-button">
+                                <i class="fas fa-envelope"></i>
+                                訂閱專欄更新
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END: Added section from test.html -->
+
     <!-- Contact Section -->
     <section id="contact" class="contact section">
         <div class="container">
@@ -2896,8 +3336,7 @@
                                 Line 聯繫方式
                             </h3>
                             <div class="qr-content">
-                                <img src="14.png" alt="Line QR Code" class="qr-image" 
-                                     onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\'qr-error\'><i class=\'fab fa-line\'></i><p>QR Code 載入失敗<br>請確認 14.png 檔案位置</p></div>';">
+                                <img src="https://placehold.co/200x200/ffffff/000000?text=Line+QR+Code" alt="Line QR Code" class="qr-image">
                                 <div class="qr-instructions">
                                     <p><strong>聯繫方式：</strong></p>
                                     <div class="contact-method">
@@ -3265,12 +3704,33 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('頁面載入完成，開始初始化...');
             
-            // 等待一小段時間確保所有元素都已渲染
             setTimeout(() => {
                 initSlideshow();
                 initAIToolFrame();
                 observeElements();
                 addFloatingAnimation();
+
+                const video = document.getElementById('teaching-video');
+                const videoWrapper = document.querySelector('.video-wrapper');
+                const videoErrorContainer = document.getElementById('video-error');
+
+                if (video && videoWrapper && videoErrorContainer) {
+                    video.addEventListener('loadedmetadata', function() {
+                        video.style.display = 'block';
+                        videoErrorContainer.style.display = 'none';
+
+                        const ratio = video.videoHeight / video.videoWidth;
+                        videoWrapper.style.paddingBottom = (ratio * 100) + '%';
+                        console.log(`影片長寬比已設定為: ${ratio}`);
+                    });
+
+                    video.addEventListener('error', function() {
+                        video.style.display = 'none';
+                        videoErrorContainer.style.display = 'flex';
+                        console.error("影片載入錯誤，請檢查檔案路徑。");
+                    });
+                }
+                
                 console.log('所有功能初始化完成');
             }, 500);
         });
@@ -3304,12 +3764,10 @@
             function tryLoadIframe(url) {
                 console.log(`嘗試載入AI工具: ${url}`);
                 
-                // 清除之前的超時
                 if (loadTimeout) {
                     clearTimeout(loadTimeout);
                 }
 
-                // 設置超時 (10秒後嘗試下一個策略)
                 loadTimeout = setTimeout(() => {
                     if (!hasLoaded) {
                         console.log(`載入超時: ${url}`);
@@ -3317,7 +3775,6 @@
                     }
                 }, 10000);
 
-                // 設置iframe src
                 iframe.src = url;
             }
 
@@ -3326,37 +3783,29 @@
                 if (currentStrategy < loadStrategies.length) {
                     tryLoadIframe(loadStrategies[currentStrategy]);
                 } else {
-                    // 所有策略都失敗，顯示錯誤
                     console.log('所有載入策略均失敗，顯示備用方案');
                     showError();
                 }
             }
 
-            // iframe載入成功
             iframe.addEventListener('load', function() {
-                // 檢查iframe是否真的載入了內容
                 if (iframe.src && iframe.src !== 'about:blank') {
-                    // 額外檢查：嘗試判斷是否真的載入成功
                     setTimeout(() => {
                         try {
-                            // 對於同源內容，可以檢查document
                             const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
                             if (iframeDoc && iframeDoc.body && iframeDoc.body.children.length > 0) {
                                 onLoadSuccess();
                                 return;
                             }
                         } catch (e) {
-                            // 跨域情況下無法訪問，但如果沒有其他錯誤，認為載入成功
                             console.log('跨域內容，無法檢查內容但假設載入成功');
                         }
                         
-                        // 如果無法檢查內容，等待一段時間後認為載入成功
                         onLoadSuccess();
                     }, 2000);
                 }
             });
 
-            // iframe載入錯誤
             iframe.addEventListener('error', function(e) {
                 console.log('iframe載入錯誤:', e);
                 if (!hasLoaded) {
@@ -3364,14 +3813,12 @@
                 }
             });
 
-            // 載入成功處理
             function onLoadSuccess() {
                 if (!hasLoaded) {
                     hasLoaded = true;
                     clearTimeout(loadTimeout);
                     console.log('AI工具載入成功');
                     
-                    // 隱藏載入指示器
                     if (loading) {
                         loading.style.opacity = '0';
                         loading.style.transition = 'opacity 0.5s ease';
@@ -3380,12 +3827,10 @@
                         }, 500);
                     }
                     
-                    // 顯示iframe
                     iframe.style.opacity = '1';
                 }
             }
 
-            // 顯示錯誤
             function showError() {
                 hasLoaded = true;
                 clearTimeout(loadTimeout);
@@ -3396,12 +3841,10 @@
                 console.log('顯示AI工具錯誤備用方案');
             }
 
-            // 開始載入第一個策略
             setTimeout(() => {
                 tryLoadIframe(loadStrategies[0]);
             }, 1000);
 
-            // 網頁可見性變化時重新嘗試
             document.addEventListener('visibilitychange', function() {
                 if (document.visibilityState === 'visible' && !hasLoaded) {
                     console.log('頁面變為可見，重新嘗試載入AI工具');
@@ -3411,13 +3854,11 @@
             });
         }
 
-        // 頁面完全載入後的處理
         window.addEventListener('load', function() {
             document.body.style.opacity = '1';
             console.log('頁面完全載入完成');
         });
 
-        // 移動端選單切換（如果需要）
         function toggleMobileMenu() {
             const navMenu = document.querySelector('.nav-menu');
             if (navMenu) {
@@ -3425,12 +3866,10 @@
             }
         }
 
-        // 錯誤處理
         window.addEventListener('error', function(e) {
             console.error('頁面發生錯誤:', e.error);
         });
 
-        // 在頁面卸載前清理
         window.addEventListener('beforeunload', function() {
             stopSlideshow();
         });
@@ -3440,3 +3879,5 @@
                                 <p>年度最佳老大</p>
                             </div>
                             <div class="achievement-badge">
+"
+
