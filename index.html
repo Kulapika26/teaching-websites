@@ -840,6 +840,276 @@
             font-size: 0.9rem;
         }
 
+        /* Reports and AI Tools Combined Section - 合併的報告與AI工具專區 */
+        .reports-ai {
+            background: linear-gradient(135deg, #f7f2f3 0%, #f0e6e8 50%, #e8f4f8 100%);
+            position: relative;
+        }
+
+        .reports-ai::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e0b8be, #42a5f5, transparent);
+        }
+
+        .reports-ai-showcase {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .report-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,245,247,0.9));
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(224, 184, 190, 0.2);
+            border: 1px solid rgba(224, 184, 190, 0.1);
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .report-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(224, 184, 190, 0.3);
+        }
+
+        .ai-tool-container {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(248,249,250,0.9));
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(66, 165, 245, 0.2);
+            border: 1px solid rgba(66, 165, 245, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .ai-tool-container:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(66, 165, 245, 0.3);
+            border-color: rgba(66, 165, 245, 0.2);
+        }
+
+        .report-header h3,
+        .ai-tool-header h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .ai-tool-header h3 {
+            background: linear-gradient(135deg, #1976d2, #42a5f5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .report-embed,
+        .ai-tool-embed {
+            margin: 2rem 0;
+        }
+
+        .report-embed {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .report-embed iframe,
+        .ai-tool-embed iframe {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+            border-radius: 12px !important;
+            transition: all 0.3s ease;
+        }
+
+        .ai-tool-embed:hover iframe {
+            transform: scale(1.02);
+        }
+
+        .report-embed a,
+        .ai-tool-embed a {
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .report-embed a:hover {
+            color: #c89297 !important;
+            text-decoration: underline !important;
+        }
+
+        .ai-tool-embed a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(66, 165, 245, 0.1);
+            border-radius: 20px;
+            margin-top: 0.5rem;
+        }
+
+        .ai-tool-embed a:hover {
+            background: rgba(66, 165, 245, 0.2);
+            color: #1976d2 !important;
+            text-decoration: none !important;
+            transform: translateY(-2px);
+        }
+
+        /* 合併的特色展示區域 */
+        .combined-features {
+            background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,249,250,0.8));
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(224, 184, 190, 0.1);
+        }
+
+        .combined-features h4 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #c89297, #1976d2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .combined-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* 報告特色樣式 */
+        .feature-box.report-feature {
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.8));
+            border: 1px solid rgba(224, 184, 190, 0.15);
+        }
+
+        .feature-box.report-feature:hover {
+            background: linear-gradient(135deg, rgba(224, 184, 190, 0.15), rgba(240, 230, 232, 0.9));
+            border-color: rgba(224, 184, 190, 0.3);
+            box-shadow: 0 15px 35px rgba(224, 184, 190, 0.3);
+        }
+
+        .feature-box.report-feature .feature-icon {
+            background: linear-gradient(135deg, #e0b8be, #c89297);
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.3);
+        }
+
+        .feature-box.report-feature:hover .feature-icon {
+            background: linear-gradient(135deg, #c89297, #b8860b);
+            box-shadow: 0 8px 20px rgba(224, 184, 190, 0.4);
+        }
+
+        .feature-box.report-feature h5 {
+            color: #c89297;
+        }
+
+        /* AI特色樣式 */
+        .feature-box.ai-feature {
+            background: linear-gradient(135deg, rgba(66, 165, 245, 0.1), rgba(144, 202, 249, 0.1));
+            border: 1px solid rgba(66, 165, 245, 0.15);
+        }
+
+        .feature-box.ai-feature:hover {
+            background: linear-gradient(135deg, rgba(66, 165, 245, 0.15), rgba(144, 202, 249, 0.15));
+            border-color: rgba(66, 165, 245, 0.3);
+            box-shadow: 0 20px 40px rgba(66, 165, 245, 0.3);
+        }
+
+        .feature-box.ai-feature .feature-icon.ai-icon {
+            background: linear-gradient(135deg, #1976d2, #42a5f5);
+            box-shadow: 0 8px 20px rgba(66, 165, 245, 0.4);
+        }
+
+        .feature-box.ai-feature:hover .feature-icon.ai-icon {
+            background: linear-gradient(135deg, #42a5f5, #64b5f6);
+            box-shadow: 0 12px 30px rgba(66, 165, 245, 0.6);
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .feature-box.ai-feature h5 {
+            color: #1976d2;
+        }
+
+        /* 通用特色框樣式 */
+        .feature-box {
+            padding: 1.8rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-box:hover::before {
+            left: 100%;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-icon i {
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .feature-box:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-box h5 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-box p {
+            color: #6d4c41;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-tool-disclaimer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-tool-disclaimer h5 {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
         /* Services Section */
         .services {
             background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
@@ -1595,6 +1865,147 @@
             .link-arrow i {
                 font-size: 0.8rem;
             }
+
+            /* Reports Section 手機版調整 */
+            .report-container {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .report-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .report-header p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .report-embed {
+                margin: 1.5rem 0;
+                padding: 1rem;
+            }
+
+            .report-embed p {
+                font-size: 0.8rem;
+                margin-top: 0.8rem;
+            }
+
+            .report-features h4 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .feature-box {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+            .feature-icon i {
+                font-size: 1.3rem;
+            }
+
+            .feature-box h5 {
+                font-size: 1rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .feature-box p {
+                font-size: 0.85rem;
+            }
+
+            /* AI Tools Section 手機版調整 */
+            .ai-tool-container {
+                padding: 2rem 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .ai-tool-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .ai-tool-header p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .ai-tool-embed {
+                margin: 1.5rem 0;
+            }
+
+            .ai-tool-embed > div {
+                height: 500px !important;
+            }
+
+            .ai-tool-embed p {
+                font-size: 0.8rem;
+                margin-top: 0.8rem;
+            }
+
+            .ai-tool-embed a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .ai-tool-features h4 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .ai-features-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .ai-feature-box {
+                padding: 1.5rem;
+            }
+
+            .ai-feature-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .ai-feature-icon i {
+                font-size: 1.5rem;
+            }
+
+            .ai-feature-box h5 {
+                font-size: 1.1rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .ai-feature-box p {
+                font-size: 0.9rem;
+            }
+
+            .ai-tool-disclaimer {
+                margin-top: 1.5rem;
+            }
+
+            .ai-tool-disclaimer > div {
+                padding: 1rem;
+            }
+
+            .ai-tool-disclaimer h5 {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .ai-tool-disclaimer p {
+                font-size: 0.8rem;
+            }
         }
 
         /* Smooth Scroll */
@@ -1981,10 +2392,6 @@
                         </h4>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: center;">
                             <div class="achievement-badge">
-                                <i class="fas fa-medal" style="color: #ffd700; font-size: 1.5rem;"></i>
-                                <p>年度最佳老大</p>
-                            </div>
-                            <div class="achievement-badge">
                                 <i class="fas fa-heart" style="color: #ff69b4; font-size: 1.5rem;"></i>
                                 <p>客戶最愛</p>
                             </div>
@@ -2085,6 +2492,165 @@
                 <div class="image-placeholder" style="max-width: 600px; margin: 0 auto;">
                     <i class="fas fa-procedures" style="font-size: 4rem; color: white;"></i><br>
                     醫療設備與診療過程照片區域
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reports and AI Tools Combined Section -->
+    <section id="reports-ai" class="reports-ai section">
+        <div class="container">
+            <h2 class="section-title">專業報告與AI智慧工具</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: #5d4037;">
+                結合專業超音波報告與最新AI技術，為您提供全方位的診斷服務
+            </p>
+            
+            <div class="reports-ai-showcase">
+                <!-- 報告模板區域 -->
+                <div class="report-container">
+                    <div class="report-header">
+                        <h3 style="color: #c89297; margin-bottom: 1rem; text-align: center;">
+                            <i class="fas fa-file-medical" style="margin-right: 0.5rem;"></i>
+                            專業超音波報告模板
+                        </h3>
+                        <p style="text-align: center; color: #6d4c41; margin-bottom: 2rem;">
+                            我們提供專業、詳細的超音波檢查報告，以下是實際報告範例
+                        </p>
+                    </div>
+                    
+                    <div class="report-embed">
+                        <div style="position: relative; width: 100%; height: 0; padding-top: 141.4286%;
+                             padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;
+                             border-radius: 8px; will-change: transform;">
+                            <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;"
+                                src="https://www.canva.com/design/DAGrUUuMx1g/mlVDChOs6wbw2CsryKEgaw/watch?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+                            </iframe>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            愛叮寶犬貓影像專科醫院 設計的 
+                            <a href="https://www.canva.com/design/DAGrUUuMx1g/mlVDChOs6wbw2CsryKEgaw/watch?utm_content=DAGrUUuMx1g&utm_campaign=designshare&utm_medium=embeds&utm_source=link" 
+                               target="_blank" rel="noopener" style="color: #e0b8be; text-decoration: none;">
+                               20250616 "Sole" 張超音波報告
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- AI工具區域 -->
+                <div class="ai-tool-container" style="margin-top: 3rem;">
+                    <div class="ai-tool-header">
+                        <h3 style="color: #1976d2; margin-bottom: 1rem; text-align: center;">
+                            <i class="fas fa-robot" style="margin-right: 0.5rem;"></i>
+                            AI 互動式診斷輔助工具
+                        </h3>
+                        <p style="text-align: center; color: #6d4c41; margin-bottom: 2rem;">
+                            運用最新AI技術，提供互動式的獸醫診斷輔助工具和教育資源
+                        </p>
+                    </div>
+                    
+                    <div class="ai-tool-embed">
+                        <div style="position: relative; width: 100%; height: 750px; 
+                             background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.1));
+                             border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                             border: 2px solid rgba(224, 184, 190, 0.2);">
+                            <iframe src="http://atinsight.alex-ray.com/7sj88g" 
+                                    style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
+                                           border: none; padding: 0; margin: 0; border-radius: 13px;"
+                                    allowfullscreen="allowfullscreen" 
+                                    allow="fullscreen"
+                                    title="AI互動式診斷輔助工具">
+                            </iframe>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            <a href="http://atinsight.alex-ray.com/7sj88g" 
+                               target="_blank" rel="noopener" style="color: #e0b8be; text-decoration: none;">
+                               <i class="fas fa-external-link-alt" style="margin-right: 0.3rem;"></i>
+                               在新視窗中開啟完整版本
+                            </a>
+                        </p>
+                    </div>
+                    
+                    <div class="ai-tool-disclaimer">
+                        <div style="background: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107; 
+                             padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                            <h5 style="color: #856404; margin-bottom: 0.8rem;">
+                                <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
+                                重要提醒
+                            </h5>
+                            <p style="color: #856404; margin: 0; font-size: 0.9rem; line-height: 1.5;">
+                                此AI工具僅供教育和參考用途，不能替代專業獸醫師的診斷和治療。
+                                如果您的寵物有任何健康問題，請務必尋求專業獸醫師的協助。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 合併後的特色展示 -->
+                <div class="combined-features" style="margin-top: 3rem;">
+                    <h4 style="color: #c89297; margin-bottom: 1.5rem; text-align: center; font-size: 1.8rem;">
+                        <i class="fas fa-star" style="color: #ffd700; margin-right: 0.5rem;"></i>
+                        服務特色一覽
+                    </h4>
+                    <div class="combined-features-grid">
+                        <!-- 報告相關特色 -->
+                        <div class="feature-box report-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <h5>中英文對照</h5>
+                            <p>提供完整的中英文報告，便於國際醫療溝通</p>
+                        </div>
+                        <div class="feature-box report-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <h5>高品質影像</h5>
+                            <p>清晰的超音波影像搭配專業標註說明</p>
+                        </div>
+                        <div class="feature-box report-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <h5>詳細分析</h5>
+                            <p>完整的影像分析、測量數值與診斷建議</p>
+                        </div>
+                        <div class="feature-box report-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h5>快速交付</h5>
+                            <p>檢查完成後快速提供專業報告</p>
+                        </div>
+                        <!-- AI工具相關特色 -->
+                        <div class="feature-box ai-feature">
+                            <div class="feature-icon ai-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h5>智慧分析</h5>
+                            <p>運用機器學習技術分析症狀和影像特徵</p>
+                        </div>
+                        <div class="feature-box ai-feature">
+                            <div class="feature-icon ai-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h5>互動式對話</h5>
+                            <p>透過自然語言對話獲取專業建議</p>
+                        </div>
+                        <div class="feature-box ai-feature">
+                            <div class="feature-icon ai-icon">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h5>教學輔助</h5>
+                            <p>提供獸醫學習者互動式的教學內容</p>
+                        </div>
+                        <div class="feature-box ai-feature">
+                            <div class="feature-icon ai-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h5>專業認證</h5>
+                            <p>經過專業獸醫師驗證的AI診斷輔助系統</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2664,4 +3230,7 @@
         });
     </script>
 </body>
-</html>
+</html><i class="fas fa-medal" style="color: #ffd700; font-size: 1.5rem;"></i>
+                                <p>年度最佳老大</p>
+                            </div>
+                            <div class="achievement-badge">
