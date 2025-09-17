@@ -2549,23 +2549,59 @@
                     </div>
                     
                     <div class="ai-tool-embed">
-                        <div style="position: relative; width: 100%; height: 750px; 
+                        <div id="ai-tool-frame" style="position: relative; width: 100%; height: 750px; 
                              background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.1));
                              border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
                              border: 2px solid rgba(224, 184, 190, 0.2);">
-                            <iframe src="http://atinsight.alex-ray.com/7sj88g" 
+                            
+                            <!-- 載入指示器 -->
+                            <div id="ai-tool-loading" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                 display: flex; flex-direction: column; align-items: center; justify-content: center;
+                                 background: linear-gradient(135deg, rgba(224, 184, 190, 0.05), rgba(240, 230, 232, 0.05));">
+                                <div style="width: 50px; height: 50px; border: 4px solid rgba(224, 184, 190, 0.3);
+                                     border-top: 4px solid #e0b8be; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                                <p style="margin-top: 1rem; color: #c89297; font-size: 1rem;">載入AI診斷工具中...</p>
+                            </div>
+                            
+                            <!-- 錯誤顯示 -->
+                            <div id="ai-tool-error" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                                 flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
+                                 background: linear-gradient(135deg, rgba(224, 184, 190, 0.1), rgba(240, 230, 232, 0.1));">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ffc107; margin-bottom: 1rem;"></i>
+                                <h4 style="color: #c89297; margin-bottom: 1rem;">AI工具暫時無法載入</h4>
+                                <p style="color: #6d4c41; margin-bottom: 1.5rem; line-height: 1.5;">
+                                    可能是網路連線問題或跨域限制。<br>
+                                    請點擊下方按鈕在新視窗中開啟完整功能。
+                                </p>
+                                <a href="http://atinsight.alex-ray.com/7sj88g" target="_blank" rel="noopener"
+                                   style="display: inline-flex; align-items: center; padding: 0.8rem 1.5rem;
+                                          background: linear-gradient(45deg, #e0b8be, #c89297); color: white; 
+                                          text-decoration: none; border-radius: 25px; transition: all 0.3s ease;
+                                          box-shadow: 0 3px 10px rgba(224, 184, 190, 0.3);">
+                                    <i class="fas fa-external-link-alt" style="margin-right: 0.5rem;"></i>
+                                    開啟AI診斷工具
+                                </a>
+                            </div>
+                            
+                            <!-- 實際的iframe -->
+                            <iframe id="ai-tool-iframe" 
+                                    src="http://atinsight.alex-ray.com/7sj88g" 
                                     style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; 
-                                           border: none; padding: 0; margin: 0; border-radius: 13px;"
+                                           border: none; padding: 0; margin: 0; border-radius: 13px; opacity: 0;"
                                     allowfullscreen="allowfullscreen" 
                                     allow="fullscreen"
+                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     title="AI互動式診斷輔助工具">
                             </iframe>
                         </div>
+                        
+                        <!-- 底部連結 -->
                         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                            如果上方工具無法正常顯示，
                             <a href="http://atinsight.alex-ray.com/7sj88g" 
                                target="_blank" rel="noopener" style="color: #e0b8be; text-decoration: none;">
                                <i class="fas fa-external-link-alt" style="margin-right: 0.3rem;"></i>
-                               在新視窗中開啟完整版本
+                               請點此在新視窗中開啟完整版本
                             </a>
                         </p>
                     </div>
@@ -3189,6 +3225,10 @@
                 0%, 100% { transform: translateY(0px); }
                 50% { transform: translateY(-5px); }
             }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
         `;
         document.head.appendChild(style);
 
@@ -3199,11 +3239,102 @@
             // 等待一小段時間確保所有元素都已渲染
             setTimeout(() => {
                 initSlideshow();
+                initAIToolFrame();
                 observeElements();
                 addFloatingAnimation();
                 console.log('所有功能初始化完成');
             }, 500);
         });
+
+        // AI工具iframe初始化和錯誤處理
+        function initAIToolFrame() {
+            const iframe = document.getElementById('ai-tool-iframe');
+            const loading = document.getElementById('ai-tool-loading');
+            const error = document.getElementById('ai-tool-error');
+            
+            if (!iframe || !loading || !error) {
+                console.log('AI工具元素不存在，跳過初始化');
+                return;
+            }
+
+            let loadTimeout;
+            let hasLoaded = false;
+
+            // 設置載入超時 (10秒)
+            loadTimeout = setTimeout(() => {
+                if (!hasLoaded) {
+                    showAIToolError();
+                }
+            }, 10000);
+
+            // iframe載入成功
+            iframe.addEventListener('load', function() {
+                try {
+                    // 嘗試訪問iframe內容來檢查是否真的載入成功
+                    if (iframe.contentDocument || iframe.contentWindow) {
+                        hasLoaded = true;
+                        clearTimeout(loadTimeout);
+                        hideLoading();
+                        showIframe();
+                        console.log('AI工具載入成功');
+                    } else {
+                        throw new Error('Cannot access iframe content');
+                    }
+                } catch (e) {
+                    // 跨域或其他錯誤
+                    console.log('AI工具載入受限，可能是跨域問題:', e.message);
+                    showAIToolError();
+                }
+            });
+
+            // iframe載入錯誤
+            iframe.addEventListener('error', function() {
+                console.log('AI工具載入失敗');
+                showAIToolError();
+            });
+
+            // 隱藏載入指示器
+            function hideLoading() {
+                if (loading) {
+                    loading.style.display = 'none';
+                }
+            }
+
+            // 顯示iframe
+            function showIframe() {
+                if (iframe) {
+                    iframe.style.opacity = '1';
+                    iframe.style.transition = 'opacity 0.5s ease';
+                }
+            }
+
+            // 顯示錯誤信息
+            function showAIToolError() {
+                hasLoaded = true;
+                clearTimeout(loadTimeout);
+                if (loading) loading.style.display = 'none';
+                if (error) error.style.display = 'flex';
+                if (iframe) iframe.style.display = 'none';
+                console.log('顯示AI工具錯誤信息');
+            }
+
+            // 在較短時間內檢查是否為跨域問題
+            setTimeout(() => {
+                if (!hasLoaded) {
+                    try {
+                        // 嘗試檢查iframe的載入狀態
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (!iframeDoc) {
+                            // 可能是跨域問題，但給更多時間載入
+                            console.log('檢測到可能的跨域限制');
+                        }
+                    } catch (e) {
+                        // 確定是跨域問題，但仍然給時間完成載入
+                        console.log('確認跨域限制，等待載入完成');
+                    }
+                }
+            }, 3000);
+        }
 
         // 頁面完全載入後的處理
         window.addEventListener('load', function() {
