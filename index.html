@@ -2324,7 +2324,44 @@
         html {
             scroll-behavior: smooth;
         }
+/* ===== 團隊版面修正 ===== */
+        .vet-team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
 
+        .support-team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .boss-cat-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .vet-team-grid,
+            .support-team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .boss-cat-section {
+                margin-top: 2rem;
+                padding: 0 1rem;
+            }
+        }
         /* Interactive Elements */
         .interactive-element {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2348,6 +2385,7 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, #e0b8be, transparent);
         }
+
     </style>
 </head>
 <body>
@@ -2499,7 +2537,7 @@
             <h2 class="section-title">專業醫療團隊</h2>
             
             <h3 style="text-align: center; margin-bottom: 2rem; color: #c89297; font-size: 1.8rem;">獸醫師團隊</h3>
-            <div class="team-grid">
+            <div class="vet-team-grid">
                 <div class="team-card interactive-element huang-special">
                     <div class="team-photo">
                         <img src="1.png" alt="獸醫師 黃淳鈴" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
@@ -2680,10 +2718,13 @@
         </div>
     </div>
 </div>
+</div>
 
+          </div>
 
-            <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #c89297; font-size: 1.8rem;">專業助理團隊</h3>
-            <div class="team-grid">
+        <!-- 專業助理團隊 -->
+        <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #c89297; font-size: 1.8rem;">專業助理團隊</h3>
+        <div class="support-team-grid">
                 <div class="team-card interactive-element">
                     <div class="team-photo">
                         <img src="4.png" alt="蔣昀蓉" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
@@ -2718,13 +2759,20 @@
                     </p>
                 </div>
             </div>
+</div>
 
-            <!-- 院貓二索 - 真正的老大 -->
-            <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #e91e63; font-size: 2rem;">
-                <i class="fas fa-crown" style="color: #ffd700; margin-right: 0.5rem;"></i>
-                院貓老大
-                <i class="fas fa-crown" style="color: #ffd700; margin-left: 0.5rem;"></i>
-            </h3>
+           </div>
+
+        <!-- 院貓老大 -->
+        <h3 style="text-align: center; margin: 4rem 0 2rem 0; color: #e91e63; font-size: 2rem;">
+            <i class="fas fa-crown" style="color: #ffd700; margin-right: 0.5rem;"></i>
+            院貓老大
+            <i class="fas fa-crown" style="color: #ffd700; margin-left: 0.5rem;"></i>
+        </h3>
+        
+        <div class="boss-cat-section">
+            
+            
             
             <div style="display: flex; justify-content: center; margin-top: 2rem;">
                 <div class="boss-cat-card">
@@ -2780,8 +2828,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
 
     <!-- Services Section -->
