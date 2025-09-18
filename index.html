@@ -1623,18 +1623,18 @@
             margin-bottom: 1.5rem;
         }
 
-        .video-wrapper video, .video-wrapper object {
+        .video-wrapper iframe {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: 0;
             border-radius: 15px;
             transition: all 0.3s ease;
         }
 
-        .video-wrapper:hover video, .video-wrapper:hover object {
+        .video-wrapper:hover iframe {
             transform: scale(1.02);
         }
 
@@ -1726,7 +1726,7 @@
             border-left: 4px solid #1976d2;
             flex-grow: 1;
             overflow-y: auto;
-            max-height: calc(100% - 80px);
+            max-height: 400px; /* MODIFIED: Set a fixed max height */
             min-height: 200px;
         }
 
@@ -2153,7 +2153,7 @@
             .monthly-text-area {
                 padding: 1.2rem;
                 min-height: 180px;
-                max-height: calc(100% - 60px);
+                max-height: 350px; /* MODIFIED: Adjusted for mobile */
             }
 
             .monthly-text-area h4 {
@@ -3199,15 +3199,8 @@
                 <!-- 左欄 - 每周影片教學 -->
                 <div class="video-container">
                     <div class="video-wrapper">
-                        <video id="teaching-video" controls preload="metadata">
-                            <source src="teaching.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div id="video-error" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(240, 230, 232, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px;">
-                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #c89297; margin-bottom: 1rem;"></i>
-                            <h4 style="color: #c89297;">影片載入失敗</h4>
-                            <p style="color: #6d4c41; text-align: center; padding: 0 1rem;">請確認 'teaching.mp4' 檔案與<br>'index.html' 位於相同資料夾內。</p>
-                        </div>
+                        <!-- MODIFIED: Updated YouTube embed code -->
+                        <iframe src="https://www.youtube-nocookie.com/embed/cSYg1cfD5VE" title="YouTube 影片播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                     
                     <div class="video-info">
@@ -3735,27 +3728,6 @@
                 initAIToolFrame();
                 observeElements();
                 addFloatingAnimation();
-
-                const video = document.getElementById('teaching-video');
-                const videoWrapper = document.querySelector('.video-wrapper');
-                const videoErrorContainer = document.getElementById('video-error');
-
-                if (video && videoWrapper && videoErrorContainer) {
-                    video.addEventListener('loadedmetadata', function() {
-                        video.style.display = 'block';
-                        videoErrorContainer.style.display = 'none';
-
-                        const ratio = video.videoHeight / video.videoWidth;
-                        videoWrapper.style.paddingBottom = (ratio * 100) + '%';
-                        console.log(`影片長寬比已設定為: ${ratio}`);
-                    });
-
-                    video.addEventListener('error', function() {
-                        video.style.display = 'none';
-                        videoErrorContainer.style.display = 'flex';
-                        console.error("影片載入錯誤，請檢查檔案路徑。");
-                    });
-                }
                 
                 console.log('所有功能初始化完成');
             }, 500);
@@ -3905,5 +3877,4 @@
                                 <p>年度最佳老大</p>
                             </div>
                             <div class="achievement-badge">
-"
 
