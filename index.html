@@ -746,6 +746,83 @@
             color: #5d4037;
         }
 
+        /* Lee Yinghan special styling */
+        .lee-special {
+            background: linear-gradient(135deg, #ffffff 0%, #f7f8f5 50%, #e8f0e6 100%);
+            border: 2px solid #a5d6a7; /* Soft green border */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lee-special:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(165, 214, 167, 0.4);
+            border-color: #81c784;
+        }
+
+        .lee-special .team-title {
+            background: linear-gradient(45deg, #a5d6a7, #81c784);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(165, 214, 167, 0.3);
+        }
+
+        .lee-bio {
+            text-align: left;
+            color: #5d4037;
+        }
+
+        .lee-responsibilities {
+            background: linear-gradient(135deg, rgba(165, 214, 167, 0.1), rgba(129, 199, 132, 0.1));
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(165, 214, 167, 0.2);
+        }
+
+        .lee-responsibilities h4 {
+            color: #66bb6a;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .responsibility-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .resp-item {
+            display: flex;
+            align-items: flex-start; /* Align items to the start for multi-line text */
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border-left: 3px solid #a5d6a7;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .resp-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(165, 214, 167, 0.2);
+        }
+
+        .resp-item::before {
+            content: '✅';
+            margin-right: 0.8rem;
+            font-size: 1rem;
+            line-height: 1.4; /* Match line-height of text */
+        }
+        
         /* Boss Cat Styles - 院貓老大專用樣式 */
         .boss-cat-card {
             background: linear-gradient(135deg, #f8bbd9 0%, #f4a6cd 50%, #e91e63 100%);
@@ -2385,6 +2462,23 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, #e0b8be, transparent);
         }
+        
+        /* ===== 新增的第二個幻燈片樣式 ===== */
+        .services-slideshow {
+            width: 100%;
+            max-width: 500px;
+            margin: 2rem auto 0; /* 在上方增加間距 */
+        }
+
+        .services-slideshow .slideshow-container {
+            border: 3px solid rgba(255,255,255,0.5);
+        }
+        
+        .services-slideshow .slide-image {
+            object-fit: cover; /* 讓圖片填滿容器 */
+            width: 100%;
+            height: 100%;
+        }
 
     </style>
 </head>
@@ -2574,7 +2668,7 @@
                         </div>
 
                         <div class="bio-section">
-                            <h4><i class="fas fa-certificate"></i> 專業認證</h4>
+                            <h4><i class="fas fa-certificate"></i> 進修課程</h4>
                             <div class="certification-list">
                                 <div class="cert-item">腹腔超音波訓練 | 歐洲獸醫高級學院亞洲分部 | 2013</div>
                                 <div class="cert-item">獸醫超音波臨床實操課程 | 新北市獸醫臨床醫學會 | 2017</div>
@@ -2742,21 +2836,36 @@
                     </p>
                 </div>
 
-                <div class="team-card interactive-element">
+                <div class="team-card interactive-element lee-special">
                     <div class="team-photo">
                         <img src="5.jpg" alt="李映函" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" 
                              onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-nurse\' style=\'font-size: 3rem; color: white;\'></i><br><small style=\'color: white; font-size: 0.8rem;\'>李映函</small>';">
                     </div>
                     <h3 class="team-name">李映函</h3>
-                    <p class="team-title">專業助理</p>
-                    <p class="team-bio">
-                        [請在此處添加李映函助理的工作經驗、專業技能等資訊]
-                        <br><br>
-                        專長：<br>
-                        • 檢查流程協調<br>
-                        • 動物行為管理<br>
-                        • 客戶服務與溝通
+                    <p class="team-title">
+                        <i class="fas fa-paw" style="color: white; margin-right: 0.3rem;"></i>
+                        專業醫事助理
+                        <i class="fas fa-paw" style="color: white; margin-left: 0.3rem;"></i>
                     </p>
+                    
+                    <div class="lee-bio">
+                        <div class="lee-responsibilities">
+                            <h4><i class="fas fa-tasks"></i> 主要職責</h4>
+                            <div class="responsibility-list">
+                                <div class="resp-item">檢查流程協調（門診排程、病患接待、行政作業）</div>
+                                <div class="resp-item">動物保定照護（協助醫師進行犬貓診療）</div>
+                                <div class="resp-item">基本檢查與影像儀器操作（X光、超音波輔助）</div>
+                                <div class="resp-item">客戶服務與溝通（協助飼主了解診療流程）</div>
+                            </div>
+                        </div>
+                
+                        <div class="bio-section" style="margin-top: 1rem; border-left-color: #a5d6a7;">
+                             <h4><i class="fas fa-certificate"></i> 專業認證</h4>
+                             <div class="responsibility-list">
+                                <div class="resp-item" style="border-left-color: #a5d6a7;">取得動物醫事助理證（動醫助字第250017號）</div>
+                             </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 </div>
@@ -2907,8 +3016,41 @@
                     </p>
                 </div>
             </div> 
-<br><br>
+            <br><br>
             
+            <!-- ===== 新增的第二個幻燈片 HTML ===== -->
+            <div class="about-image">
+                <div class="services-slideshow">
+                    <div class="slideshow-container">
+                        <div class="slide-service active">
+                            <img src="11.jpg" alt="服務照片 1" class="slide-image">
+                        </div>
+                        <div class="slide-service">
+                            <img src="12.jpg" alt="服務照片 2" class="slide-image">
+                        </div>
+                        <div class="slide-service">
+                            <img src="13.jpg" alt="服務照片 3" class="slide-image">
+                        </div>
+                        <div class="slide-service">
+                            <img src="path/to/your/13.jpg" alt="服務照片 4" class="slide-image">
+                        </div>
+                        <div class="slide-service">
+                            <img src="path/to/your/image5.jpg" alt="服務照片 5" class="slide-image">
+                        </div>
+                        <div class="slide-service">
+                            <img src="path/to/your/image6.jpg" alt="服務照片 6" class="slide-image">
+                        </div>
+                        
+                        <!-- 導航按鈕 -->
+                        <button class="prev-btn" onclick="changeServiceSlide(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="next-btn" onclick="changeServiceSlide(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
 
     </section>
 
@@ -3493,8 +3635,6 @@
                 console.log('沒有找到幻燈片元素');
                 return;
             }
-
-            console.log(`找到 ${totalSlides} 張幻燈片`);
             
             // 確保第一張幻燈片顯示
             showSlide(0);
@@ -3515,7 +3655,7 @@
             startSlideshow();
             
             // 滑鼠懸停控制
-            const slideshowContainer = document.querySelector('.slideshow-container');
+            const slideshowContainer = document.querySelector('.hospital-slideshow .slideshow-container');
             if (slideshowContainer) {
                 slideshowContainer.addEventListener('mouseenter', () => {
                     if (isPlaying) stopSlideshow();
@@ -3525,54 +3665,29 @@
                     if (isPlaying) startSlideshow();
                 });
             }
-
-            console.log('幻燈片初始化完成');
         }
 
         // 顯示指定幻燈片
         function showSlide(index) {
             if (totalSlides === 0) return;
             
-            // 確保索引在有效範圍內
-            if (index >= totalSlides) index = 0;
-            if (index < 0) index = totalSlides - 1;
+            currentSlideIndex = (index + totalSlides) % totalSlides;
             
-            // 隱藏所有幻燈片和指示器
             slides.forEach(slide => slide.classList.remove('active'));
             indicators.forEach(indicator => indicator.classList.remove('active'));
             
-            // 顯示當前幻燈片和指示器
-            if (slides[index]) {
-                slides[index].classList.add('active');
+            if (slides[currentSlideIndex]) {
+                slides[currentSlideIndex].classList.add('active');
             }
-            if (indicators[index]) {
-                indicators[index].classList.add('active');
+            if (indicators[currentSlideIndex]) {
+                indicators[currentSlideIndex].classList.add('active');
             }
-            
-            currentSlideIndex = index;
-            console.log(`顯示第 ${index + 1} 張幻燈片`);
-        }
-
-        // 下一張幻燈片
-        function nextSlide() {
-            const nextIndex = (currentSlideIndex + 1) % totalSlides;
-            showSlide(nextIndex);
-        }
-
-        // 上一張幻燈片
-        function prevSlide() {
-            const prevIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
-            showSlide(prevIndex);
         }
 
         // 手動切換幻燈片
         function changeSlide(direction) {
             stopSlideshow();
-            if (direction === 1) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
+            showSlide(currentSlideIndex + direction);
             if (isPlaying) {
                 startSlideshow();
             }
@@ -3581,60 +3696,36 @@
         // 點擊指示器跳轉到指定幻燈片
         function currentSlide(index) {
             stopSlideshow();
-            showSlide(index - 1); // 因為指示器是從1開始的
+            showSlide(index - 1);
             if (isPlaying) {
                 startSlideshow();
             }
         }
 
-       // 新的輪播邏輯函式
-        function slideshowLoop() {
-            if (!isPlaying || totalSlides <= 1) return;
-
-            // 直接計算下一張索引並顯示
-            const nextIndex = (currentSlideIndex + 1) % totalSlides;
-            showSlide(nextIndex);
-
-            // 統一使用4秒延遲，確保播放流暢
-            slideTimeout = setTimeout(slideshowLoop, 4000);
-        }
-
         // 開始自動播放
         function startSlideshow() {
-            if (totalSlides <= 1) return; // 如果只有一張或沒有圖片，不需要自動播放
-            
-            stopSlideshow(); // 先清除任何已存在的計時器
-            
-            // 啟動輪播
-            slideshowLoop();
-            console.log('開始自動播放');
+            if (totalSlides <= 1) return;
+            stopSlideshow(); 
+            slideTimeout = setInterval(() => showSlide(currentSlideIndex + 1), 4000);
         }
 
         // 停止自動播放
         function stopSlideshow() {
-            if (slideTimeout) {
-                clearTimeout(slideTimeout);
-                slideTimeout = null;
-                console.log('停止自動播放');
-            }
+            clearInterval(slideTimeout);
         }
 
         // 播放/暫停切換
         function togglePlayPause() {
             const playPauseBtn = document.querySelector('.play-pause-btn i');
-            
             if (!playPauseBtn) return;
             
+            isPlaying = !isPlaying;
             if (isPlaying) {
-                isPlaying = false;
-                stopSlideshow();
-                playPauseBtn.className = 'fas fa-play';
-                console.log('暫停播放');
-            } else {
-                isPlaying = true;
                 startSlideshow();
                 playPauseBtn.className = 'fas fa-pause';
-                console.log('繼續播放');
+            } else {
+                stopSlideshow();
+                playPauseBtn.className = 'fas fa-play';
             }
         }
 
@@ -3649,9 +3740,40 @@
                         <small>請確認圖片檔案是否存在</small>
                     </div>
                 `;
-                console.log(`第 ${slideIndex + 1} 張圖片載入失敗`);
             }
         }
+        
+        // ===== 第二個幻燈片 (服務項目) JavaScript =====
+        let serviceSlideIndex = 0;
+        let serviceSlideTimeout;
+
+        function showServiceSlide(index) {
+            const slides = document.querySelectorAll('.slide-service');
+            if(slides.length === 0) return;
+            serviceSlideIndex = (index + slides.length) % slides.length;
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[serviceSlideIndex].classList.add('active');
+        }
+
+        function autoServiceSlide() {
+            showServiceSlide(serviceSlideIndex + 1);
+        }
+
+        function startServiceAutoplay() {
+            stopServiceAutoplay();
+            serviceSlideTimeout = setInterval(autoServiceSlide, 3000);
+        }
+
+        function stopServiceAutoplay() {
+            clearInterval(serviceSlideTimeout);
+        }
+
+        // 讓 onclick="changeServiceSlide(-1)" 可以呼叫
+        window.changeServiceSlide = function(direction) {
+            stopServiceAutoplay();
+            showServiceSlide(serviceSlideIndex + direction);
+            startServiceAutoplay();
+        };
 
         // Line QR Modal 功能
         function openLineModal() {
@@ -3659,7 +3781,6 @@
             if (modal) {
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
-                console.log('打開 Line QR 彈窗');
             }
         }
 
@@ -3668,11 +3789,9 @@
             if (modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
-                console.log('關閉 Line QR 彈窗');
             }
         }
 
-        // 點擊彈窗外部關閉
         document.addEventListener('click', function(event) {
             const modal = document.getElementById('lineQRModal');
             if (modal && event.target === modal) {
@@ -3682,24 +3801,9 @@
 
         // 鍵盤導航支援
         document.addEventListener('keydown', (e) => {
-            // 只有在沒有輸入框獲得焦點時才響應鍵盤事件
-            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
-                return;
-            }
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             
             switch(e.key) {
-                case 'ArrowLeft':
-                    e.preventDefault();
-                    changeSlide(-1);
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
-                    changeSlide(1);
-                    break;
-                case ' ':
-                    e.preventDefault();
-                    togglePlayPause();
-                    break;
                 case 'Escape':
                     closeLineModal();
                     break;
@@ -3720,7 +3824,6 @@
         });
 
         // Add scroll effect to header
-        let lastScrollY = window.scrollY;
         window.addEventListener('scroll', function() {
             const header = document.querySelector('.header');
             if (header) {
@@ -3732,67 +3835,6 @@
                     header.style.backdropFilter = 'blur(10px)';
                 }
             }
-            lastScrollY = window.scrollY;
-        });
-
-        // Animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = '0.1s';
-                    entry.target.style.animation = 'fadeInUp 0.8s ease forwards';
-                }
-            });
-        }, observerOptions);
-
-        // Observe all cards and interactive elements
-        function observeElements() {
-            const elements = document.querySelectorAll('.team-card, .service-card, .education-card, .contact-info, .boss-cat-card');
-            elements.forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // Add gentle floating animation to elements
-        function addFloatingAnimation() {
-            const cards = document.querySelectorAll('.team-card, .service-card, .education-card');
-            cards.forEach((card, index) => {
-                card.style.animation = `float ${3 + (index % 3) * 0.5}s ease-in-out infinite`;
-                card.style.animationDelay = `${index * 0.2}s`;
-            });
-        }
-
-        // Create floating keyframes
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-5px); }
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // 頁面載入完成後初始化所有功能
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('頁面載入完成，開始初始化...');
-            
-            setTimeout(() => {
-                initSlideshow();
-                initAIToolFrame();
-                observeElements();
-                addFloatingAnimation();
-                
-                console.log('所有功能初始化完成');
-            }, 500);
         });
 
         // AI工具iframe智能載入系統
@@ -3801,142 +3843,42 @@
             const loading = document.getElementById('ai-tool-loading');
             const error = document.getElementById('ai-tool-error');
             
-            if (!iframe || !loading || !error) {
-                console.log('AI工具元素不存在，跳過初始化');
-                return;
-            }
+            if (!iframe || !loading || !error) return;
 
             let hasLoaded = false;
-            let loadTimeout;
+            let loadTimeout = setTimeout(() => {
+                if (!hasLoaded) showError();
+            }, 10000);
 
-            // 嘗試載入策略 - 使用發現的實際URL
-            const loadStrategies = [
-                // 策略1: 使用重定向後的實際HTTPS網址
-                'https://classy-crostata-5a4ec5.netlify.app/',
-                // 策略2: 原始HTTPS版本
-                'https://atinsight.alex-ray.com/7sj88g',
-                // 策略3: 原始HTTP版本 (備用)
-                'http://atinsight.alex-ray.com/7sj88g'
-            ];
-
-            let currentStrategy = 0;
-
-            function tryLoadIframe(url) {
-                console.log(`嘗試載入AI工具: ${url}`);
-                
-                if (loadTimeout) {
-                    clearTimeout(loadTimeout);
-                }
-
-                loadTimeout = setTimeout(() => {
-                    if (!hasLoaded) {
-                        console.log(`載入超時: ${url}`);
-                        tryNextStrategy();
-                    }
-                }, 10000);
-
-                iframe.src = url;
-            }
-
-            function tryNextStrategy() {
-                currentStrategy++;
-                if (currentStrategy < loadStrategies.length) {
-                    tryLoadIframe(loadStrategies[currentStrategy]);
-                } else {
-                    console.log('所有載入策略均失敗，顯示備用方案');
-                    showError();
-                }
-            }
-
-            iframe.addEventListener('load', function() {
-                if (iframe.src && iframe.src !== 'about:blank') {
-                    setTimeout(() => {
-                        try {
-                            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-                            if (iframeDoc && iframeDoc.body && iframeDoc.body.children.length > 0) {
-                                onLoadSuccess();
-                                return;
-                            }
-                        } catch (e) {
-                            console.log('跨域內容，無法檢查內容但假設載入成功');
-                        }
-                        
-                        onLoadSuccess();
-                    }, 2000);
-                }
-            });
-
-            iframe.addEventListener('error', function(e) {
-                console.log('iframe載入錯誤:', e);
-                if (!hasLoaded) {
-                    tryNextStrategy();
-                }
-            });
-
-            function onLoadSuccess() {
-                if (!hasLoaded) {
-                    hasLoaded = true;
-                    clearTimeout(loadTimeout);
-                    console.log('AI工具載入成功');
-                    
-                    if (loading) {
-                        loading.style.opacity = '0';
-                        loading.style.transition = 'opacity 0.5s ease';
-                        setTimeout(() => {
-                            loading.style.display = 'none';
-                        }, 500);
-                    }
-                    
-                    iframe.style.opacity = '1';
-                }
-            }
-
-            function showError() {
+            iframe.addEventListener('load', () => {
                 hasLoaded = true;
                 clearTimeout(loadTimeout);
-                
-                if (loading) loading.style.display = 'none';
-                if (error) error.style.display = 'flex';
-                
-                console.log('顯示AI工具錯誤備用方案');
-            }
-
-            setTimeout(() => {
-                tryLoadIframe(loadStrategies[0]);
-            }, 1000);
-
-            document.addEventListener('visibilitychange', function() {
-                if (document.visibilityState === 'visible' && !hasLoaded) {
-                    console.log('頁面變為可見，重新嘗試載入AI工具');
-                    currentStrategy = 0;
-                    tryLoadIframe(loadStrategies[0]);
-                }
+                loading.style.display = 'none';
+                iframe.style.opacity = '1';
             });
-        }
+            
+            iframe.src = 'https://classy-crostata-5a4ec5.netlify.app/';
 
-        window.addEventListener('load', function() {
-            document.body.style.opacity = '1';
-            console.log('頁面完全載入完成');
-        });
-
-        function toggleMobileMenu() {
-            const navMenu = document.querySelector('.nav-menu');
-            if (navMenu) {
-                navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            function showError() {
+                loading.style.display = 'none';
+                error.style.display = 'flex';
             }
         }
 
-        window.addEventListener('error', function(e) {
-            console.error('頁面發生錯誤:', e.error);
-        });
+        // 頁面載入完成後初始化所有功能
+        document.addEventListener('DOMContentLoaded', function() {
+            initSlideshow();
+            initAIToolFrame();
 
-        window.addEventListener('beforeunload', function() {
-            stopSlideshow();
+            const serviceSlideshow = document.querySelector('.services-slideshow');
+            if(serviceSlideshow) {
+                showServiceSlide(0);
+                startServiceAutoplay();
+                serviceSlideshow.addEventListener('mouseenter', stopServiceAutoplay);
+                serviceSlideshow.addEventListener('mouseleave', startServiceAutoplay);
+            }
         });
     </script>
-</body>
-</html><i class="fas fa-medal" style="color: #ffd700; font-size: 1.5rem;"></i>
-                                <p>年度最佳老大</p>
-                            </div>
-                            <div class="achievement-badge">
 
+</body>
+</html>
