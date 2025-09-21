@@ -16,18 +16,33 @@ jobs:
     - name: 檢出代碼
       uses: actions/checkout@v4
       
-    - name: 顯示當前狀態
-      run: |
-        echo "開始檢查文章更新..."
-        echo "當前時間: $(date)"
-        ls -la
+    - name: 設置 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: scripts/package.json
         
-    - name: 檢查 articles.json
+    - name: 安裝依賴
       run: |
-        if [ -f "articles.json" ]; then
-          echo "✓ articles.json 存在"
-          echo "目前文章數量:"
-          cat articles.json | grep -o '"id"' | wc -l
+        cd scripts
+        npm install
+        
+    - name: 執行文章檢查
+      run: |
+        cd scripts
+        node check-articles.js
+        
+    - name: 檢查變更並提交
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add articles.json
+        
+        if git diff --staged --quiet; then
+          echo "沒有文章變更"
         else
-          echo "✗ articles.json 不存在"
+          git commit -m "🤖 自動更新文章列表 - $(date +'%Y-%m-%d %H:%M')"
+          git push
+          echo "✅ 已提交文章更新，Netlify 將自動重新部署"
         fi
