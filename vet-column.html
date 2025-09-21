@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>獸醫師專欄 - 愛美寶犬貓影像專科醫院</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: #5d4037;
+            background: linear-gradient(135deg, #f7f2f3 0%, #f0e6e8 100%);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
+            color: white;
+            padding: 0.6rem 0;
+            box-shadow: 0 2px 20px rgba(224, 184, 190, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e0b8be, #c89297);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #6d4c41;
+            opacity: 0.9;
+        }
+
+        /* Search and Filter */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            border: 2px solid rgba(224, 184, 190, 0.3);
+            border-radius: 25px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #e0b8be;
+            box-shadow: 0 0 10px rgba(224, 184, 190, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #c89297;
+            font-size: 1.1rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid #e0b8be;
+            background: white;
+            color: #c89297;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #e0b8be;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Article Stats */
+        .stats {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c89297;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6d4c41;
+        }
+
+        /* Articles Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(224, 184, 190, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(224, 184, 190, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(224, 184, 190, 0.3);
+            border-color: #e0b8be;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e0b8be, #c89297);
+        }
+
+        .article-category {
+            background: linear-gradient(45deg, #e0b8be, #c89297);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #5d4037;
+            line-height: 1.4;
+        }
+
+        .article-description {
+            color: #6d4c41;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .article-date {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(224, 184, 190, 0.2);
+            color: #c89297;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(45deg, #e0b8be, #c89297);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .article-link:hover {
+            background: linear-gradient(45deg, #c89297, #b8860b);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(224, 184, 190, 0.4);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination button {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0b8be;
+            background: white;
+            color: #c89297;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .pagination button:hover,
+        .pagination button.active {
+            background: #e0b8be;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #c89297;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .stats {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .article-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">愛叮寶犬貓影像專科醫院</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">首頁</a></li>
+                    <li><a href="index.html#about">關於我們</a></li>
+                    <li><a href="index.html#team">醫療團隊</a></li>
+                    <li><a href="index.html#services">服務項目</a></li>
+                    <li><a href="index.html#education">教學內容</a></li>
+                    <li><a href="vet-column.html" style="background: rgba(255,255,255,0.25);">獸醫師專欄</a></li>
+                    <li><a href="index.html#contact">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <h1 class="page-title">獸醫師專欄</h1>
+        <p class="page-subtitle">專業獸醫影像診斷知識分享 - 提升臨床診斷能力的最佳資源</p>
+
+        <!-- Search and Filter Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="搜尋文章標題、關鍵字..." id="searchInput">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="超音波診斷">超音波診斷</button>
+                <button class="filter-btn" data-category="病例分析">病例分析</button>
+                <button class="filter-btn" data-category="技術教學">技術教學</button>
+                <button class="filter-btn" data-category="疾病介紹">疾病介紹</button>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number" id="totalArticles">0</span>
+                <span class="stat-label">總文章數</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="filteredArticles">0</span>
+                <span class="stat-label">顯示文章</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="lastUpdate">-</span>
+                <span class="stat-label">最後更新</span>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <i class="fas fa-spinner"></i>
+            <p>載入文章中...</p>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="articles-grid" id="articlesGrid"></div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h3>沒有找到相符的文章</h3>
+            <p>請嘗試其他關鍵字或類別</p>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <script>
+        // 文章數據 - 這裡可以從外部 JSON 文件或 API 載入
+        let articlesData = [
+            {
+                id: 1,
+                title: "貓咪IBD跟小細胞淋巴癌",
+                description: "深入探討貓咪炎症性腸病(IBD)與小細胞淋巴癌的鑑別診斷，包括影像特徵分析、診斷流程及治療建議。",
+                category: "疾病介紹",
+                tags: ["貓科疾病", "IBD", "淋巴癌", "鑑別診斷"],
+                date: "2025-01-15",
+                url: "https://atinsight.vet/IBDSCL",
+                featured: true
+            },
+            {
+                id: 2,
+                title: "犬貓膽囊水腫",
+                description: "全面解析犬貓膽囊水腫的超音波診斷要點、鑑別診斷與臨床處理策略。",
+                category: "超音波診斷",
+                tags: ["膽囊疾病", "水腫", "超音波"],
+                date: "2025-01-12",
+                url: "https://atinsight.vet/GBWE"
+            },
+            {
+                id: 3,
+                title: "TTW vs. BAL",
+                description: "比較經氣管洗滌(TTW)與支氣管肺泡洗滌(BAL)的臨床應用、操作技巧及診斷價值。",
+                category: "技術教學",
+                tags: ["呼吸系統", "採樣技術", "TTW", "BAL"],
+                date: "2025-01-10",
+                url: "https://atinsight.vet/TTWBAL"
+            },
+            {
+                id: 4,
+                title: "犬隻銅蓄積病",
+                description: "詳細介紹犬隻銅蓄積性肝病的病理機制、診斷方法及治療管理要點。",
+                category: "疾病介紹",
+                tags: ["肝臟疾病", "銅蓄積", "犬科疾病"],
+                date: "2025-01-08",
+                url: "https://atinsight.vet/cah"
+            },
+            {
+                id: 5,
+                title: "貓咪三胰炎",
+                description: "探討貓咪三胰炎(胰臟炎、膽管炎、炎症性腸病)的複雜病理、診斷挑戰及綜合治療方案。",
+                category: "病例分析",
+                tags: ["貓科疾病", "胰臟炎", "膽管炎", "複合疾病"],
+                date: "2025-01-05",
+                url: "https://atinsight.vet/Feline%20Triaditis"
+            },
+            {
+                id: 6,
+                title: "犬隻感染性氣管支氣管炎(CITB)與肺炎",
+                description: "詳解犬隻感染性氣管支氣管炎與肺炎的臨床表現、影像診斷特徵及治療原則。",
+                category: "疾病介紹",
+                tags: ["呼吸系統", "感染性疾病", "肺炎", "CITB"],
+                date: "2025-01-03",
+                url: "https://atinsight.vet/CITB"
+            },
+            {
+                id: 7,
+                title: "犬隻庫欣氏症互動指南",
+                description: "互動式庫欣氏症診斷指南，包含診斷流程圖、檢驗解讀及治療監控要點。",
+                category: "技術教學",
+                tags: ["內分泌疾病", "庫欣氏症", "診斷指南"],
+                date: "2025-01-01",
+                url: "https://atinsight.vet/cushings"
+            },
+            {
+                id: 8,
+                title: "犬淋巴癌 PARR vs Flow Cytometry",
+                description: "比較PCR for Antigen Receptor Rearrangement(PARR)與流式細胞術在犬淋巴癌診斷中的應用。",
+                category: "技術教學",
+                tags: ["淋巴癌", "分子診斷", "PARR", "流式細胞術"],
+                date: "2024-12-28",
+                url: "https://atinsight.vet/dogflowvsparr"
+            },
+            {
+                id: 9,
+                title: "貓科膽道疾病：貓咪的隱形殺手",
+                description: "深入解析貓咪膽道疾病的早期診斷與治療策略，揭開這個常被忽視的隱形健康威脅。",
+                category: "疾病介紹",
+                tags: ["貓科疾病", "膽道疾病", "早期診斷"],
+                date: "2024-12-25",
+                url: "https://atinsight.vet/catgb"
+            }
+        ];
+
+        // 全局變數
+        let filteredArticles = [...articlesData];
+        let currentPage = 1;
+        const articlesPerPage = 6;
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        // 頁面載入後初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            setupEventListeners();
+        });
+
+        // 初始化頁面
+        function initializePage() {
+            // 可以在這裡從外部API或JSON文件載入數據
+            loadArticlesData();
+            updateStats();
+            renderArticles();
+            renderPagination();
+            hideLoading();
+        }
+
+        // 設置事件監聽器
+        function setupEventListeners() {
+            // 搜尋功能
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', handleSearch);
+
+            // 分類篩選
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', handleCategoryFilter);
+            });
+        }
+
+        // 載入文章數據（可以替換為API調用）
+        function loadArticlesData() {
+            // 這裡可以從外部JSON文件或API載入數據
+            // 例如：fetch('articles.json').then(response => response.json()).then(data => {...})
+            
+            // 模擬載入延遲
+            setTimeout(() => {
+                filteredArticles = [...articlesData];
+                updateStats();
+                renderArticles();
+                renderPagination();
+                hideLoading();
+            }, 1000);
+        }
+
+        // 更新統計數據
+        function updateStats() {
+            document.getElementById('totalArticles').textContent = articlesData.length;
+            document.getElementById('filteredArticles').textContent = filteredArticles.length;
+            
+            // 最後更新時間
+            const lastUpdate = articlesData.reduce((latest, article) => {
+                return new Date(article.date) > new Date(latest) ? article.date : latest;
+            }, articlesData[0]?.date || '');
+            
+            document.getElementById('lastUpdate').textContent = formatDate(lastUpdate);
+        }
+
+        // 搜尋處理
+        function handleSearch(event) {
+            searchTerm = event.target.value.toLowerCase();
+            filterArticles();
+        }
+
+        // 分類篩選處理
+        function handleCategoryFilter(event) {
+            // 更新按鈕狀態
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentCategory = event.target.dataset.category;
+            filterArticles();
+        }
+
+        // 篩選文章
+        function filterArticles() {
+            filteredArticles = articlesData.filter(article => {
+                const matchesCategory = currentCategory === 'all' || article.category === currentCategory;
+                const matchesSearch = searchTerm === '' || 
+                    article.title.toLowerCase().includes(searchTerm) ||
+                    article.description.toLowerCase().includes(searchTerm) ||
+                    article.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                return matchesCategory && matchesSearch;
+            });
+
+            currentPage = 1;
+            updateStats();
+            renderArticles();
+            renderPagination();
+        }
+
+        // 渲染文章
+        function renderArticles() {
+            const grid = document.getElementById('articlesGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (filteredArticles.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            const startIndex = (currentPage - 1) * articlesPerPage;
+            const endIndex = startIndex + articlesPerPage;
+            const pageArticles = filteredArticles.slice(startIndex, endIndex);
+
+            grid.innerHTML = pageArticles.map(article => `
+                <div class="article-card">
+                    <div class="article-category">${article.category}</div>
+                    <h3 class="article-title">${article.title}</h3>
+                    <p class="article-description">${article.description}</p>
+                    <div class="article-meta">
+                        <div class="article-date">
+                            <i class="fas fa-calendar"></i>
+                            ${formatDate(article.date)}
+                        </div>
+                    </div>
+                    <div class="article-tags">
+                        ${article.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="${article.url}" target="_blank" class="article-link">
+                        <span>閱讀文章</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // 渲染分頁
+        function renderPagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // 上一頁按鈕
+            paginationHTML += `
+                <button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            // 頁碼按鈕
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <button onclick="changePage(${i})" ${i === currentPage ? 'class="active"' : ''}>
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += '<span>...</span>';
+                }
+            }
+
+            // 下一頁按鈕
+            paginationHTML += `
+                <button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // 切換頁面
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+            if (page < 1 || page > totalPages) return;
+
+            currentPage = page;
+            renderArticles();
+            renderPagination();
+            
+            // 滾動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 隱藏載入狀態
+        function hideLoading() {
+            document.getElementById('loadingState').style.display = 'none';
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('zh-TW', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // 自動更新功能（可選）
+        function checkForUpdates() {
+            // 這裡可以定期檢查新文章
+            // 例如：setInterval(() => { loadArticlesData(); }, 300000); // 每5分鐘檢查一次
+        }
+    </script>
+</body>
+</html>
