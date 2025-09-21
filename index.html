@@ -61,7 +61,7 @@
         .header {
             background: linear-gradient(135deg, #e0b8be 0%, #d4a5ab 50%, #c89297 100%);
             color: white;
-            padding: 1rem 0;
+            padding: 0.6rem 0;
             position: fixed;
             width: 100%;
             top: 0;
@@ -80,7 +80,7 @@
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: bold;
             background: linear-gradient(45deg, #fff8e1, #ffffff);
             -webkit-background-clip: text;
@@ -2506,17 +2506,19 @@
     <header class="header">
         <div class="nav-container">
             <div class="logo">愛叮寶犬貓影像專科醫院</div>
+            <!-- 在 header 裡加一個按鈕 -->
 <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+
             <nav>
-                <ul class="nav-menu">
-                    <li><a href="#home">首頁</a></li>
-                    <li><a href="#about">關於我們</a></li>
-                    <li><a href="#team">醫療團隊</a></li>
-                    <li><a href="#services">服務項目</a></li>
-                    <li><a href="#education">教學內容</a></li>
-<li><a href="#education">獸醫師專欄</a></li>
-                    <li><a href="#contact">聯絡我們</a></li>
-                </ul>
+               <ul class="nav-menu">
+    <li><a href="#home">首頁</a></li>
+    <li><a href="#about">關於我們</a></li>
+    <li><a href="#team">醫療團隊</a></li>
+    <li><a href="#services">服務項目</a></li>
+    <li><a href="#education">教學內容</a></li>
+    <li><a href="vet-column.html">獸醫師專欄</a></li>
+    <li><a href="#contact">聯絡我們</a></li>
+</ul>
             </nav>
         </div>
     </header>
@@ -3830,7 +3832,7 @@
             initSlideshow();
             initAIToolFrame();
         });
-// 在底部加上 script
+        // 在底部加上 script
 document.querySelector('.menu-toggle').addEventListener('click', () => {
   document.querySelector('.nav-menu').classList.toggle('active');
 });
