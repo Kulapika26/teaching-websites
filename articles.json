@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "lastUpdated": "2025-01-15T10:30:00Z",
   "articles": [
@@ -110,4 +111,118 @@
       "difficulty": "中級"
     }
   ]
+=======
+{
+  "lastUpdated": "2025-01-15T10:30:00Z",
+  "articles": [
+    {
+      "id": 1,
+      "title": "貓咪IBD跟小細胞淋巴癌",
+      "description": "深入探討貓咪炎症性腸病(IBD)與小細胞淋巴癌的鑑別診斷，包括影像特徵分析、診斷流程及治療建議。",
+      "category": "疾病介紹",
+      "tags": ["貓科疾病", "IBD", "淋巴癌", "鑑別診斷"],
+      "date": "2025-01-15",
+      "url": "https://atinsight.vet/IBDSCL",
+      "featured": true,
+      "readTime": "8分鐘",
+      "difficulty": "進階"
+    },
+    {
+      "id": 2,
+      "title": "犬貓膽囊水腫",
+      "description": "全面解析犬貓膽囊水腫的超音波診斷要點、鑑別診斷與臨床處理策略。",
+      "category": "超音波診斷",
+      "tags": ["膽囊疾病", "水腫", "超音波"],
+      "date": "2025-01-12",
+      "url": "https://atinsight.vet/GBWE",
+      "featured": false,
+      "readTime": "6分鐘",
+      "difficulty": "中級"
+    },
+    {
+      "id": 3,
+      "title": "TTW vs. BAL",
+      "description": "比較經氣管洗滌(TTW)與支氣管肺泡洗滌(BAL)的臨床應用、操作技巧及診斷價值。",
+      "category": "技術教學",
+      "tags": ["呼吸系統", "採樣技術", "TTW", "BAL"],
+      "date": "2025-01-10",
+      "url": "https://atinsight.vet/TTWBAL",
+      "featured": false,
+      "readTime": "10分鐘",
+      "difficulty": "進階"
+    },
+    {
+      "id": 4,
+      "title": "犬隻銅蓄積病",
+      "description": "詳細介紹犬隻銅蓄積性肝病的病理機制、診斷方法及治療管理要點。",
+      "category": "疾病介紹",
+      "tags": ["肝臟疾病", "銅蓄積", "犬科疾病"],
+      "date": "2025-01-08",
+      "url": "https://atinsight.vet/cah",
+      "featured": false,
+      "readTime": "7分鐘",
+      "difficulty": "中級"
+    },
+    {
+      "id": 5,
+      "title": "貓咪三胰炎",
+      "description": "探討貓咪三胰炎(胰臟炎、膽管炎、炎症性腸病)的複雜病理、診斷挑戰及綜合治療方案。",
+      "category": "病例分析",
+      "tags": ["貓科疾病", "胰臟炎", "膽管炎", "複合疾病"],
+      "date": "2025-01-05",
+      "url": "https://atinsight.vet/Feline%20Triaditis",
+      "featured": true,
+      "readTime": "12分鐘",
+      "difficulty": "進階"
+    },
+    {
+      "id": 6,
+      "title": "犬隻感染性氣管支氣管炎(CITB)與肺炎",
+      "description": "詳解犬隻感染性氣管支氣管炎與肺炎的臨床表現、影像診斷特徵及治療原則。",
+      "category": "疾病介紹",
+      "tags": ["呼吸系統", "感染性疾病", "肺炎", "CITB"],
+      "date": "2025-01-03",
+      "url": "https://atinsight.vet/CITB",
+      "featured": false,
+      "readTime": "9分鐘",
+      "difficulty": "中級"
+    },
+    {
+      "id": 7,
+      "title": "犬隻庫欣氏症互動指南",
+      "description": "互動式庫欣氏症診斷指南，包含診斷流程圖、檢驗解讀及治療監控要點。",
+      "category": "技術教學",
+      "tags": ["內分泌疾病", "庫欣氏症", "診斷指南"],
+      "date": "2025-01-01",
+      "url": "https://atinsight.vet/cushings",
+      "featured": true,
+      "readTime": "15分鐘",
+      "difficulty": "進階"
+    },
+    {
+      "id": 8,
+      "title": "犬淋巴癌 PARR vs Flow Cytometry",
+      "description": "比較PCR for Antigen Receptor Rearrangement(PARR)與流式細胞術在犬淋巴癌診斷中的應用。",
+      "category": "技術教學",
+      "tags": ["淋巴癌", "分子診斷", "PARR", "流式細胞術"],
+      "date": "2024-12-28",
+      "url": "https://atinsight.vet/dogflowvsparr",
+      "featured": false,
+      "readTime": "11分鐘",
+      "difficulty": "進階"
+    },
+    {
+      "id": 9,
+      "title": "貓科膽道疾病：貓咪的隱形殺手",
+      "description": "深入解析貓咪膽道疾病的早期診斷與治療策略，揭開這個常被忽視的隱形健康威脅。",
+      "category": "疾病介紹",
+      "tags": ["貓科疾病", "膽道疾病", "早期診斷"],
+      "date": "2024-12-25",
+      "url": "https://atinsight.vet/catgb",
+      "featured": false,
+      "readTime": "8分鐘",
+      "difficulty": "中級"
+    }
+  ]
+>>>>>>> 2421e3f3ddbe6c27e9ead384008491aed73cfc29
 }
