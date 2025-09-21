@@ -1,0 +1,33 @@
+name: 自動更新文章列表
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 每天台灣時間早上9點
+  workflow_dispatch:     # 允許手動觸發
+
+jobs:
+  update-articles:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: 檢出代碼
+      uses: actions/checkout@v4
+      
+    - name: 顯示當前狀態
+      run: |
+        echo "開始檢查文章更新..."
+        echo "當前時間: $(date)"
+        ls -la
+        
+    - name: 檢查 articles.json
+      run: |
+        if [ -f "articles.json" ]; then
+          echo "✓ articles.json 存在"
+          echo "目前文章數量:"
+          cat articles.json | grep -o '"id"' | wc -l
+        else
+          echo "✗ articles.json 不存在"
+        fi
