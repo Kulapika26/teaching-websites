@@ -66,6 +66,13 @@ const KNOWN_ARTICLES = [
         tags: ['貓科疾病', '膽道疾病', '早期診斷'],
         difficulty: '中級'
     }
+    {
+        path: '/gbm',
+        title: '犬膽囊黏液囊腫全解析',
+        category: '疾病介紹',
+        tags: ['犬科疾病', '膽囊疾病', '即時治療'],
+        difficulty: '中級'
+    }
 ];
 
 const BASE_URL = 'https://atinsight.vet';
