@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬膽囊黏液囊腫：病因、診斷與治療全解析</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* Based on #ddb5bb */
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faeef0; /* Based on #ddb5bb */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ddb5bb;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1a3aa;
+        }
+        /* Custom color theme based on #ddb5bb */
+        .theme-text-dark { color: #825159; }
+        .theme-text-header { color: #75474d; }
+        .theme-bg-light { background-color: #faeef0; }
+        .theme-border { border-color: #e6c8cc; }
+        .theme-accent-text { color: #a3626c; }
+        .theme-accent-bg { background-color: #ddb5bb; }
+        .theme-accent-bg-hover:hover { background-color: #d1a3aa; }
+
+        /* Audio Player Styles */
+        .audio-speed-btn {
+            background-color: #faeef0; /* theme-bg-light */
+            color: #a3626c; /* theme-accent-text */
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e6c8cc; /* theme-border */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #f8e5e7;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a3626c; /* theme-accent-text */
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="w-full md:w-64 bg-white border-r theme-border p-4 md:fixed md:h-full overflow-y-auto">
+            <h1 class="text-xl font-bold theme-text-header mb-4">犬膽囊黏液囊腫指南</h1>
+            <ul class="space-y-2">
+                <li><a href="#intro" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">簡介與好發犬種</a></li>
+                <li><a href="#pathogenesis" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">疾病成因與發展</a></li>
+                <li><a href="#outcomes" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">潛在的嚴重後果</a></li>
+                <li><a href="#diagnosis" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">臨床症狀與診斷</a>
+                    <ul class="pl-4 mt-1 space-y-1 text-sm">
+                        <li><a href="#signs" class="block text-gray-500 hover:theme-text-dark">- 臨床症狀</a></li>
+                        <li><a href="#pathology" class="block text-gray-500 hover:theme-text-dark">- 血液學異常</a></li>
+                        <li><a href="#ultrasound" class="block text-gray-500 hover:theme-text-dark">- 腹部超音波</a></li>
+                    </ul>
+                </li>
+                <li><a href="#management" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">治療方式</a>
+                     <ul class="pl-4 mt-1 space-y-1 text-sm">
+                        <li><a href="#surgery" class="block text-gray-500 hover:theme-text-dark">- 外科手術治療</a></li>
+                        <li><a href="#medical" class="block text-gray-500 hover:theme-text-dark">- 內科治療選項</a></li>
+                    </ul>
+                </li>
+                <li><a href="#concurrent-illness" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">併發疾病管理</a></li>
+                <li><a href="#audio-guide" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">AI語音導覽</a></li>
+                <li><a href="#summary" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">重點摘要</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 lg:p-10">
+            <header class="mb-6">
+                <h1 class="text-4xl font-bold theme-text-header">犬膽囊黏液囊腫全解析</h1>
+                <p class="text-lg theme-text-dark mt-2">一篇關於成因、診斷與治療的綜合回顧</p>
+            </header>
+
+            <!-- Banner Image -->
+            <div class="mb-8 max-w-4xl mx-auto p-4 rounded-lg shadow-lg theme-accent-bg">
+                <img src="https://i.imgur.com/UjjErEs.png" alt="可愛狗狗橫幅" class="w-full h-auto rounded-md shadow-inner object-cover">
+            </div>
+
+            <!-- Introduction Section -->
+            <section id="intro" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">簡介與好發犬種</h2>
+                <div class="space-y-4 text-gray-700">
+                    <p>犬膽囊黏液囊腫是一種神秘且可能致命的疾病，其特徵是膽囊上皮分泌異常濃稠、不動的黏液。在過去20年間，此病的報告案例顯著增加，已成為犬隻最常見的膽囊疾病之一。</p>
+                    <div class="theme-bg-light border-l-4 theme-border p-4 rounded-md">
+                        <p class="font-semibold theme-accent-text">核心觀點：</p>
+                        <p>此病由膽囊分泌的<strong class="theme-accent-text font-bold">異常黏液</strong>積聚引起，最終可能填滿整個膽囊腔，導致嚴重併發症。</p>
+                    </div>
+                    <p>膽囊黏液囊腫好發於<strong class="font-semibold">老年犬</strong>（中位年齡約10歲），且在特定<strong class="font-semibold">小型純種犬</strong>中有明顯的好發傾向。常見的好發犬種包括：</p>
+                    <ul class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4 text-center">
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">喜樂蒂牧羊犬</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">邊境㹴</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">可卡犬</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">博美犬</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">迷你雪納瑞</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">吉娃娃</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">巴哥犬</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">比熊犬</li>
+                        <li class="bg-gray-100 p-2 rounded-md text-gray-700">米格魯</li>
+                    </ul>
+                    <p class="text-sm text-gray-500 mt-2">相較之下，混種犬的發病率較低（約佔所有病例的10%）。</p>
+                </div>
+            </section>
+
+            <!-- Pathogenesis Section -->
+            <section id="pathogenesis" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">疾病成因與發展</h2>
+                <p class="text-gray-700 mb-4">在患病的犬隻中，膽囊上皮會分泌大量形成凝膠的黏液。這些黏液無法被適當水合，而是緊緊附著在上皮細胞上，隨著時間的推移層層堆積，最終形成固態的黏液團塊，填滿整個膽囊。</p>
+                <div class="mt-4 border theme-border theme-bg-light p-4 rounded-lg">
+                    <h3 class="text-xl font-semibold theme-accent-text">根本原因：黏液水合失敗</h3>
+                    <p class="mt-2 text-gray-700">研究指出，根本缺陷在於膽囊上皮無法有效水合黏液。這可能是由於一種稱為<strong class="font-semibold">CFTR</strong>的離子通道功能異常所致。雖然患病犬隻沒有CFTR的基因缺陷，但其功能卻是後天失調的，具體原因尚不清楚。</p>
+                </div>
+            </section>
+
+            <!-- Outcomes Section -->
+            <section id="outcomes" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">潛在的嚴重後果</h2>
+                <p class="text-gray-700 mb-4">黏液囊腫的發展速度不一，有些犬隻可能終身無症狀。然而，在其他犬隻中，疾病的進展可能導致四種主要的嚴重後果：</p>
+                <div class="grid md:grid-cols-2 gap-6 mt-4">
+                    <div class="border theme-border p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">A. 膽囊梗塞 (Infarction)</h3>
+                        <p class="mt-2 text-gray-700">供應膽囊的動脈血流受阻，導致膽囊壁缺血壞死。</p>
+                    </div>
+                    <div class="border theme-border p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">B. 繼發性感染 (Infection)</h3>
+                        <p class="mt-2 text-gray-700">黏液成為細菌滋生的溫床，引發膽囊炎。</p>
+                    </div>
+                    <div class="border theme-border p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">C. 膽道阻塞 (Obstruction)</h3>
+                        <p class="mt-2 text-gray-700">濃稠的黏液堵塞總膽管，阻礙膽汁排出。</p>
+                    </div>
+                    <div class="border theme-border p-4 rounded-lg">
+                        <h3 class="text-xl font-semibold theme-accent-text">D. 膽囊破裂 (Rupture)</h3>
+                        <p class="mt-2 text-gray-700">黏液持續積聚，壓力過高導致膽囊破裂，引發腹膜炎。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Diagnosis Section -->
+            <section id="diagnosis" class="mb-12">
+                <h2 class="text-3xl font-semibold mb-4 theme-text-header">臨床症狀與診斷</h2>
+                
+                <div id="signs" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">臨床症狀</h3>
+                    <p class="mb-2">有些犬隻可能是在因其他問題進行腹部超音波檢查時偶然發現的。當出現症狀時，通常表現為非特異性的腸胃不適，甚至是嚴重的腹膜炎。常見症狀包括：</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>嘔吐、厭食／食慾不振</li>
+                        <li>精神萎靡、腹痛</li>
+                        <li>黃疸（眼白、皮膚變黃）</li>
+                        <li>發燒</li>
+                    </ul>
+                </div>
+
+                <div id="pathology" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">血液學異常</h3>
+                    <p class="mb-2">血液檢查結果可以提高對此病的懷疑，但無法確診。最常見的異常包括：</p>
+                     <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>白血球指數上升（炎症反應）</li>
+                        <li>肝指數（ALP, ALT, GGT）顯著升高</li>
+                        <li>三酸甘油脂和膽固醇升高</li>
+                        <li>約半數有症狀的犬隻總膽紅素會升高</li>
+                    </ul>
+                     <p class="mt-4 text-sm text-red-600 bg-red-50 p-3 rounded-md"><strong>重要提示：</strong> 即使膽囊已經破裂，許多犬隻的血清膽紅素仍可能正常，因為破裂時流出的主要是黏液而非液態膽汁。</p>
+                </div>
+
+                <div id="ultrasound" class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">腹部超音波：診斷的關鍵</h3>
+                    <p class="mb-2">腹部超音波是診斷膽囊黏液囊腫的關鍵工具。典型的超音波影像特徵是膽囊內出現<strong class="theme-accent-text">不動、不隨重力改變位置</strong>的內容物，呈現出細微的條紋狀或星芒狀圖案，常被形容為<strong class="theme-accent-text">「奇異果切片」</strong>樣的外觀。</p>
+                    <div class="theme-bg-light border-l-4 theme-border p-4 rounded-md mt-4">
+                        <p class="font-semibold theme-accent-text">超音波檢查重點：</p>
+                        <p>超音波不僅能診斷黏液囊腫，還能評估其成熟度，並尋找膽囊壁完整性喪失（如破裂）的警示信號，例如膽囊周圍積液或脂肪發炎變亮。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Management Section -->
+            <section id="management" class="mb-12">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">治療方式</h2>
+                 <p class="text-gray-700 mb-4">治療方式的選擇取決於犬隻的臨床狀況，主要分為外科手術與內科管理。</p>
+                
+                <div id="surgery" class="bg-white p-6 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">外科手術治療 (Cholecystectomy)</h3>
+                    <p class="mb-2">膽囊切除術是目前推薦的最終治療方法。手術的風險與時機密切相關：</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><strong>擇期手術 (無症狀時):</strong> 在偶然發現且無症狀的犬隻進行手術，平均死亡率約為 <strong class="font-bold">5%</strong>。術後併發症較少且較輕微。</li>
+                        <li><strong>緊急手術 (有症狀時):</strong> 當犬隻出現症狀後再進行手術，平均死亡率大幅上升至 <strong class="font-bold text-red-600">17% 至 23%</strong>。若術中發現膽囊已破裂，死亡風險會再增加2.7倍。</li>
+                    </ul>
+                    <p class="mt-4">由於此手術具有挑戰性且術後需要密集的加護，強烈建議轉診至有專業外科醫師及加護病房的醫院進行。</p>
+                </div>
+
+                <div id="medical" class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-2xl font-semibold theme-accent-text mb-3">內科治療選項</h3>
+                    <p class="mb-2">使用內科方式治療充滿爭議，因為目前尚不清楚藥物能否延緩或逆轉黏液囊腫的形成。內科治療可能適用於以下情況：</p>
+                     <ul class="list-disc list-inside space-y-2">
+                        <li>無症狀且處於<strong class="theme-accent-text">「早期」</strong>黏液囊腫階段的犬隻（膽囊內仍有大部分液態膽汁）。</li>
+                        <li>飼主因故拒絕手術，或犬隻身體狀況不適合手術。</li>
+                    </ul>
+                    <p class="mt-4">內科治療包含使用保肝藥物、調整飲食（如低脂飲食）、治療潛在併發疾病等，並需要<strong class="font-semibold">定期進行超音波追蹤</strong>以監控疾病進展。</p>
+                </div>
+            </section>
+
+            <!-- Concurrent Illness Section -->
+            <section id="concurrent-illness" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">併發疾病管理</h2>
+                <div class="space-y-4 text-gray-700">
+                    <p>研究發現，患有膽囊黏液囊腫的犬隻，常同時被診斷出其他內分泌或代謝性疾病。管理這些共病對於整體健康至關重要。</p>
+                    <div class="grid md:grid-cols-3 gap-4 mt-4">
+                        <div class="theme-bg-light p-4 rounded-lg">
+                            <h3 class="font-semibold theme-accent-text">內分泌疾病</h3>
+                            <p class="text-sm mt-1">如庫欣氏症（腎上腺功能亢進）和甲狀腺功能低下症的盛行率較高。庫欣氏症更是增加手術死亡風險的因素。</p>
+                        </div>
+                        <div class="theme-bg-light p-4 rounded-lg">
+                            <h3 class="font-semibold theme-accent-text">高血脂症</h3>
+                             <p class="text-sm mt-1">高膽固醇和高三酸甘油脂症也很常見。建議應考慮轉換為脂肪限制的處方飼料。</p>
+                        </div>
+                        <div class="theme-bg-light p-4 rounded-lg">
+                             <h3 class="font-semibold theme-accent-text">蛋白尿</h3>
+                             <p class="text-sm mt-1">研究證實黏液囊腫與蛋白尿之間存在顯著關聯，建議應對患犬進行尿液檢查。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- AI Audio Guide Section -->
+            <section id="audio-guide" class="mb-12 bg-white p-6 rounded-lg shadow-sm">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">AI語音導覽</h2>
+                <p class="text-center text-gray-600 mb-6">聆聽由AI生成的內容摘要，幫助您快速了解犬膽囊黏液囊腫的重點。</p>
+                <div class="w-full max-w-2xl mx-auto">
+                    <div class="p-4 md:p-6 shadow-inner border theme-border rounded-lg theme-bg-light">
+                        <audio id="interactiveGuideAudio" controls class="w-full mb-4 rounded-md">
+                            <source src="GBM.mp4" type="audio/mpeg">
+                            您的瀏覽器不支援 audio 標籤。
+                        </audio>
+                        <div id="audio-speed-controls" class="controls flex justify-center gap-2 flex-wrap">
+                            <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                            <button data-speed="1" class="audio-speed-btn active">正常</button>
+                            <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                            <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                            <button data-speed="2" class="audio-speed-btn">2x</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary Section -->
+            <section id="summary" class="mb-12 theme-bg-light border-t-4 theme-border p-6 rounded-lg shadow-md">
+                <h2 class="text-3xl font-semibold theme-text-header border-b-2 border-[#f0dce0] pb-2 mb-4">重點摘要</h2>
+                <ul class="list-disc list-inside space-y-3 theme-text-dark">
+                    <li>膽囊黏液囊腫是好發於<strong class="font-semibold">老年、小型純種犬</strong>的嚴重膽囊疾病。</li>
+                    <li><strong class="font-semibold">腹部超音波</strong>是診斷的黃金標準，常呈現特有的「奇異果切片」樣。</li>
+                    <li>臨床症狀通常不具特異性，包括嘔吐、厭食、精神不振和腹痛。</li>
+                    <li>疾病可能導致膽囊梗塞、感染、阻塞甚至<strong class="text-red-600 font-semibold">破裂</strong>，後者死亡率極高。</li>
+                    <li><strong class="font-semibold">膽囊切除手術</strong>是根治的方法，在無症狀時進行手術（擇期手術）的預後遠優於出現症狀後（緊急手術）。</li>
+                    <li>內科治療效果有限，主要用於無法手術或早期無症狀的病例，且需密切監控。</li>
+                    <li>應積極篩檢和管理相關併發疾病，如<strong class="font-semibold">庫欣氏症、甲狀腺功能低下和高血脂症</strong>。</li>
+                    <li>參考文獻:Diagnosis and management of gallbladder mucocele formation in dogs。</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const audioPlayer = document.getElementById('interactiveGuideAudio');
+        const speedControls = document.getElementById('audio-speed-controls');
+
+        if (audioPlayer && speedControls) {
+            speedControls.addEventListener('click', (event) => {
+                const button = event.target.closest('.audio-speed-btn');
+                if (button) {
+                    const speed = parseFloat(button.dataset.speed);
+                    audioPlayer.playbackRate = speed;
+
+                    // Update active class
+                    speedControls.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
+

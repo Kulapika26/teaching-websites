@@ -109,6 +109,33 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(255,255,255,0.2);
         }
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    background: rgba(0,0,0,0.6);
+    padding: 1rem;
+    border-radius: 10px;
+    position: absolute;
+    top: 60px; /* header 高度 */
+    right: 20px;
+  }
+  .nav-menu.active {
+    display: flex;
+  }
+}
 
         /* Hero Section */
         .hero {
@@ -2479,6 +2506,9 @@
     <header class="header">
         <div class="nav-container">
             <div class="logo">愛叮寶犬貓影像專科醫院</div>
+            <!-- 在 header 裡加一個按鈕 -->
+<button class="menu-toggle"><i class="fas fa-bars"></i></button>
+
             <nav>
                <ul class="nav-menu">
     <li><a href="#home">首頁</a></li>
@@ -2907,7 +2937,7 @@
                         全年無休 24/7 (睡覺時間絕不能打擾) 😴<br><br>
                         
                         <strong style="color: #e91e63;">座右銘：</strong><br>
-                        "喵的一聲令下，全院動起來！" 🱐<br>
+                        "喵的一聲令下，全院動起來！" 🧡<br>
                     </p>
                     
                     <div class="boss-cat-achievements">
@@ -2929,7 +2959,7 @@
                             </div>
                             <div class="achievement-badge">
                                 <i class="fas fa-candy-cane" style="color: #8e44ad; font-size: 1.5rem;"></i>
-                                <p>稍來稍往</p>
+                                <p>獨來獨往</p>
                             </div>
                         </div>
                     </div>
@@ -3802,6 +3832,11 @@
             initSlideshow();
             initAIToolFrame();
         });
+        // 在底部加上 script
+document.querySelector('.menu-toggle').addEventListener('click', () => {
+  document.querySelector('.nav-menu').classList.toggle('active');
+});
+
     </script>
 
 </body>

@@ -1,0 +1,9 @@
+{
+  "name": "vet-clinic-scripts",
+  "version": "1.0.0",
+  "description": "自動化腳本",
+  "main": "check-articles.js",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

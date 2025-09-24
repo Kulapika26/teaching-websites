@@ -1,0 +1,48 @@
+name: 自動更新文章列表
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 每天台灣時間早上9點
+  workflow_dispatch:     # 允許手動觸發
+
+jobs:
+  update-articles:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+    - name: 檢出代碼
+      uses: actions/checkout@v4
+      
+    - name: 設置 Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: scripts/package.json
+        
+    - name: 安裝依賴
+      run: |
+        cd scripts
+        npm install
+        
+    - name: 執行文章檢查
+      run: |
+        cd scripts
+        node check-articles.js
+        
+    - name: 檢查變更並提交
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add articles.json
+        
+        if git diff --staged --quiet; then
+          echo "沒有文章變更"
+        else
+          git commit -m "🤖 自動更新文章列表 - $(date +'%Y-%m-%d %H:%M')"
+          git push
+          echo "✅ 已提交文章更新，Netlify 將自動重新部署"
+        fi
