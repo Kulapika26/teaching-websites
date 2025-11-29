@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬貓逆向噴嚏 (Reverse Sneezing) 深度解析</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* Based on #ddb5bb */
+            color: #4a4a4a;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faeef0; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ddb5bb;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1a3aa;
+        }
+
+        /* Theme Colors */
+        .theme-text-dark { color: #825159; }
+        .theme-text-header { color: #75474d; }
+        .theme-bg-light { background-color: #faeef0; }
+        .theme-bg-medium { background-color: #fce7eb; }
+        .theme-border { border-color: #e6c8cc; }
+        .theme-accent-text { color: #a3626c; }
+        .theme-accent-bg { background-color: #ddb5bb; }
+        .theme-accent-bg-hover:hover { background-color: #d1a3aa; }
+
+        /* Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+
+        /* Toggle Button Styles */
+        .toggle-btn {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .toggle-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(163, 98, 108, 0.2), 0 2px 4px -1px rgba(163, 98, 108, 0.1);
+            font-weight: 700;
+            background-color: white;
+            border-color: #e6c8cc;
+        }
+        .toggle-btn:not(.active) {
+            opacity: 0.6;
+            background-color: transparent;
+        }
+        .toggle-btn:not(.active):hover {
+            opacity: 1;
+            background-color: rgba(255,255,255,0.5);
+        }
+
+        /* Mechanism Steps */
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        .step-card:hover {
+            transform: translateY(-3px);
+            border-color: #a3626c;
+            box-shadow: 0 4px 12px rgba(163, 98, 108, 0.15);
+        }
+
+        /* Audio Player Styles */
+        .audio-speed-btn {
+            background-color: #faeef0;
+            color: #a3626c;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e6c8cc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #f8e5e7;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a3626c;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <nav class="w-full md:w-64 bg-white border-r theme-border p-4 md:fixed md:h-full overflow-y-auto z-20">
+            <h1 class="text-xl font-bold theme-text-header mb-4">逆向噴嚏指南</h1>
+            <ul class="space-y-2">
+                <li><a href="#intro" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">什麼是逆向噴嚏？</a></li>
+                <li><a href="#data-viz" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">誘發因子與風險</a></li>
+                <li><a href="#mechanism" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">生理機制圖解</a></li>
+                <li><a href="#diagnosis" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">鑑別診斷</a></li>
+                <li><a href="#treatment" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">緩解與治療</a></li>
+                <li><a href="#audio-guide" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">AI語音導覽</a></li>
+                <li><a href="#references" class="block text-gray-600 hover:theme-bg-light hover:theme-text-dark rounded-md p-2 font-medium">參考文獻</a></li>
+            </ul>
+            
+            <!-- Species Toggle in Sidebar for Desktop, or sticky header for mobile -->
+            <div class="mt-8 pt-6 border-t theme-border hidden md:block">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">切換物種模式</p>
+                <div class="flex flex-col gap-2">
+                    <button onclick="setSpecies('dog')" id="btn-dog-sidebar" class="toggle-btn active w-full px-4 py-3 rounded-md text-sm flex items-center gap-3 theme-text-dark">
+                        <span class="text-xl">🐶</span> 犬隻模式
+                    </button>
+                    <button onclick="setSpecies('cat')" id="btn-cat-sidebar" class="toggle-btn w-full px-4 py-3 rounded-md text-sm flex items-center gap-3 theme-text-dark">
+                        <span class="text-xl">🐱</span> 貓咪模式
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 lg:p-10">
+            
+            <!-- Mobile Toggle Header -->
+            <div class="md:hidden mb-6 sticky top-0 z-30 bg-[#fdf6f7]/95 backdrop-blur py-2 border-b theme-border">
+                <div class="flex justify-between items-center gap-2">
+                    <span class="text-sm font-bold theme-text-header">模式切換:</span>
+                    <div class="flex gap-2 flex-1">
+                        <button onclick="setSpecies('dog')" id="btn-dog-mobile" class="toggle-btn active flex-1 py-2 rounded-md text-sm flex justify-center items-center gap-1 theme-text-dark border theme-border bg-white">
+                            🐶 犬
+                        </button>
+                        <button onclick="setSpecies('cat')" id="btn-cat-mobile" class="toggle-btn flex-1 py-2 rounded-md text-sm flex justify-center items-center gap-1 theme-text-dark border theme-border">
+                            🐱 貓
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <header class="mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold theme-text-header">犬貓逆向噴嚏 (Reverse Sneezing)</h1>
+                <p class="text-lg theme-text-dark mt-2">Paroxysmal Respiration: 陣發性呼吸深度解析儀表板</p>
+            </header>
+
+            <!-- Banner Image -->
+          <div class="mb-8 max-w-4xl mx-auto p-4 rounded-lg theme-accent-bg">
+    <img src="https://i.imgur.com/cC6LKSw.png" alt="逆向噴嚏橫幅" class="w-4/5 mx-auto h-auto rounded-md object-cover">
+</div>
+
+            <!-- Introduction Section -->
+            <section id="intro" class="mb-12 bg-white p-6 rounded-lg shadow-sm border theme-border">
+                <div class="flex items-center gap-2 mb-4 border-b pb-2 theme-border">
+                    <span class="text-2xl">🔍</span>
+                    <h2 class="text-3xl font-semibold theme-text-header">什麼是逆向噴嚏？</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2">
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            逆向噴嚏，醫學上稱為「陣發性呼吸」(Paroxysmal Respiration)。這並非真正的噴嚏（將異物排出），而是一種<strong>反射性的吸氣痙攣</strong>。動物會急促、用力地透過鼻子吸氣，發出類似鵝叫的聲音 (Goose honking) 或巨大的鼻息聲。
+                        </p>
+                        <div class="p-4 theme-bg-medium rounded-lg border-l-4 theme-border">
+                            <h3 class="font-bold theme-accent-text text-sm mb-1">💡 快速辨識重點</h3>
+                            <ul class="text-sm text-gray-700 list-disc list-inside space-y-1">
+                                <li>頸部通常會向前伸直，像是在用力吸氣。</li>
+                                <li>胸腔劇烈起伏。</li>
+                                <li>發作通常持續數秒至 1-2 分鐘，結束後動物看起來完全正常。</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Stat Card -->
+                    <div class="theme-bg-light p-6 rounded-xl border theme-border flex flex-col justify-center items-center text-center">
+                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">臨床常見度</h3>
+                        <div id="prevalence-indicator" class="text-5xl font-bold theme-accent-text mb-2 transition-colors duration-500">
+                            極高
+                        </div>
+                        <p id="prevalence-text" class="text-xs text-gray-600">
+                            在小型犬中非常普遍，通常無需醫療介入。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section id="data-viz" class="mb-12">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">📊 誘發因子與風險分析</h2>
+                <p class="text-gray-600 mb-6">不同物種的誘發原因差異巨大。請參考下方數據了解您的寵物可能面臨的狀況。</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Chart 1: Causes -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border theme-border flex flex-col">
+                        <h3 class="text-lg font-semibold theme-text-dark mb-3 text-center">主要誘發原因分佈</h3>
+                        <div class="chart-container">
+                            <canvas id="triggersChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-gray-400 mt-4">*數據基於一般臨床觀察統計</p>
+                    </div>
+
+                    <!-- Chart 2: Susceptibility -->
+                    <div class="bg-white p-6 rounded-lg shadow-sm border theme-border flex flex-col">
+                        <h3 class="text-lg font-semibold theme-text-dark mb-3 text-center">高風險群體/品種</h3>
+                        <div class="chart-container">
+                            <canvas id="breedsChart"></canvas>
+                        </div>
+                         <p id="breed-note" class="text-sm text-center text-gray-500 mt-4 p-2 theme-bg-light rounded">
+                            短吻犬種由於軟顎結構問題，風險最高。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mechanism Section -->
+            <section id="mechanism" class="mb-12 bg-white p-6 rounded-lg shadow-sm border theme-border">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">⚡ 生理機制：發生了什麼事？</h2>
+                <p class="text-gray-600 mb-6">這是一個由鼻咽部受到刺激引發的痙攣循環。</p>
+                
+                <div class="grid md:grid-cols-4 gap-4">
+                    <!-- Step 1 -->
+                    <div class="step-card theme-bg-light p-4 rounded border theme-border cursor-default">
+                        <div class="text-2xl mb-2">1️⃣ 刺激</div>
+                        <div class="text-sm text-gray-700">
+                            <span id="mechanism-trigger" class="font-bold theme-accent-text">吸入過敏原、粉塵或興奮</span>。刺激物接觸到鼻腔後部或軟顎區域。
+                        </div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="hidden md:flex items-center justify-center text-[#e6c8cc] text-2xl">➝</div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card theme-bg-light p-4 rounded border theme-border cursor-default">
+                        <div class="text-2xl mb-2">2️⃣ 痙攣</div>
+                        <div class="text-sm text-gray-700">
+                            喉嚨肌肉發生痙攣，導致軟顎部分暫時阻塞氣道。身體反射性試圖清除刺激。
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hidden md:flex items-center justify-center text-[#e6c8cc] text-2xl">➝</div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card theme-bg-light p-4 rounded border theme-border cursor-default">
+                        <div class="text-2xl mb-2">3️⃣ 用力吸氣</div>
+                        <div class="text-sm text-gray-700">
+                            為了吸入空氣，會伸長脖子並用力擴張胸腔，透過狹窄的氣道急促吸氣。
+                        </div>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="hidden md:flex items-center justify-center text-[#e6c8cc] text-2xl">➝</div>
+
+                    <!-- Step 4 -->
+                    <div class="step-card theme-bg-light p-4 rounded border theme-border cursor-default">
+                        <div class="text-2xl mb-2">4️⃣ 聲響</div>
+                        <div class="text-sm text-gray-700">
+                            空氣高速通過變窄的鼻咽部，產生特徵性的「嗤嗤」聲或類似鵝叫的巨大聲響。
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Diagnosis & Treatment -->
+            <section id="diagnosis" class="mb-12 grid md:grid-cols-2 gap-8">
+                <!-- Differential Diagnosis -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border theme-border">
+                    <h2 class="text-2xl font-semibold mb-4 theme-text-header">🩺 這是逆向噴嚏嗎？鑑別診斷</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 uppercase theme-bg-light">
+                                <tr>
+                                    <th class="px-4 py-3 rounded-tl-lg">特徵</th>
+                                    <th class="px-4 py-3">逆向噴嚏</th>
+                                    <th class="px-4 py-3 rounded-tr-lg">氣喘/氣管塌陷</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-gray-900">呼吸方向</td>
+                                    <td class="px-4 py-3 theme-accent-text font-bold">吸氣 (Inhale)</td>
+                                    <td class="px-4 py-3 text-red-500">呼氣 (Exhale) 或 咳嗽</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-gray-900">聲音</td>
+                                    <td class="px-4 py-3">鼻腔深處的抽吸聲</td>
+                                    <td class="px-4 py-3">乾咳、喘鳴聲</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-gray-900">舌頭顏色</td>
+                                    <td class="px-4 py-3">通常粉紅 (正常)</td>
+                                    <td class="px-4 py-3">可能發紫 (缺氧)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-gray-900">精神狀態</td>
+                                    <td class="px-4 py-3">發作後立即恢復</td>
+                                    <td class="px-4 py-3">可能持續疲憊、運動不耐</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="warning-box" class="mt-4 p-4 bg-red-50 text-red-800 text-xs rounded border border-red-100 hidden">
+                        <strong>⚠️ 貓咪特別注意：</strong> 貓的逆向噴嚏相對少見。若貓咪出現此症狀，極高機率是<strong>貓氣喘 (Feline Asthma)</strong>，需立即就醫由獸醫評估。
+                    </div>
+                </div>
+
+                <!-- Treatment -->
+                <div id="treatment" class="bg-white p-6 rounded-lg shadow-sm border theme-border flex flex-col">
+                    <h2 class="text-2xl font-semibold mb-4 theme-text-header">💊 處理與緩解方式</h2>
+                    
+                    <div class="flex-1 space-y-4">
+                        <!-- Immediate Relief -->
+                        <div class="border theme-border rounded-lg p-4 theme-bg-light">
+                            <h3 class="font-bold theme-text-dark mb-2 flex items-center">
+                                <span class="theme-accent-bg text-white text-xs px-2 py-1 rounded mr-2">發作時</span> 
+                                居家緩解手法
+                            </h3>
+                            <ol class="list-decimal list-inside text-sm text-gray-700 space-y-2 ml-1">
+                                <li><strong>保持冷靜：</strong> 主人的焦慮會讓寵物更緊張，加劇換氣過度。</li>
+                                <li><strong>喉部按摩：</strong> 輕輕按摩喉嚨部位，幫助肌肉放鬆。</li>
+                                <li><strong>阻斷反射 (經典手法)：</strong> 
+                                    <span class="block mt-1 pl-4 text-gray-500 italic">
+                                        用手指輕輕蓋住寵物的兩個鼻孔約 2-3 秒，迫使牠張口呼吸，這通常能立即打斷痙攣循環。
+                                    </span>
+                                </li>
+                            </ol>
+                        </div>
+
+                        <!-- Long Term -->
+                        <div class="border theme-border rounded-lg p-4">
+                            <h3 class="font-bold theme-text-dark mb-2 flex items-center">
+                                <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded mr-2">長期</span> 
+                                預防與管理
+                            </h3>
+                            <ul id="long-term-list" class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Audio Guide Section -->
+            <section id="audio-guide" class="mb-12 bg-white p-6 rounded-lg shadow-sm border theme-border">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">AI語音導覽</h2>
+                <p class="text-center text-gray-600 mb-6">聆聽由AI生成的逆向噴嚏重點摘要。</p>
+                <div class="w-full max-w-2xl mx-auto">
+                    <div class="p-4 md:p-6 shadow-inner border theme-border rounded-lg theme-bg-light">
+                        <audio id="interactiveGuideAudio" controls class="w-full mb-4 rounded-md">
+                            <source src="resneezing.mp3" type="audio/mp4">
+                            您的瀏覽器不支援 audio 標籤。
+                        </audio>
+                        <div id="audio-speed-controls" class="controls flex justify-center gap-2 flex-wrap">
+                            <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                            <button data-speed="1" class="audio-speed-btn active">正常</button>
+                            <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                            <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                            <button data-speed="2" class="audio-speed-btn">2x</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- References Section -->
+            <section id="references" class="mb-12">
+                <h2 class="text-3xl font-semibold border-b pb-2 mb-4 theme-text-header theme-border">參考文獻 (References)</h2>
+                <p class="text-gray-600 mb-2">以下為本頁面資料來源，包含獸醫學院、專業期刊與寵物醫療機構之公開資訊。</p>
+                
+                <div class="bg-white rounded-lg shadow-sm border theme-border p-4 h-96 overflow-y-auto">
+                    <ul class="space-y-3 text-sm text-gray-600">
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing | Cornell University College of Veterinary Medicine</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/riney-canine-health-center/canine-health-topics/reverse-sneezing" target="_blank" class="theme-accent-text hover:underline break-all">https://www.vet.cornell.edu/departments-centers-and-institutes/riney-canine-health-center/canine-health-topics/reverse-sneezing</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneeze in Dogs - Paroxysmal Respiration | Jacksonville Vet</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.petdoctorsofamerica.com/site/blog/2022/06/14/reverse-sneeze" target="_blank" class="theme-accent-text hover:underline break-all">https://www.petdoctorsofamerica.com/site/blog/2022/06/14/reverse-sneeze</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Sneezing cats explained - Primrose Hill Veterinary Hospital</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.primrosehillvets.ie/pet-help-advice/dogs/142-what-is-reverse-dog-sneezing" target="_blank" class="theme-accent-text hover:underline break-all">https://www.primrosehillvets.ie/pet-help-advice/dogs/142-what-is-reverse-dog-sneezing</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing & Tracheal Collapse - Pet Medical Center</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.pet-medcenter.com/patient-resources/health-topics/reverse-sneezing-tracheal-collapse" target="_blank" class="theme-accent-text hover:underline break-all">https://www.pet-medcenter.com/patient-resources/health-topics/reverse-sneezing-tracheal-collapse</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>What is Reverse Sneezing in Dogs and Cats? - Zoetis Petcare</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.zoetispetcare.com/blog/article/reverse-sneezing-dogs-cats" target="_blank" class="theme-accent-text hover:underline break-all">https://www.zoetispetcare.com/blog/article/reverse-sneezing-dogs-cats</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Dogs - PDSA</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.pdsa.org.uk/pet-help-and-advice/pet-health-hub/conditions/reverse-sneezing-in-dogs" target="_blank" class="theme-accent-text hover:underline break-all">https://www.pdsa.org.uk/pet-help-and-advice/pet-health-hub/conditions/reverse-sneezing-in-dogs</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Dogs - Central Hospital For Veterinary Medicine</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://centralpetvet.com/2024/03/20/reverse-sneezing-in-dogs/" target="_blank" class="theme-accent-text hover:underline break-all">https://centralpetvet.com/2024/03/20/reverse-sneezing-in-dogs/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Dogs - Veterinary Partner - VIN</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4952493" target="_blank" class="theme-accent-text hover:underline break-all">https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4952493</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Cats: Why is My Cat Doing it and is it Normal? - Lake City Animal Hospital</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://lakecityanimalhospital.com/blog/reverse-sneezing-in-cats/" target="_blank" class="theme-accent-text hover:underline break-all">https://lakecityanimalhospital.com/blog/reverse-sneezing-in-cats/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Dogs: What it is and How to Help Your Pet - Broomfield Veterinary Hospital</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://broomfieldvet.com/blog/reverse-dog-sneezing/" target="_blank" class="theme-accent-text hover:underline break-all">https://broomfieldvet.com/blog/reverse-dog-sneezing/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Coughing, sneezing, wheezing, reverse sneezing, snoring, and more- what does it mean?</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://emeraldanimal.com/coughing-sneezing-wheezing-reverse-sneezing-snoring-and-more-what-does-it-mean/" target="_blank" class="theme-accent-text hover:underline break-all">https://emeraldanimal.com/coughing-sneezing-wheezing-reverse-sneezing-snoring-and-more-what-does-it-mean/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Canine Nasal Mites - Dog Owners - MSD Veterinary Manual</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.msdvetmanual.com/dog-owners/lung-and-airway-disorders-of-dogs/canine-nasal-mites" target="_blank" class="theme-accent-text hover:underline break-all">https://www.msdvetmanual.com/dog-owners/lung-and-airway-disorders-of-dogs/canine-nasal-mites</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Nasal Mites - Companion Animal Parasite Council</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://capcvet.org/guidelines/nasal-mites/" target="_blank" class="theme-accent-text hover:underline break-all">https://capcvet.org/guidelines/nasal-mites/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Canine Nasal Mites - Respiratory System - Merck Veterinary Manual</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.merckvetmanual.com/respiratory-system/respiratory-diseases-of-small-animals/canine-nasal-mites" target="_blank" class="theme-accent-text hover:underline break-all">https://www.merckvetmanual.com/respiratory-system/respiratory-diseases-of-small-animals/canine-nasal-mites</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Nasal Tumors In Pets I Arizona Veterinary Oncology</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.arizonaveterinaryoncology.com/pet-cancer-types/pet-nasal-tumors" target="_blank" class="theme-accent-text hover:underline break-all">https://www.arizonaveterinaryoncology.com/pet-cancer-types/pet-nasal-tumors</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Nasal Tumors in Dogs: A Dog Parent's Guide - Dr. Buzby's ToeGrips for Dogs</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://toegrips.com/nasal-tumors-in-dogs/" target="_blank" class="theme-accent-text hover:underline break-all">https://toegrips.com/nasal-tumors-in-dogs/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Use of milbemycin oxime in the treatment of dogs with nasal mite (Pneumonyssoides caninum) infection - PubMed</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://pubmed.ncbi.nlm.nih.gov/9551380/" target="_blank" class="theme-accent-text hover:underline break-all">https://pubmed.ncbi.nlm.nih.gov/9551380/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Merck Veterinary Manual - Canine Nasal Mites Treatment</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.merckvetmanual.com/respiratory-system/respiratory-diseases-of-small-animals/canine-nasal-mites#:~:text=Treatment%20of%20Canine%20Nasal%20Mites&text=No%20drugs%20are%20currently%20approved,(topical)%20have%20been%20suggested." target="_blank" class="theme-accent-text hover:underline break-all">https://www.merckvetmanual.com...</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Efficacy of Selamectin in the Treatment of Nasal Mite (Pneumonyssoides caninum) Infection in Dogs - Allen Press</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://meridian.allenpress.com/jaaha/article/40/5/400/175912/Efficacy-of-Selamectin-in-the-Treatment-of-Nasal" target="_blank" class="theme-accent-text hover:underline break-all">https://meridian.allenpress.com/jaaha/article/40/5/400/175912/Efficacy-of-Selamectin-in-the-Treatment-of-Nasal</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Cats: What Causes It and When To Worry | PetMD</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.petmd.com/cat/symptoms/reverse-sneezing-in-cats" target="_blank" class="theme-accent-text hover:underline break-all">https://www.petmd.com/cat/symptoms/reverse-sneezing-in-cats</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Asthma in Cats - Veterinary Partner - VIN</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4951536" target="_blank" class="theme-accent-text hover:underline break-all">https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4951536</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Can My Cat Have Asthma in Crown Point, IN? - Coyne Veterinary Center</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://coynevetcare.com/blog/cat-asthma/" target="_blank" class="theme-accent-text hover:underline break-all">https://coynevetcare.com/blog/cat-asthma/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Paws and Breathe: Recognizing and Treating Feline Asthma - Aurora Veterinary Clinic</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.auroravet.com/services/cats/blog/paws-and-breathe-recognizing-and-treating-feline-asthma" target="_blank" class="theme-accent-text hover:underline break-all">https://www.auroravet.com/services/cats/blog/paws-and-breathe-recognizing-and-treating-feline-asthma</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Recognizing a Cat Asthma Attack | Perry Vets</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.perryanimalhospital.com/site/blog/2023/05/15/recognizing-cat-asthma-attack" target="_blank" class="theme-accent-text hover:underline break-all">https://www.perryanimalhospital.com/site/blog/2023/05/15/recognizing-cat-asthma-attack</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Feline Asthma: What You Need To Know | Cornell University College of Veterinary Medicine</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/feline-asthma-what-you-need-know" target="_blank" class="theme-accent-text hover:underline break-all">https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/feline-asthma-what-you-need-know</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Cat Asthma: What It Is, Symptoms, and Treatment - PetMD</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.petmd.com/cat/conditions/respiratory/cat-asthma" target="_blank" class="theme-accent-text hover:underline break-all">https://www.petmd.com/cat/conditions/respiratory/cat-asthma</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Feline Asthma: A Risky Business for Many Cats</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/feline-asthma-risky-business-many-cats" target="_blank" class="theme-accent-text hover:underline break-all">https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/feline-asthma-risky-business-many-cats</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Nasal Problems | Veterinarian in Murrayville, IL</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.murrayvillemixedanimalclinic.com/articles/415803-nasal-problems" target="_blank" class="theme-accent-text hover:underline break-all">https://www.murrayvillemixedanimalclinic.com/articles/415803-nasal-problems</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Nasopharyngeal Polyps | Cornell University College of Veterinary Medicine</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/nasopharyngeal-polyps" target="_blank" class="theme-accent-text hover:underline break-all">https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/nasopharyngeal-polyps</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Cat Nasal Polyps: Common Causes and How To Treat Them - PetMD</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.petmd.com/cat/conditions/respiratory/cat-nasal-polyps-common-causes-and-how-treat-them" target="_blank" class="theme-accent-text hover:underline break-all">https://www.petmd.com/cat/conditions/respiratory/cat-nasal-polyps-common-causes-and-how-treat-them</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Feline Respiratory Disease Complex - MSD Veterinary Manual</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.msdvetmanual.com/cat-owners/lung-and-airway-disorders-of-cats/feline-respiratory-disease-complex-feline-viral-rhinotracheitis-feline-calicivirus" target="_blank" class="theme-accent-text hover:underline break-all">https://www.msdvetmanual.com/cat-owners/lung-and-airway-disorders-of-cats/feline-respiratory-disease-complex-feline-viral-rhinotracheitis-feline-calicivirus</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Feline Calicivirus | Cornell University College of Veterinary Medicine</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.vet.cornell.edu/departments-centers-and-institutes/baker-institute-animal-health/research-baker-institute/feline-calicivirus" target="_blank" class="theme-accent-text hover:underline break-all">https://www.vet.cornell.edu/departments-centers-and-institutes/baker-institute-animal-health/research-baker-institute/feline-calicivirus</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Calicivirus Infection in Cats - PMC - PubMed Central</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9145992/" target="_blank" class="theme-accent-text hover:underline break-all">https://pmc.ncbi.nlm.nih.gov/articles/PMC9145992/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneezing in Cats - Causes, Treatment and Associated Symptoms - Vetster</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://vetster.com/en/symptoms/cat/reverse-sneezing-in-cats" target="_blank" class="theme-accent-text hover:underline break-all">https://vetster.com/en/symptoms/cat/reverse-sneezing-in-cats</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse Sneeze In Cats - Causes, Symptoms & Treatment - Beyond Pets Animal Hospital</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://beyondpets.com/pet-health-plus/reverse-sneeze-in-cats/" target="_blank" class="theme-accent-text hover:underline break-all">https://beyondpets.com/pet-health-plus/reverse-sneeze-in-cats/</a>
+                        </li>
+                        <li class="pb-2 border-b border-gray-100">
+                            <strong>Reverse sneezing in cats - Joii Pet Care</strong><br>
+                            檢索日期：11月 28, 2025， <a href="https://www.joiipetcare.com/blogs/health-conditions/reverse-sneezing-in-cats" target="_blank" class="theme-accent-text hover:underline break-all">https://www.joiipetcare.com/blogs/health-conditions/reverse-sneezing-in-cats</a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // State Management
+        let currentSpecies = 'dog'; // Default to dog
+        let charts = {}; // Store chart instances
+
+        // Data Store
+        const data = {
+            dog: {
+                // Modified Colors to fit Pink Theme better
+                // Using darker teal/warm tones
+                themeColor: '#75474d', // Use header color for breed bars
+                prevalenceTitle: '常見 (Common)',
+                prevalenceDesc: '特別是小型犬與短吻犬。通常無需過度擔心，除非頻率極高。',
+                triggers: {
+                    labels: ['過敏/環境刺激', '興奮/激動', '項圈壓迫', '短吻結構', '鼻蟎'],
+                    data: [35, 30, 15, 15, 5]
+                },
+                breeds: {
+                    labels: ['吉娃娃', '鬥牛犬', '博美', '米格魯', '一般犬種'],
+                    data: [90, 85, 80, 75, 20]
+                },
+                mechanismTrigger: '吸入灰塵、花粉、興奮急促呼吸、飲水過快。',
+                longTerm: [
+                    '避免使用項圈，改用胸背帶以減少氣管刺激。',
+                    '注意居家空氣品質，使用空氣清淨機。',
+                    '若確診為過敏，獸醫可能會開立抗組織胺。',
+                    '保持冷靜，避免過度激動的環境。'
+                ],
+                breedNote: '短吻犬 (Brachycephalic) 因軟顎過長，極易發生。'
+            },
+            cat: {
+                themeColor: '#d97706', // Amber-600 for contrast
+                prevalenceTitle: '罕見 (Rare)',
+                prevalenceDesc: '貓咪出現此症狀需高度警覺。常與氣喘或病理結構有關。',
+                triggers: {
+                    labels: ['貓氣喘/支氣管炎', '上呼吸道感染', '鼻腔異物/息肉', '過敏', '鼻蟎'],
+                    data: [40, 25, 20, 10, 5]
+                },
+                breeds: {
+                    labels: ['暹羅貓', '波斯貓', '喜馬拉雅貓', '一般短毛貓'],
+                    data: [60, 55, 50, 10]
+                },
+                mechanismTrigger: '通常涉及病理因素：發炎腫脹、息肉或異物刺激。',
+                longTerm: [
+                    '**必須就醫檢查**：排除氣喘或心臟問題。',
+                    '減少環境過敏原（貓砂粉塵、香氛、煙味）。',
+                    '若為貓氣喘，可能需要類固醇吸入治療。',
+                    '定期驅蟲以預防鼻蟎 (Pneumonyssoides)。'
+                ],
+                breedNote: '東方品種貓（如暹羅）可能有較高的呼吸道問題風險。'
+            }
+        };
+
+        // DOM Elements
+        const btnsDog = [document.getElementById('btn-dog-sidebar'), document.getElementById('btn-dog-mobile')];
+        const btnsCat = [document.getElementById('btn-cat-sidebar'), document.getElementById('btn-cat-mobile')];
+        const prevInd = document.getElementById('prevalence-indicator');
+        const prevText = document.getElementById('prevalence-text');
+        const mechTrigger = document.getElementById('mechanism-trigger');
+        const longTermList = document.getElementById('long-term-list');
+        const warningBox = document.getElementById('warning-box');
+        const breedNote = document.getElementById('breed-note');
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateDashboard('dog'); // Initial load
+
+            // Audio Player Logic
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            const speedControls = document.getElementById('audio-speed-controls');
+
+            if (audioPlayer && speedControls) {
+                speedControls.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        // Update active class
+                        speedControls.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // Functions
+        function setSpecies(species) {
+            currentSpecies = species;
+            
+            // UI Toggle States
+            if (species === 'dog') {
+                btnsDog.forEach(btn => btn && btn.classList.add('active'));
+                btnsCat.forEach(btn => btn && btn.classList.remove('active'));
+                
+                // Theme colors update
+                prevInd.classList.remove('text-[#d97706]'); // Remove cat amber
+                prevInd.classList.add('theme-accent-text'); // Add dog pink/theme
+                warningBox.classList.add('hidden');
+            } else {
+                btnsCat.forEach(btn => btn && btn.classList.add('active'));
+                btnsDog.forEach(btn => btn && btn.classList.remove('active'));
+
+                // Theme colors update
+                prevInd.classList.remove('theme-accent-text');
+                prevInd.classList.add('text-[#d97706]'); // Add cat amber
+                warningBox.classList.remove('hidden');
+            }
+
+            updateDashboard(species);
+        }
+
+        function updateDashboard(species) {
+            const speciesData = data[species];
+
+            // Update Text Content
+            prevInd.textContent = speciesData.prevalenceTitle;
+            prevText.textContent = speciesData.prevalenceDesc;
+            mechTrigger.textContent = speciesData.mechanismTrigger;
+            breedNote.textContent = speciesData.breedNote;
+
+            // Update List
+            longTermList.innerHTML = '';
+            speciesData.longTerm.forEach(item => {
+                const li = document.createElement('li');
+                // Allow simple markdown-like bolding
+                li.innerHTML = item.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                longTermList.appendChild(li);
+            });
+
+            // Update Charts
+            updateCharts(speciesData);
+        }
+
+        function initCharts() {
+            // Common Config
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, padding: 20, font: { family: "'Noto Sans TC', sans-serif" } }
+                    }
+                }
+            };
+
+            // 1. Triggers Chart (Donut)
+            const ctx1 = document.getElementById('triggersChart').getContext('2d');
+            charts.triggers = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    cutout: '60%'
+                }
+            });
+
+            // 2. Breeds Chart (Bar)
+            const ctx2 = document.getElementById('breedsChart').getContext('2d');
+            charts.breeds = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '易感性指數 (Susceptibility Index)',
+                        data: [],
+                        backgroundColor: '#ddb5bb',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false },
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts(speciesData) {
+            // Update Triggers Chart
+            charts.triggers.data.labels = speciesData.triggers.labels;
+            charts.triggers.data.datasets[0].data = speciesData.triggers.data;
+            charts.triggers.data.datasets[0].backgroundColor = currentSpecies === 'dog' 
+                ? ['#a3626c', '#ddb5bb', '#fca5a5', '#e5e7eb', '#9ca3af'] // Pink/Warm theme compatible
+                : ['#ea580c', '#f97316', '#fb923c', '#fdba74', '#94a3b8']; // Orange scale for cats (distinct)
+            charts.triggers.update();
+
+            // Update Breeds Chart
+            charts.breeds.data.labels = speciesData.breeds.labels;
+            charts.breeds.data.datasets[0].data = speciesData.breeds.data;
+            charts.breeds.data.datasets[0].backgroundColor = speciesData.themeColor;
+            charts.breeds.update();
+        }
+    </script>
+</body>
+</html>
