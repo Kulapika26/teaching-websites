@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>犬慢性炎症性腸病 (CIE) 互動式指南</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf6f7; /* Very light pink */
+            color: #5d5456; /* Darker, muted pink for text */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #c48a94; /* Main accent color */
+            border-bottom-color: #c48a94;
+        }
+        .tab-button {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .tab-button.active {
+            background-color: #d3a2a9; /* Slightly lighter accent */
+            color: white;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px; /* Adjusted for Doughnut Chart */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+        }
+        .step-content {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .step-content.visible {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        .header-title {
+            color: #a56c76; /* Darker pink for main title */
+        }
+        .card-title-main {
+            color: #a56c76;
+        }
+        .card-title-sub {
+            color: #c48a94;
+        }
+        .tag-light {
+            background-color: #fceef0;
+            color: #a56c76;
+        }
+        .summary-point h3 {
+             color: #a56c76;
+        }
+        /* Style for the audio speed buttons */
+        .audio-speed-btn {
+            background-color: #fceef0;
+            color: #a56c76;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0b8be;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .audio-speed-btn:hover {
+            background-color: #fdeff2;
+            transform: translateY(-1px);
+        }
+        .audio-speed-btn.active {
+            background-color: #a56c76;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header and Navigation -->
+    <header id="header" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-pink-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl md:text-2xl font-bold header-title">犬慢性腸病(CIE)探討</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#overview" class="nav-link px-3 py-2 rounded-md text-sm font-medium">概述分類</a>
+                        <a href="#diagnosis" class="nav-link px-3 py-2 rounded-md text-sm font-medium">診斷步驟</a>
+                        <a href="#treatment" class="nav-link px-3 py-2 rounded-md text-sm font-medium">治療階梯</a>
+                        <a href="#monitoring" class="nav-link px-3 py-2 rounded-md text-sm font-medium">預後監測</a>
+                        <a href="#audio-guide" class="nav-link px-3 py-2 rounded-md text-sm font-medium">AI討論</a>
+                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium">重點總結</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden hidden pb-3">
+                <a href="#overview" class="nav-link block px-3 py-2 rounded-md text-base font-medium">概述分類</a>
+                <a href="#diagnosis" class="nav-link block px-3 py-2 rounded-md text-base font-medium">診斷步驟</a>
+                <a href="#treatment" class="nav-link block px-3 py-2 rounded-md text-base font-medium">治療階梯</a>
+                <a href="#monitoring" class="nav-link block px-3 py-2 rounded-md text-base font-medium">預後監測</a>
+                <a href="#audio-guide" class="nav-link block px-3 py-2 rounded-md text-base font-medium">AI討論</a>
+                <a href="#summary" class="nav-link block px-3 py-2 rounded-md text-base font-medium">重點總結</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Banner Section -->
+        <section class="mb-12">
+            <div style="background-color: #e0b8be;" class="py-8 rounded-lg shadow-lg">
+                <div class="max-w-2xl mx-auto px-4">
+                    <img src="https://i.imgur.com/HjqqrMC.png" alt="一隻可愛的貓咪橫幅圖片" class="w-full h-auto block rounded-md">
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section: Overview -->
+        <section id="overview" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">核心概述：CIE 的四大回溯性亞型</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">過去常將慢性腸胃症狀統稱為「炎症性腸病 (IBD)」，但現代 ACVIM 指南建議使用 <strong>慢性炎症性腸病 (CIE)</strong> 作為統稱。CIE 是一種回溯性診斷，必須根據病患對不同治療的「反應」來進行最終分類。</p>
+            
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- Text Cards -->
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4" style="border-color: #a56c76;">
+                        <h4 class="font-bold text-lg card-title-main">FRE (食物反應性腸病)</h4>
+                        <p class="text-sm text-gray-700 mt-1">最常見的亞型。單純改變飲食（水解蛋白或新興蛋白）即可緩解症狀。</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4" style="border-color: #c48a94;">
+                        <h4 class="font-bold text-lg" style="color: #c48a94;">IRE / SRE (免疫/類固醇反應性)</h4>
+                        <p class="text-sm text-gray-700 mt-1">傳統意義上的 IBD。需要使用免疫抑制劑（如類固醇）才能控制炎症。</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4" style="border-color: #d3a2a9;">
+                        <h4 class="font-bold text-lg" style="color: #d3a2a9;">ARE (抗生素反應性腸病)</h4>
+                        <p class="text-sm text-gray-700 mt-1">逐漸被定義為腸道微生態失調 (Dysbiosis)。對抗生素試驗有反應，但目前不建議作為首選。</p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4" style="border-color: #e0b8be;">
+                        <h4 class="font-bold text-lg" style="color: #ba8c95;">NRE (無反應性腸病)</h4>
+                        <p class="text-sm text-gray-700 mt-1">對上述所有治療均無良好反應，預後最差。</p>
+                    </div>
+                </div>
+                <!-- Chart -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col justify-center items-center h-full">
+                    <h3 class="text-xl font-bold card-title-main mb-4 text-center">犬 CIE 各亞型大約盛行率</h3>
+                    <div class="chart-container">
+                        <canvas id="cieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Diagnosis Journey -->
+        <section id="diagnosis" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">互動式診斷演算法</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">CIE 的診斷是一個<strong>排除法 (Diagnosis of Exclusion)</strong> 的過程。在進行侵入性檢查或給予免疫抑制劑之前，必須先排除其他疾病。點擊每個步驟以展開詳細內容。</p>
+            
+            <div class="space-y-4">
+                <!-- Step 1 -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step1-content">
+                        <span>第一步：詳細病史與理學檢查</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step1-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700">確認症狀持續 >3週，主要症狀包含慢性嘔吐、下痢或體重減輕。這是啟動 CIE 診斷流程的先決條件。</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step2-content">
+                        <span>第二步：糞便檢查排除寄生蟲</span>
+                         <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step2-content" class="step-content px-4 pb-4">
+                         <p class="text-gray-700">進行糞便浮游法及 Giardia/Cryptosporidium 檢測。若無法檢測，通常會建議給予經驗性驅蟲 (如 Fenbendazole) 以排除寄生蟲感染的可能性。</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                 <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step3-content">
+                        <span>第三步：基礎血液與尿液檢查</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step3-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700 mb-2">主要目的是排除腸道外的全身性疾病：</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong>CBC 與 血清生化學：</strong> 特別注意白蛋白數值，以評估是否為蛋白質流失性腸病 (PLE)。</li>
+                            <li><strong>排除其他疾病：</strong> 肝腎疾病、內分泌異常 (如犬艾迪森氏症)。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white rounded-lg shadow-md">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step4-content">
+                        <span>第四步：基礎胃腸道標記與影像學</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step4-content" class="step-content px-4 pb-4">
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong style="color: #a56c76;">Cobalamin (B12) 與 Folate (葉酸)：</strong> B12 缺乏需立即補充，也可檢測 cPLI 排除胰臟炎。</li>
+                            <li><strong style="color: #c48a94;">腹腔超音波：</strong> 評估腸壁厚度、分層狀態及淋巴結腫大。主要為了排除腸道腫瘤、異物或腸套疊。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Step 5: Alert -->
+                <div class="bg-white rounded-lg shadow-md border-2" style="border-color: #e0b8be;">
+                    <button class="step-button w-full text-left p-4 flex justify-between items-center text-lg font-semibold" data-target="step5-content">
+                        <span style="color: #a56c76;">⚠️ 進階步驟：組織生檢 (Biopsy)</span>
+                        <span class="transform transition-transform duration-300">▼</span>
+                    </button>
+                    <div id="step5-content" class="step-content px-4 pb-4">
+                        <p class="text-gray-700">當上述非侵入性排除皆完成，且病患未見改善或出現警示訊號 (如嚴重低白蛋白血症、顯著體重減輕) 時，建議進行 <strong>內視鏡或開腹腸道組織生檢</strong>，並依 WSAVA 指南進行病理學分級。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Treatment -->
+        <section id="treatment" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">治療階梯 (Treatment Ladder)</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">CIE 的治療核心是<strong>循序漸進的試驗</strong>。除非病患情況危急 (如 PLE)，否則不應一開始就使用類固醇。點擊下方標籤探索階梯方案。</p>
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+                <div class="border-b border-gray-200 mb-4">
+                    <nav class="-mb-px flex space-x-4 overflow-x-auto no-scrollbar" aria-label="Tabs">
+                        <button class="tab-button active whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-fre">第一階：飲食試驗</button>
+                        <button class="tab-button whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-micro">第二階：微生態調節</button>
+                        <button class="tab-button whitespace-nowrap py-2 px-4 border-b-2 font-medium text-sm rounded-t-lg" data-target="tab-ire">第三階：免疫抑制</button>
+                    </nav>
+                </div>
+                <div id="tab-content">
+                    <!-- Tab 1: Diet -->
+                    <div id="tab-fre" class="tab-panel">
+                        <h4 class="text-xl font-bold mb-3 card-title-main">針對 FRE (食物反應性腸病)</h4>
+                        <p class="mb-4 text-gray-700">超過 50% 的慢性腸病犬只需改變飲食即可獲得臨床緩解。這是最安全且應優先進行的步驟。</p>
+                        <ol class="space-y-3 text-gray-700">
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">1</span><div><strong class="font-semibold text-black">選擇策略：</strong> 嚴格的水解蛋白飲食 (Hydrolyzed protein) 或新興蛋白飲食 (Novel protein)。</div></li>
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">2</span><div><strong class="font-semibold text-black">試驗期間：</strong> 必須嚴格執行 <strong>2 至 4 週</strong>。期間嚴禁給予任何零食、潔牙骨或其他食物。</div></li>
+                            <li class="flex items-start"><span style="background-color:#d3a2a9" class="text-white rounded-full w-6 h-6 text-center font-bold mr-3 flex-shrink-0">3</span><div><strong class="font-semibold text-black">臨床實務：</strong> 若症狀改善即診斷為 FRE。即使最終需要藥物治療，搭配低過敏飲食依然能提高整體治療成功率。</div></li>
+                        </ol>
+                    </div>
+                    <!-- Tab 2: Microbiome -->
+                    <div id="tab-micro" class="tab-panel hidden">
+                        <h4 class="text-xl font-bold mb-3 card-title-sub">針對微生態失調 (Dysbiosis)</h4>
+                        <p class="mb-4 text-gray-700">當飲食試驗效果不彰，或確認存在腸道菌叢失衡時，調整微生態是下一步。</p>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start"><span style="color:#a56c76" class="mr-2">✔</span><div><strong class="font-semibold">益生菌與益生元：</strong> 選擇具有多菌株、科學實證支持的獸醫專用益生菌產品 (如高劑量 VSL#3 或商用製劑)。</div></li>
+                            <li class="flex items-start"><span style="color:#a56c76" class="mr-2">✔</span><div><strong class="font-semibold">抗生素的退場：</strong> 為避免破壞微生態及產生抗藥性，ACVIM 目前<strong>強烈不建議</strong>將抗生素 (如 Metronidazole) 作為第一線或常規治療。</div></li>
+                            <li class="flex items-start"><span style="color:#a56c76" class="mr-2">✔</span><div><strong class="font-semibold">糞便菌群移植 (FMT)：</strong> 針對頑固性微生態失調，FMT 是新興且具潛力的輔助療法。</div></li>
+                        </ul>
+                    </div>
+                    <!-- Tab 3: Immunosuppression -->
+                    <div id="tab-ire" class="tab-panel hidden">
+                        <h4 class="text-xl font-bold mb-3" style="color:#a56c76">針對 IRE (免疫反應性腸病)</h4>
+                        <p class="mb-4 text-gray-700">如果飲食與微生態調節均失敗，或病患屬於重度疾病 (如 PLE)，則進入此階段。<strong>警告：進行前應盡可能完成腸道生檢以排除淋巴瘤。</strong></p>
+                        <div style="background-color:#fef9fa; border-left: 4px solid #e0b8be" class="p-4 rounded-r-lg">
+                            <p class="font-bold text-lg" style="color:#a56c76">藥物配置</p>
+                            <ul class="list-disc list-inside mt-2 space-y-2 text-gray-700">
+                                <li><strong class="font-semibold text-black">第一線：皮質類固醇 (Prednisolone):</strong> 1-2 mg/kg/day 啟始。根據臨床評分改善情況，每 2-4 週逐漸遞減劑量。目標是找到最低有效維持劑量。</li>
+                                <li><strong class="font-semibold text-black">第二線：免疫調節劑:</strong> 當類固醇效果不佳、副作用過大時使用。常見選項包括 Cyclosporine (環孢素) 或 Chlorambucil (常用於 PLE)。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Prognosis / Monitoring -->
+        <section id="monitoring" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">監測與預後評估</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">長期的疾病管理需要客觀的評估工具。獸醫學界建議使用臨床評分系統量化疾病嚴重度，並追蹤不良預後因子。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col border-t-4" style="border-color: #e0b8be;">
+                    <h3 class="text-xl font-bold card-title-main mb-4">臨床活動指數評分</h3>
+                    <p class="text-gray-700 mb-4">指南建議常規使用標準化評分表來監測治療反應，而非僅依賴主觀印象：</p>
+                    <ul class="space-y-2 text-gray-700 mb-4">
+                        <li><strong class="text-black">CIBDAI:</strong> 評估態度、食慾、嘔吐、糞便稠度、排便頻率、體重減輕 6 項指標。</li>
+                        <li><strong class="text-black">CCECAI:</strong> 進階版，加入白蛋白水平、腹水及周邊水腫評估，能更準確反映嚴重 PLE 狀態。</li>
+                    </ul>
+                    <div class="mt-auto pt-4">
+                        <span class="tag-light inline-block text-xs font-semibold px-2.5 py-1 rounded-md">總分 0-3：臨床正常 | 總分 >9：重度疾病</span>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col border-t-4" style="border-color: #c48a94;">
+                    <h3 class="text-xl font-bold card-title-sub mb-4">不良預後因子</h3>
+                    <p class="text-gray-700 mb-4">若出現以下指標，預後可能為謹慎至不良，需高度警覺：</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span style="color:#c48a94" class="mr-2">⚠️</span><span><strong>嚴重低白蛋白血症 (< 2.0 g/dL):</strong> 提示嚴重 PLE，存活率顯著下降。</span></li>
+                        <li class="flex items-start"><span style="color:#c48a94" class="mr-2">⚠️</span><span><strong>低血鈷胺素 (Low B12):</strong> 腸道黏膜無法修復，治療反應差。</span></li>
+                        <li class="flex items-start"><span style="color:#c48a94" class="mr-2">⚠️</span><span><strong>高 CCECAI 評分:</strong> 初診時評分過高，或治療後無法下降。</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Audio Player Section -->
+        <section id="audio-guide" class="mb-16 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">AI生成podcast討論</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">您可以聆聽AI形成的podcast對話討論，深入了解犬CIE的臨床細節，也可調整播放速度。</p>
+            <div class="w-full md:w-2/3 lg:w-1/2 mx-auto">
+                <div class="bg-white p-4 md:p-6 shadow-xl border-2 rounded-lg" style="border-color: #e0b8be;">
+                    <!-- Audio player with speed controls -->
+                    <audio id="interactiveGuideAudio" controls class="w-full mb-4">
+                        <source src="CIE.mp3" type="audio/mpeg">
+                        您的瀏覽器不支援 audio 標籤。
+                    </audio>
+                    <div class="controls flex justify-center gap-2 flex-wrap">
+                        <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+                        <button data-speed="1" class="audio-speed-btn active">正常</button>
+                        <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+                        <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+                        <button data-speed="2" class="audio-speed-btn">2x</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Summary -->
+        <section id="summary" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center mb-2 header-title">重點總結</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-10">面對犬隻慢性腸病，掌握以下核心觀念是成功管理的關鍵。</p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">①</div>
+                    <h3 class="font-bold text-lg mb-2">飲食試驗優先</h3>
+                    <p class="text-sm text-gray-600">過半數病患屬於 FRE。嚴格的水解或新興蛋白飲食是首選且最安全的介入方式。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">②</div>
+                    <h3 class="font-bold text-lg mb-2">嚴謹的排除診斷</h3>
+                    <p class="text-sm text-gray-600">在進入免疫抑制或侵入性檢查前，務必確實排除寄生蟲及全身性疾病。</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center summary-point">
+                    <div class="text-4xl mb-3">③</div>
+                    <h3 class="font-bold text-lg mb-2">客觀指標監測</h3>
+                    <p class="text-sm text-gray-600">利用 CIBDAI / CCECAI 評分表與 B12 等血檢指數，客觀追蹤治療成效並及時調整用藥。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <footer style="background-color: #e0b8be;" class="text-white mt-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-sm">
+            <p>本互動介面僅供獸醫專業人員參考與教育用途。實際臨床決策應綜合病患個體情況並遵循主治獸醫師判斷。</p>
+            <p>&copy; 2026 犬慢性腸病互動式指南。Generated based on https://pmc.ncbi.nlm.nih.gov/articles/PMC12881957/pdf/aalaf017.pdf.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Active nav link highlighting on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const targetId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === '#' + targetId) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a, .nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for sticky header height
+                            behavior: 'smooth'
+                        });
+                    }
+                    if (mobileMenu.classList.contains('hidden') === false) {
+                       mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Accordion for diagnosis steps
+            const stepButtons = document.querySelectorAll('.step-button');
+            stepButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = document.getElementById(button.dataset.target);
+                    const icon = button.querySelector('span:last-child');
+                    
+                    const isVisible = content.classList.contains('visible');
+
+                    // Close all accordions first
+                    document.querySelectorAll('.step-content.visible').forEach(openContent => {
+                        openContent.classList.remove('visible');
+                    });
+                    document.querySelectorAll('.step-button .rotate-180').forEach(openIcon => {
+                        openIcon.classList.remove('rotate-180');
+                    });
+
+                    // If it was closed, open it now.
+                    if (!isVisible) {
+                        content.classList.add('visible');
+                        icon.classList.add('rotate-180');
+                    }
+                });
+            });
+
+            // Tabs for treatment section
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons and hide all panels
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanels.forEach(panel => panel.classList.add('hidden'));
+
+                    // Activate clicked button and show target panel
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.target).classList.remove('hidden');
+                });
+            });
+
+            // Chart.js Doughnut Chart (Adapted from index2 to match index1's color theme)
+            const ctx = document.getElementById('cieChart').getContext('2d');
+            const cieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['FRE (食物反應性)', 'IRE (免疫反應性)', 'ARE (抗生素反應性)', 'NRE (無反應性)'],
+                    datasets: [{
+                        data: [60, 20, 10, 10], 
+                        backgroundColor: [
+                            '#a56c76', // Dark pink
+                            '#c48a94', // Accent pink
+                            '#d3a2a9', // Lighter pink
+                            '#e0b8be'  // Lightest pink
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { family: "'Noto Sans TC', sans-serif" }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': 約 ' + context.parsed + '%';
+                                }
+                            },
+                            backgroundColor: 'rgba(93, 84, 86, 0.9)', // Muted dark pink bg for tooltip
+                            padding: 12,
+                            titleFont: { size: 14, family: "'Noto Sans TC', sans-serif" },
+                            bodyFont: { size: 14, family: "'Noto Sans TC', sans-serif" }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+
+            // Audio Speed Control Logic
+            const audioPlayer = document.getElementById('interactiveGuideAudio');
+            if (audioPlayer) {
+                const speedButtonsContainer = audioPlayer.nextElementSibling;
+                speedButtonsContainer.addEventListener('click', (event) => {
+                    const button = event.target.closest('.audio-speed-btn');
+                    if (button) {
+                        const speed = parseFloat(button.dataset.speed);
+                        audioPlayer.playbackRate = speed;
+
+                        speedButtonsContainer.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        button.classList.add('active');
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
