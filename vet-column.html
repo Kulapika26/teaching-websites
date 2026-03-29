@@ -219,6 +219,8 @@
             border: 1px solid rgba(224, 184, 190, 0.1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .article-card:hover {
@@ -246,6 +248,7 @@
             font-weight: 500;
             display: inline-block;
             margin-bottom: 1rem;
+            align-self: flex-start;
         }
 
         .article-title {
@@ -264,6 +267,7 @@
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            flex-grow: 1;
         }
 
         .article-meta {
@@ -307,6 +311,7 @@
             border-radius: 25px;
             transition: all 0.3s ease;
             font-weight: 500;
+            justify-content: center;
         }
 
         .article-link:hover {
@@ -537,6 +542,26 @@
     <script>
         // 文章數據 - 這裡可以從外部 JSON 文件或 API 載入
         let articlesData = [
+            {
+                id: 13,
+                title: "貓胸腔CT樹芽徵綜合分析",
+                description: "Tree-in-bud Pattern — 從微觀病理機制到臨床鑑別診斷的完整影像學圖譜。深入探討貓科氣道的免疫病理特殊性及次發性病變。",
+                category: "技術教學",
+                tags: ["貓科疾病", "電腦斷層", "呼吸系統", "樹芽徵"],
+                date: "2026-03-29",
+                url: "https://atinsight.vet/treeinbud",
+                featured: true
+            },
+            {
+                id: 12,
+                title: "犬慢性炎症性腸病 (CIE) 互動式指南",
+                description: "過去常將慢性腸胃症狀統稱為「炎症性腸病(IBD)」，現代指南建議使用慢性炎症性腸病(CIE)作為統稱。包含四大回溯性亞型與互動式診斷演算法。",
+                category: "疾病介紹",
+                tags: ["犬科疾病", "腸胃道", "CIE", "IBD"],
+                date: "2026-03-29",
+                url: "https://atinsight.vet/cie",
+                featured: true
+            },
             {
                 id: 11,
                 title: "犬貓逆向噴嚏 (Reverse Sneezing)",
