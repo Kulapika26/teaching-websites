@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貓胸腔CT樹芽徵 — 深層影像學分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@300;400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* 粉色系主題 */
+    --bg: #fdf6f7;
+    --bg2: #faeef0;
+    --bg3: #fce7eb;
+    --surface: #ffffff;
+    --surface2: #faeef0;
+    --border: #e6c8cc;
+    --accent1: #a3626c; /* 深粉/主題強調色 */
+    --accent2: #825159; /* 更深的強調色 */
+    --accent3: #ddb5bb; /* 淺粉強調色 (Banner 顏色) */
+    --warm: #e09f7d;
+    --warm2: #c67d5e;
+    --green: #7ca87d;
+    --red: #c96a6a;
+    --purple: #a881af;
+    --text: #4a4a4a; /* 主文字顏色改為深灰 */
+    --text2: #75474d; /* 副標/次要文字改為深紅褐 */
+    --text3: #825159; /* 小字/備註 */
+    --glow: rgba(163,98,108,0.15);
+    --glow2: rgba(224,159,125,0.12);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── 客製化捲動條 ─── */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #faeef0; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ddb5bb;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #d1a3aa;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 160px 24px 60px; /* 增加上方 padding 留出較大 Banner 的空間 */
+  }
+
+  #hero-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* ─── 滿版頂部 BANNER ─── */
+  .banner-wrapper {
+    background-color: var(--accent3); /* HEX #ddb5bb */
+    width: 100%;
+    padding: 16px 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(163, 98, 108, 0.1);
+    animation: fadeIn 0.8s ease both;
+  }
+  
+  .banner-wrapper img {
+    width: 80%; /* 恢復原本較大的佔比 */
+    max-width: 900px; /* 恢復原本的最大尺寸 */
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 6px; /* 加上輕微圓角讓圖片融入得更好 */
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    border: 1px solid rgba(163,98,108,0.3);
+    background: rgba(255,255,255,0.6);
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(32px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+    color: var(--text2);
+    animation: fadeUp 0.9s 0.2s ease both;
+  }
+
+  .hero-title .tib {
+    color: var(--accent1);
+    position: relative;
+  }
+
+  .hero-title .tib::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent1), transparent);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--text);
+    max-width: 640px;
+    line-height: 1.7;
+    margin: 0 auto 48px;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+
+  .hero-stat {
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    padding: 16px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .hero-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--accent1);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero-stat .label {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text3);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+
+  .scroll-arrow {
+    width: 20px;
+    height: 30px;
+    border: 1px solid var(--text3);
+    border-radius: 10px;
+    position: relative;
+  }
+
+  .scroll-arrow::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--text3);
+    border-radius: 50%;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollDot 1.5s infinite;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(253, 246, 247, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 新增此行以置中標題 */
+    gap: 0;
+    height: 56px;
+    overflow-x: auto;
+  }
+
+  /* 確保在小螢幕時不會因為置中而導致左右兩側選項被截斷無法滑動 */
+  @media (max-width: 900px) {
+    nav {
+      justify-content: flex-start;
+    }
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--text3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--accent1);
+    border-bottom-color: var(--accent1);
+    background: var(--bg2);
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 2px;
+    background: var(--accent1);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(24px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--text2);
+  }
+
+  .section-desc {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-bottom: 60px;
+  }
+
+  /* ─── PATHOLOGY SECTION ─── */
+  .path-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .path-grid { grid-template-columns: 1fr; }
+  }
+
+  .path-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(163, 98, 108, 0.05);
+  }
+
+  .path-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent1);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .path-card:hover {
+    border-color: var(--accent1);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(163, 98, 108, 0.12);
+  }
+
+  .path-card:hover::before { opacity: 1; }
+
+  .path-card .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--bg2);
+    color: var(--accent1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+
+  .path-card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text2);
+  }
+
+  .path-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  /* ─── DEMOGRAPHICS ─── */
+  .demo-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 24px;
+  }
+
+  .demo-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 700px) {
+    .demo-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .demo-cell {
+    background: var(--surface);
+    padding: 28px 24px;
+    text-align: center;
+    transition: background 0.3s;
+  }
+
+  .demo-cell:hover { background: var(--surface2); }
+
+  .demo-cell .val {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent1);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .demo-cell .key {
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .demo-cell .sub {
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ─── SYMPTOM BARS ─── */
+  .symptom-list { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+
+  .symptom-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 50px;
+    align-items: center;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .symptom-row { grid-template-columns: 120px 1fr 40px; }
+    .symptom-row .s-label { font-size: 12px; }
+  }
+
+  .s-label {
+    font-size: 14px;
+    color: var(--text);
+    text-align: right;
+    font-weight: 500;
+  }
+
+  .s-bar-wrap {
+    height: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .s-bar {
+    height: 100%;
+    border-radius: 4px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .s-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--accent1);
+    text-align: right;
+    font-weight: 700;
+  }
+
+  /* ─── CT VS XRAY ─── */
+  .compare-section {
+    padding: 100px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .compare-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    max-width: 400px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 14px;
+    background: var(--surface);
+    border: none;
+    color: var(--text3);
+    font-size: 14px;
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .tab-btn.active {
+    background: var(--accent1);
+    color: white;
+    font-weight: 600;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .compare-table th {
+    padding: 16px 20px;
+    text-align: left;
+    background: var(--bg2);
+    color: var(--text2);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .compare-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  .compare-table td:first-child {
+    color: var(--text2);
+    font-weight: 600;
+    white-space: nowrap;
+    background: rgba(250,238,240,0.3);
+  }
+
+  .compare-table tr:hover td {
+    background: rgba(163,98,108,0.03);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-good { background: rgba(124,168,125,0.15); color: #4e8250; border: 1px solid rgba(124,168,125,0.3); }
+  .badge-poor { background: rgba(201,106,106,0.15); color: #a14545; border: 1px solid rgba(201,106,106,0.3); }
+  .badge-warn { background: rgba(224,159,125,0.15); color: #c67d5e; border: 1px solid rgba(224,159,125,0.3); }
+
+  /* ─── LOBE CHART ─── */
+  #lobe-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 24px;
+  }
+
+  .lobe-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .lobe-inner { grid-template-columns: 1fr; }
+  }
+
+  .lobe-bars { margin-top: 20px; }
+
+  .lobe-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 40px 40px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .lobe-name {
+    font-size: 13px;
+    color: var(--text);
+    text-align: right;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  .lobe-track {
+    height: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+  }
+
+  .lobe-fill-rx {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(224,159,125,0.6), rgba(224,159,125,0.3));
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.4s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .lobe-fill-ct {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(163,98,108,0.8), rgba(163,98,108,0.4));
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.4s 0.15s cubic-bezier(0.16,1,0.3,1);
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .lobe-val-rx {
+    font-size: 13px;
+    color: var(--warm2);
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .lobe-val-ct {
+    font-size: 13px;
+    color: var(--accent1);
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .legend-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: inline-flex;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+
+  /* ─── MOSAIC / MECHANISM ─── */
+  .mech-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .mech-grid { grid-template-columns: 1fr; }
+  }
+
+  .mech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(163, 98, 108, 0.05);
+  }
+
+  .mech-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  .mech-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(163, 98, 108, 0.1);
+  }
+
+  .mech-card.active::after {
+    border-color: var(--accent1);
+  }
+
+  .mech-card .m-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: rgba(163,98,108,0.15);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .mech-card.active .m-num {
+    color: rgba(163,98,108,0.4);
+  }
+
+  .mech-card h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text2);
+  }
+
+  .mech-card p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    transition: color 0.3s;
+  }
+
+  .mech-card.active p { color: var(--text); font-weight: 500; }
+
+  .mech-detail {
+    margin-top: 32px;
+    background: var(--surface);
+    border: 2px solid rgba(163,98,108,0.2);
+    border-radius: 8px;
+    padding: 32px;
+    display: none;
+    box-shadow: 0 4px 12px rgba(163,98,108,0.08);
+  }
+
+  .mech-detail.active { display: block; animation: fadeIn 0.3s ease; }
+
+  .mech-detail h4 {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--accent1);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 12px;
+  }
+
+  .mech-detail p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text);
+  }
+
+  .mech-detail .stat-row {
+    display: flex;
+    gap: 32px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+    background: var(--bg2);
+    padding: 16px 24px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .mech-detail .stat-item {
+    text-align: center;
+  }
+
+  .mech-detail .stat-item .sv {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--accent1);
+    font-weight: 700;
+    display: block;
+  }
+
+  .mech-detail .stat-item .sk {
+    font-size: 12px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  /* ─── UAD SECTION ─── */
+  .uad-section {
+    background: var(--bg3);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 24px;
+  }
+
+  .uad-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .uad-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 60px 0 40px;
+    position: relative;
+  }
+
+  .uad-node {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    text-align: center;
+    min-width: 140px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(163,98,108,0.05);
+  }
+
+  .uad-node:hover, .uad-node.lit {
+    border-color: var(--accent1);
+    background: var(--surface);
+    box-shadow: 0 0 24px rgba(163,98,108,0.2);
+    transform: translateY(-2px);
+  }
+
+  .uad-node .n-icon { font-size: 32px; margin-bottom: 8px; }
+  .uad-node .n-title { font-size: 15px; color: var(--text2); font-weight: 700; }
+  .uad-node .n-sub { font-size: 12px; color: var(--text3); margin-top: 4px; font-weight: 500;}
+
+  .uad-arrow {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--border), var(--accent1), var(--border));
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .uad-arrow::after {
+    content: '▶';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--accent1);
+  }
+
+  .uad-or-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .uad-or-table th {
+    padding: 16px 20px;
+    background: var(--bg2);
+    color: var(--text2);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+    text-align: left;
+  }
+
+  .uad-or-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .uad-or-table td:first-child { color: var(--text2); font-weight: 600; }
+
+  .or-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .or-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent1));
+    min-width: 4px;
+    transition: width 1.2s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .or-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--accent1);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ─── DIFFERENTIAL ─── */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 700px) {
+    .diff-grid { grid-template-columns: 1fr; }
+  }
+
+  .diff-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(163,98,108,0.05);
+  }
+
+  .diff-card:hover {
+    border-color: rgba(163,98,108,0.4);
+    background: var(--bg2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(163,98,108,0.1);
+  }
+
+  .diff-card .dc-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .diff-card .dc-body h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text2);
+  }
+
+  .diff-card .dc-body p {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .diff-card .dc-tag {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 10px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    border-radius: 4px;
+  }
+
+  /* ─── CT PARAMS ─── */
+  .params-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 100px 24px;
+  }
+
+  .params-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .params-table-wrap {
+    overflow-x: auto;
+    margin-top: 40px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .params-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+  }
+
+  .params-table th {
+    padding: 16px 20px;
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .params-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  .params-table tr:last-child td { border-bottom: none; }
+  .params-table td:first-child { color: var(--text2); font-weight: 600; background: rgba(250,238,240,0.3); }
+
+  .params-table tr:hover td {
+    background: rgba(163,98,108,0.04);
+  }
+
+  .param-highlight {
+    color: var(--accent1);
+    font-weight: 700;
+  }
+
+  /* ─── CLINICAL PEARLS ─── */
+  .pearls-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .pearl-item {
+    display: flex;
+    gap: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px;
+    align-items: flex-start;
+    transition: all 0.3s;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(163,98,108,0.04);
+  }
+
+  .pearl-item:hover {
+    border-color: rgba(163,98,108,0.4);
+    background: var(--bg2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(163,98,108,0.1);
+  }
+
+  .pearl-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    color: rgba(163,98,108,0.2);
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 50px;
+    text-align: right;
+    transition: color 0.3s;
+  }
+
+  .pearl-item:hover .pearl-num {
+    color: var(--accent1);
+  }
+
+  .pearl-body h4 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text2);
+  }
+
+  .pearl-body p {
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  /* ─── AUDIO PLAYER ─── */
+  .audio-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .audio-container {
+    max-width: 672px;
+    margin: 0 auto;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .audio-container audio {
+    width: 100%;
+    margin-bottom: 16px;
+    border-radius: 6px;
+  }
+  .audio-speed-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .audio-speed-btn {
+    background-color: var(--surface);
+    color: var(--accent1);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  }
+  .audio-speed-btn:hover {
+    background-color: var(--bg3);
+    transform: translateY(-1px);
+  }
+  .audio-speed-btn.active {
+    background-color: var(--accent1);
+    color: white;
+    font-weight: 700;
+    border-color: var(--accent1);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  footer .f-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: var(--text2);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes scrollDot {
+    0% { top: 6px; opacity: 1; }
+    100% { top: 18px; opacity: 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── TOOLTIP ─── */
+  [data-tip] {
+    position: relative;
+    cursor: help;
+    border-bottom: 1px dashed var(--accent1);
+    color: var(--text2);
+    font-weight: 500;
+  }
+
+  [data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text2);
+    border: 1px solid var(--border);
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 10px 14px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 200;
+    pointer-events: none;
+    max-width: 260px;
+    white-space: normal;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(117,71,77,0.2);
+  }
+
+  /* ─── PROGRESS ─── */
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent1), var(--accent3));
+    z-index: 1000;
+    width: 0;
+    transition: width 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HERO -->
+<div id="hero">
+  
+  <!-- 滿版頂部 BANNER -->
+  <div class="banner-wrapper">
+      <img src="https://i.imgur.com/cC6LKSw.png" alt="TCC Banner Image">
+  </div>
+
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+
+    <div class="hero-tag">高階獸醫影像診斷學 · 貓胸腔CT分析</div>
+    <h1 class="hero-title">
+      貓胸腔電腦斷層<br>
+      <span class="tib">樹芽徵</span>綜合分析
+    </h1>
+    <p class="hero-subtitle">
+      Tree-in-bud Pattern — 從微觀病理機制到臨床鑑別診斷的完整影像學圖譜
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num" data-target="36">0</span>
+        <span class="label">研究樣本數</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num" data-target="4">0</span>
+        <span class="label">教學醫院</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num" data-pct data-target="16.6">0</span>
+        <span class="label">無症狀比例</span>
+      </div>
+      <div class="hero-stat">
+        <span class="num" data-target="100">0</span>
+        <span class="label">支氣管擴張率%</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+    <span>向下捲動</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-item active" data-target="sec-patho">病理機制</div>
+  <div class="nav-item" data-target="sec-demo">病患特徵</div>
+  <div class="nav-item" data-target="sec-compare">影像比較</div>
+  <div class="nav-item" data-target="sec-lobes">肺葉分佈</div>
+  <div class="nav-item" data-target="sec-mech">次發性病變</div>
+  <div class="nav-item" data-target="sec-uad">聯合呼吸道</div>
+  <div class="nav-item" data-target="sec-diff">鑑別診斷</div>
+  <div class="nav-item" data-target="sec-params">掃描參數</div>
+  <div class="nav-item" data-target="sec-pearls">臨床重點</div>
+  <div class="nav-item" data-target="sec-audio">語音導覽</div>
+</nav>
+
+<!-- SECTION 1: PATHOLOGY -->
+<section id="sec-patho">
+  <div class="section-label">01 — 病理生理學機制</div>
+  <h2 class="section-title reveal">樹芽徵的深層<br>解剖與病理基礎</h2>
+  <p class="section-desc reveal">
+    樹芽徵（Tree-in-bud pattern, TIB）是終末小葉細支氣管因黏液、膿液或其他物質阻塞與擴張，在切面影像上呈現出猶如春天樹枝發芽般的結節狀與線狀分支不透明區。
+  </p>
+  <div class="path-grid reveal">
+    <div class="path-card">
+      <div class="icon">🫁</div>
+      <h3>次級肺小葉 — 基本結構單位</h3>
+      <p>正常的小葉細支氣管（直徑 &lt; 1–2mm）在常規CT下無法被獨立識別。當病理過程導致細支氣管壁發炎增厚、管腔內嵌塞富含蛋白質的物質時，這些原本隱形的末梢氣道便在影像上顯影。</p>
+    </div>
+    <div class="path-card">
+      <div class="icon">🔬</div>
+      <h3>貓科氣道的免疫病理特殊性</h3>
+      <p>貓過敏性氣喘由 <span data-tip="第二型輔助T細胞，驅動嗜酸性球浸潤與氣道平滑肌痙攣">Th2</span> 免疫反應驅動；慢性支氣管炎則呈現中性球為主的慢性發炎。兩者皆引發黏膜水腫、<span data-tip="黏液分泌細胞大量增生">杯狀細胞增生</span>與高黏稠度黏液過度分泌。</p>
+    </div>
+    <div class="path-card">
+      <div class="icon">🌿</div>
+      <h3>黏液栓子的形成機制</h3>
+      <p>炎症反應沿支氣管樹向下蔓延至缺乏軟骨支撐的細支氣管時，高黏稠度炎性分泌物形成難以咳出的黏液栓子（Mucus plugs），導致細支氣管被動擴張，構築出樹芽徵的特徵性影像。</p>
+    </div>
+    <div class="path-card">
+      <div class="icon">🧭</div>
+      <h3>人類醫學的類比與延伸</h3>
+      <p>樹芽徵最初見於人類結核分枝桿菌支氣管內播散的HRCT描述。隨後發現可見於細菌、真菌、病毒感染、囊性纖維化、閉塞性細支氣管炎及周邊肺血管腫瘤栓塞等廣泛疾病光譜。</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 2: DEMOGRAPHICS -->
+<div class="demo-section" id="sec-demo">
+  <div class="demo-inner">
+    <div class="section-label">02 — 病患人口學特徵</div>
+    <h2 class="section-title reveal">核心研究樣本 — 36 隻貓的故事</h2>
+    <p class="section-desc reveal">
+      Hahn et al. 多中心回顧性研究（2012–2015），橫跨四家頂尖獸醫教學醫院，由兩位影像科專科醫師盲性共識覆核。
+    </p>
+    <div class="demo-grid reveal">
+      <div class="demo-cell">
+        <span class="val">36</span>
+        <span class="key">總樣本數</span>
+        <div class="sub">確診CT樹芽徵</div>
+      </div>
+      <div class="demo-cell">
+        <span class="val">19F / 17M</span>
+        <span class="key">性別分佈</span>
+        <div class="sub">無性別專一性</div>
+      </div>
+      <div class="demo-cell">
+        <span class="val">11.3歲</span>
+        <span class="key">平均年齡</span>
+        <div class="sub">範圍：8個月 → 20歲</div>
+      </div>
+      <div class="demo-cell">
+        <span class="val">4.5 kg</span>
+        <span class="key">平均體重</span>
+        <div class="sub">範圍：2.4 → 7.0 kg</div>
+      </div>
+      <div class="demo-cell">
+        <span class="val">24</span>
+        <span class="key">混血短毛/中長毛</span>
+        <div class="sub">最多數族群</div>
+      </div>
+      <div class="demo-cell">
+        <span class="val">6</span>
+        <span class="key">暹羅貓</span>
+        <div class="sub">次多族群</div>
+      </div>
+    </div>
+
+    <div style="margin-top:60px">
+      <h3 class="reveal" style="font-family:'Noto Serif TC',serif; font-size:24px; margin-bottom:8px; font-weight:700; color:var(--text2);">臨床症狀分佈</h3>
+      <p class="reveal" style="color:var(--text); font-size:14px; margin-bottom:0">30/36 隻出現明顯呼吸道症狀（6  অংশের完全無症狀）</p>
+      <div class="symptom-list reveal" id="symptom-list">
+        <div class="symptom-row">
+          <div class="s-label">咳嗽</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--accent1),var(--accent3))" data-w="38.8"></div></div>
+          <div class="s-pct">14隻</div>
+        </div>
+        <div class="symptom-row">
+          <div class="s-label">鼻腔分泌物/打噴嚏</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--purple),rgba(168,129,175,0.5))" data-w="36.1"></div></div>
+          <div class="s-pct">13隻</div>
+        </div>
+        <div class="symptom-row">
+          <div class="s-label">呼吸急促/費力</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--warm),rgba(224,159,125,0.5))" data-w="33.3"></div></div>
+          <div class="s-pct">12隻</div>
+        </div>
+        <div class="symptom-row">
+          <div class="s-label">呼氣性呼吸窘迫</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--red),rgba(201,106,106,0.5))" data-w="19.4"></div></div>
+          <div class="s-pct">7隻</div>
+        </div>
+        <div class="symptom-row">
+          <div class="s-label">肺音異常</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--green),rgba(124,168,125,0.5))" data-w="47.2"></div></div>
+          <div class="s-pct">17隻</div>
+        </div>
+        <div class="symptom-row">
+          <div class="s-label" style="font-weight:700; color:var(--accent2)">⚠️ 完全無症狀</div>
+          <div class="s-bar-wrap"><div class="s-bar" style="background:linear-gradient(90deg,var(--warm2),rgba(219,133,101,0.5))" data-w="16.6"></div></div>
+          <div class="s-pct">6隻</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: COMPARE -->
+<section id="sec-compare" class="compare-section">
+  <div class="section-label">03 — 影像學工具比較</div>
+  <h2 class="section-title reveal">X光 vs CT — 維度壓縮的致命陷阱</h2>
+  <p class="section-desc reveal">
+    放射線攝影在偵測細支氣管層級病變時存在嚴重侷限：17% 的病例 X 光完全陰性，多數病灶嚴重被低估為「肺部結節」。
+  </p>
+
+  <div class="compare-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('morph')">形態學比較</button>
+    <button class="tab-btn" onclick="switchTab('detect')">偵測效能</button>
+    <button class="tab-btn" onclick="switchTab('pitfall')">臨床陷阱</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-morph">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>影像特徵</th>
+          <th>胸腔放射線攝影 X-ray</th>
+          <th>電腦斷層 CT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>形態描述</td>
+          <td>76%呈現<b>單純結節狀</b>，僅19%見管狀</td>
+          <td>56%管狀，31%管狀+結節混合</td>
+        </tr>
+        <tr>
+          <td>病灶尺寸</td>
+          <td>難以精確量化</td>
+          <td>0.7–9 mm，精確測量</td>
+        </tr>
+        <tr>
+          <td>HU值測量</td>
+          <td>❌ 不可行</td>
+          <td>✅ 10–2355 HU（反映液/黏液/礦化）</td>
+        </tr>
+        <tr>
+          <td>顯影增強</td>
+          <td>無法可靠評估</td>
+          <td>✅ 無強化 → 排除腫瘤/肉芽腫</td>
+        </tr>
+        <tr>
+          <td>三維空間解析</td>
+          <td>❌ 二維投影壓縮</td>
+          <td>✅ MPR + MIP 多平面重建</td>
+        </tr>
+        <tr>
+          <td>胸膜關係判斷</td>
+          <td>困難，常混淆</td>
+          <td>✅ 中心小葉分佈，距胸膜 &gt;5mm</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-panel" id="tab-detect">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>偵測項目</th>
+          <th>X-ray 偵測率</th>
+          <th>CT 偵測率</th>
+          <th>差異</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>樹芽徵完全陰性</td>
+          <td><span class="badge badge-poor">6/36（17%）完全漏診</span></td>
+          <td><span class="badge badge-good">0% 漏診</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>病灶數量低估</td>
+          <td><span class="badge badge-poor">24/36（67%）嚴重低估</span></td>
+          <td><span class="badge badge-good">精確計數</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>支氣管結石偵測</td>
+          <td><span class="badge badge-poor">~6% 偵出</span></td>
+          <td><span class="badge badge-good">28%（10隻）偵出</span></td>
+          <td>↑ 4.7倍</td>
+        </tr>
+        <tr>
+          <td>實質帶（Parenchymal bands）</td>
+          <td><span class="badge badge-poor">17% 偵出</span></td>
+          <td><span class="badge badge-good">69%（25隻）偵出</span></td>
+          <td>↑ 4倍</td>
+        </tr>
+        <tr>
+          <td>蜂窩狀改變</td>
+          <td>幾乎無法辨識</td>
+          <td><span class="badge badge-warn">28%（10隻）偵出</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>馬賽克衰減</td>
+          <td>無法可靠評估</td>
+          <td><span class="badge badge-good">33%（12隻）偵出</span></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-panel" id="tab-pitfall">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>X光誤判類型</th>
+          <th>實際病因</th>
+          <th>後果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>多發性肺部結節</td>
+          <td>三維分支的黏液栓塞被二維壓縮</td>
+          <td><span class="badge badge-poor">誤判為惡性腫瘤轉移</span></td>
+        </tr>
+        <tr>
+          <td>「軟組織不透明結節」</td>
+          <td>樹芽徵的投影假象</td>
+          <td>建議高風險侵入性採樣或安樂死</td>
+        </tr>
+        <tr>
+          <td>散佈性結節+支氣管圖案</td>
+          <td>下呼吸道疾病樹芽徵</td>
+          <td><span class="badge badge-warn">強烈建議升級至CT掃描</span></td>
+        </tr>
+        <tr>
+          <td>完全正常X光</td>
+          <td>輕度至重度樹芽徵（16.6%）</td>
+          <td>亞臨床病變未被發現，麻醉風險未知</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:20px; padding:20px 24px; background:rgba(224,159,125,0.1); border:1px solid rgba(224,159,125,0.4); border-radius:6px; font-size:14px; color:var(--text2); line-height:1.8; box-shadow: 0 4px 10px rgba(224,159,125,0.05);">
+      ⚠️ <strong>臨床警示：</strong>當胸腔X光在貓隻單一肺葉發現多發性軟組織結節，且周邊伴隨支氣管圖案或過度充氣時，切勿輕易下達腫瘤診斷。應將「樹芽徵」列入首要鑑別診斷，積極建議進行胸腔CT掃描。
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 4: LOBE DISTRIBUTION -->
+<div id="lobe-section">
+  <div class="lobe-inner">
+    <div>
+      <div class="section-label">04 — 解剖學分佈</div>
+      <h2 class="section-title reveal" style="font-size:clamp(24px,4vw,38px)">肺葉受侵犯頻率<br>比較分析</h2>
+      <p style="color:var(--text); font-size:14.5px; line-height:1.8; margin-bottom:24px;" class="reveal">
+        樹芽徵並非均勻散佈，而是展現出強烈的局部好發性。<strong style="color:var(--accent1)">右前肺葉</strong>與<strong style="color:var(--accent1)">右後肺葉</strong>為最常受侵犯的解剖區域，可能與右側支氣管較陡直、氣流動力學及重力依賴效應有關。
+      </p>
+      <div class="reveal" style="background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--accent1); border-radius:4px; padding:16px 20px; font-size:14px; color:var(--text); line-height:1.8; margin-bottom:16px; box-shadow: 0 2px 8px rgba(163,98,108,0.05);">
+        💡 樹芽徵病灶呈現「中心小葉（Centrilobular）」分佈特徵，與臟層胸膜保持 <strong style="color:var(--accent1)">&gt;5mm</strong> 的安全距離——此特徵是排除血行性轉移的最重要影像學分水嶺。
+      </div>
+      <p style="color:var(--text3); font-size:12px; letter-spacing:1px; font-weight:500;">
+        * CT偵測率為RX的 207%（右前葉）及 191%（右後葉）
+      </p>
+    </div>
+    <div>
+      <div class="legend-row reveal">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:rgba(224,159,125,0.7)"></div>
+          <span>X-ray 偵測數</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:var(--accent1)"></div>
+          <span>CT 偵測數</span>
+        </div>
+      </div>
+      <div class="lobe-bars reveal" id="lobe-bars">
+        <div class="lobe-row">
+          <div class="lobe-name">右前肺葉<br>Right Cranial</div>
+          <div class="lobe-track">
+            <div class="lobe-fill-rx" data-rx="48.1" style="z-index:1; opacity:0.6"></div>
+            <div class="lobe-fill-ct" data-ct="100"></div>
+          </div>
+          <div class="lobe-val-rx">13</div>
+          <div class="lobe-val-ct">27</div>
+        </div>
+        <div class="lobe-row">
+          <div class="lobe-name">右後肺葉<br>Right Caudal</div>
+          <div class="lobe-track">
+            <div class="lobe-fill-rx" data-rx="44.4" style="z-index:1; opacity:0.6"></div>
+            <div class="lobe-fill-ct" data-ct="85.2"></div>
+          </div>
+          <div class="lobe-val-rx">12</div>
+          <div class="lobe-val-ct">23</div>
+        </div>
+        <div class="lobe-row">
+          <div class="lobe-name">副葉<br>Accessory</div>
+          <div class="lobe-track">
+            <div class="lobe-fill-rx" data-rx="0" style="z-index:1; opacity:0.6"></div>
+            <div class="lobe-fill-ct" data-ct="66.7"></div>
+          </div>
+          <div class="lobe-val-rx">—</div>
+          <div class="lobe-val-ct">18</div>
+        </div>
+        <div class="lobe-row">
+          <div class="lobe-name">左前肺葉前段<br>Cr of L cranial</div>
+          <div class="lobe-track">
+            <div class="lobe-fill-rx" data-rx="0" style="z-index:1; opacity:0.6"></div>
+            <div class="lobe-fill-ct" data-ct="66.7"></div>
+          </div>
+          <div class="lobe-val-rx">—</div>
+          <div class="lobe-val-ct">18</div>
+        </div>
+        <div class="lobe-row">
+          <div class="lobe-name">左後肺葉<br>Left Caudal</div>
+          <div class="lobe-track">
+            <div class="lobe-fill-rx" data-rx="44.4" style="z-index:1; opacity:0.6"></div>
+            <div class="lobe-fill-ct" data-ct="0"></div>
+          </div>
+          <div class="lobe-val-rx">12</div>
+          <div class="lobe-val-ct">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 5: SECONDARY CHANGES -->
+<section id="sec-mech">
+  <div class="section-label">05 — 次發性病理變化</div>
+  <h2 class="section-title reveal">伴隨的肺部結構重塑</h2>
+  <p class="section-desc reveal">
+    樹芽徵從非孤立存在。點擊下方各病變卡片，查看詳細病理機制與臨床數據。
+  </p>
+
+  <div class="mech-grid reveal" id="mech-grid">
+    <div class="mech-card" onclick="selectMech(0)">
+      <div class="m-num">01</div>
+      <h3>馬賽克衰減<br>Mosaic Attenuation</h3>
+      <p>斑塊狀深淺不一的密度差異，反映局部低氧性肺血管收縮（HPV）的代償機制。</p>
+    </div>
+    <div class="mech-card" onclick="selectMech(1)">
+      <div class="m-num">02</div>
+      <h3>支氣管擴張<br>Bronchiectasis</h3>
+      <p>慢性炎症摧毀支氣管壁軟骨結構，配合持續性管腔內高壓，導致不可逆氣道擴張。</p>
+    </div>
+    <div class="mech-card" onclick="selectMech(2)">
+      <div class="m-num">03</div>
+      <h3>支氣管結石<br>Broncholithiasis</h3>
+      <p>長期積聚的高蛋白炎性物質發生失養性鈣化，形成堅硬的管腔內礦物質沉積物。</p>
+    </div>
+    <div class="mech-card" onclick="selectMech(3)">
+      <div class="m-num">04</div>
+      <h3>肺塌陷與肺纖維化<br>Atelectasis & Fibrosis</h3>
+      <p>氣流阻斷導致肺萎縮；慢性炎症跨越氣道界線波及肺間質，引發不可逆纖維化。</p>
+    </div>
+  </div>
+
+  <div class="mech-detail" id="mech-detail-0">
+    <h4>馬賽克衰減 — 局部低氧性肺血管收縮（HPV）</h4>
+    <p>黏液栓塞阻斷下游肺泡通氣 → 局部缺氧 → 內皮素釋放並抑制一氧化氮 → 微血管強烈收縮 → 血液分流至健康肺葉。CT影像呈現：阻塞區（低衰減，更黑）vs 充血區（高衰減，較白）的斑駁外觀。</p>
+    <div class="stat-row">
+      <div class="stat-item"><span class="sv">33%</span><span class="sk">出現馬賽克衰減</span></div>
+      <div class="stat-item"><span class="sv">28%</span><span class="sk">鄰近肺動脈縮小</span></div>
+      <div class="stat-item"><span class="sv">12隻</span><span class="sk">病患數</span></div>
+    </div>
+  </div>
+
+  <div class="mech-detail" id="mech-detail-1">
+    <h4>支氣管擴張 — 不可逆的氣道結構崩潰</h4>
+    <p>嗜酸性球/中性球釋放的彈性蛋白酶與活性氧物質，無情摧毀支氣管壁的軟骨板與彈性結構。擴大的管腔形成「死水儲積池」，使纖毛清除能力癱瘓，成為細菌滋生的溫床，陷入「發炎→結構破壞→擴張→感染」惡性循環。</p>
+    <div class="stat-row">
+      <div class="stat-item"><span class="sv">100%</span><span class="sk">至少一個肺葉節段受影響</span></div>
+      <div class="stat-item"><span class="sv">97%</span><span class="sk">右前葉受影響</span></div>
+      <div class="stat-item"><span class="sv">88%</span><span class="sk">左前葉前段受影響</span></div>
+      <div class="stat-item"><span class="sv">83%</span><span class="sk">右後葉受影響</span></div>
+    </div>
+  </div>
+
+  <div class="mech-detail" id="mech-detail-2">
+    <h4>支氣管結石 — 失養性鈣化的終末型態</h4>
+    <p>長期積聚的高蛋白炎性分泌物、壞死細胞殘骸與黏液栓子，在局部微環境的酸鹼值與離子濃度改變下，發生「失養性鈣化」。堅硬礦物質沉積物對支氣管黏膜造成持續性物理摩擦，導致永久性氣道阻塞。這解釋了為何某些慢性支氣管炎貓隻即使使用高劑量皮質類固醇，症狀依舊頑固不化。</p>
+    <div class="stat-row">
+      <div class="stat-item"><span class="sv">28%</span><span class="sk">CT 偵測到支氣管結石</span></div>
+      <div class="stat-item"><span class="sv">6%</span><span class="sk">X-ray 僅能辨識</span></div>
+      <div class="stat-item"><span class="sv">10隻</span><span class="sk">確診病患數</span></div>
+    </div>
+  </div>
+
+  <div class="mech-detail" id="mech-detail-3">
+    <h4>肺塌陷、肺氣腫與實質帶/蜂窩狀改變</h4>
+    <p>氣流阻斷 → 下游肺泡萎縮（吸收性肺塌陷）；單向活瓣效應 → 局部氣體滯留 → 代償性肺氣腫。實質帶（從臟層胸膜垂直向內延伸的線狀不透明區）加上蜂窩狀改變，強烈暗示慢性炎症已波及肺間質，引發發炎後纖維化——疾病進入不可逆的終末階段。</p>
+    <div class="stat-row">
+      <div class="stat-item"><span class="sv">53%</span><span class="sk">局部肺塌陷</span></div>
+      <div class="stat-item"><span class="sv">69%</span><span class="sk">實質帶（CT）</span></div>
+      <div class="stat-item"><span class="sv">28%</span><span class="sk">蜂窩狀改變</span></div>
+      <div class="stat-item"><span class="sv">31%</span><span class="sk">肺葉過度充氣</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 6: UAD -->
+<div class="uad-section" id="sec-uad">
+  <div class="uad-inner">
+    <div class="section-label">06 — 聯合呼吸道疾病理論</div>
+    <h2 class="section-title reveal">United Airway Disease</h2>
+    <p class="section-desc reveal">
+      2025年大規模研究（549隻貓）確立了上呼吸道疾病與下呼吸道樹芽徵的強烈統計學連動，重塑了貓呼吸道疾病的診療思維。
+    </p>
+
+    <div class="uad-diagram reveal" id="uad-diagram">
+      <div class="uad-node" onclick="litNode(0)">
+        <div class="n-icon">👃</div>
+        <div class="n-title">鼻炎</div>
+        <div class="n-sub">OR 1.62×</div>
+      </div>
+      <div class="uad-arrow"></div>
+      <div class="uad-node" onclick="litNode(1)">
+        <div class="n-icon">🗣️</div>
+        <div class="n-title">鼻咽炎</div>
+        <div class="n-sub">OR 1.46×</div>
+      </div>
+      <div class="uad-arrow"></div>
+      <div class="uad-node" onclick="litNode(2)">
+        <div class="n-icon">👂</div>
+        <div class="n-title">中耳炎</div>
+        <div class="n-sub">OR 1.46×</div>
+      </div>
+      <div class="uad-arrow"></div>
+      <div class="uad-node" onclick="litNode(3)" style="border-color:var(--accent1); background:var(--surface)">
+        <div class="n-icon">🫁</div>
+        <div class="n-title">FLAD</div>
+        <div class="n-sub" style="color:var(--accent1); font-weight:700;">下呼吸道疾病</div>
+      </div>
+    </div>
+
+    <div style="text-align:center; margin-top:-20px; margin-bottom:40px;" class="reveal">
+      <div style="display:inline-block; background:rgba(201,106,106,0.1); border:1px solid rgba(201,106,106,0.3); border-radius:6px; padding:12px 24px; font-size:15px; color:#a14545; font-weight:500;">
+        ⚡ 鼻炎 + 中耳炎 雙重感染 → <strong style="font-size:20px; font-family:'Playfair Display',serif;">OR 2.27×</strong> 下呼吸道疾病風險
+      </div>
+    </div>
+
+    <table class="uad-or-table reveal" id="uad-table">
+      <thead>
+        <tr>
+          <th>上呼吸道疾病類型</th>
+          <th>研究樣本數</th>
+          <th>併發FLAD的勝算比（OR）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>鼻炎（Rhinitis）</td>
+          <td>348 隻</td>
+          <td>
+            <div class="or-bar-wrap">
+              <div class="or-bar" data-or="1.62" style="width:0"></div>
+              <span class="or-val">1.62×</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>鼻咽炎（Nasopharyngitis）</td>
+          <td>253 隻</td>
+          <td>
+            <div class="or-bar-wrap">
+              <div class="or-bar" data-or="1.46" style="width:0"></div>
+              <span class="or-val">1.46×</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>中耳炎（Otitis Media）</td>
+          <td>287 隻</td>
+          <td>
+            <div class="or-bar-wrap">
+              <div class="or-bar" data-or="1.46" style="width:0"></div>
+              <span class="or-val">1.46×</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="color:#a14545; font-weight:600;">鼻炎 + 中耳炎（雙重）</td>
+          <td>—</td>
+          <td>
+            <div class="or-bar-wrap">
+              <div class="or-bar" data-or="2.27" style="width:0; background:linear-gradient(90deg,#c96a6a,rgba(201,106,106,0.5))"></div>
+              <span class="or-val" style="color:#a14545">2.27×</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:40px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px;" class="reveal">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:15px; color:var(--accent1); font-weight:700; margin-bottom:12px;">🧬 免疫學全身串聯</div>
+        <p style="font-size:14px; color:var(--text); line-height:1.7;">環境過敏原刺激上呼吸道黏膜，活化樹突細胞與Th2淋巴球。致敏免疫細胞進入全身循環，被募集至下呼吸道，引發平滑肌收縮與黏液過度分泌。</p>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:15px; color:var(--warm2); font-weight:700; margin-bottom:12px;">💧 鼻後滴漏效應</div>
+        <p style="font-size:14px; color:var(--text); line-height:1.7;">慢性鼻腔炎性分泌物在睡眠或吞嚥時向後倒流，造成微量吸入（Micro-aspiration），持續侵蝕下呼吸道，導致末梢氣道物理性黏液阻塞。</p>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:15px; color:var(--purple); font-weight:700; margin-bottom:12px;">👂 耳咽管神經解剖連結</div>
+        <p style="font-size:14px; color:var(--text); line-height:1.7;">中耳炎透過咽鼓管與鼻咽部直接相連，持續作為發炎病灶源，透過神經反射或分泌物蔓延，向氣道系統輸出發炎壓力。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: DIFFERENTIAL -->
+<section id="sec-diff">
+  <div class="section-label">07 — 鑑別診斷光譜</div>
+  <h2 class="section-title reveal">排除其他病因的影像學邏輯</h2>
+  <p class="section-desc reveal">
+    雖然多數樹芽徵源自FLAD，但需透過嚴謹的影像學空間拓樸學分析與臨床資訊整合，排除以下重要病因。
+  </p>
+
+  <div class="diff-grid reveal">
+    <div class="diff-card">
+      <div class="dc-icon" style="background:rgba(201,106,106,0.1); color:var(--red);">🦟</div>
+      <div class="dc-body">
+        <h4>心絲蟲相關呼吸道疾病（HARD）</h4>
+        <p>未成熟心絲蟲（L5）死亡後釋放抗原與沃巴克氏菌成分，引發極度猛烈的血管內皮發炎，蔓延至鄰近細支氣管。BA ratio與BV ratio顯著高於健康對照，幾乎無法與氣喘CT影像區分。</p>
+        <span class="dc-tag badge badge-poor">流行疫區必須排除</span>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="dc-icon" style="background:rgba(124,168,125,0.1); color:var(--green);">🪱</div>
+      <div class="dc-body">
+        <h4>肺蟲感染（Aelurostrongylus abstrusus）</h4>
+        <p>成蟲寄生於終末呼吸性細支氣管與肺泡管，蟲卵孵化的第一期幼蟲引發嚴重異物肉芽腫發炎。大量蟲體、細胞碎屑與黏液，在CT上形成典型周邊細支氣管阻塞圖案。</p>
+        <span class="dc-tag badge badge-warn">戶外貓/捕食史需貝曼氏法檢查</span>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="dc-icon" style="background:rgba(168,129,175,0.1); color:var(--purple);">🦠</div>
+      <div class="dc-body">
+        <h4>弓漿蟲感染（Toxoplasmosis）</h4>
+        <p>免疫抑制貓隻（FeLV/FIV陽性）中，快速殖殖體引起嚴重壞死性間質性肺炎，發炎細胞浸潤與壞死物質可波及細支氣管，形成樹芽徵影像。</p>
+        <span class="dc-tag badge badge-warn">免疫抑制貓隻需高度警覺</span>
+      </div>
+    </div>
+    <div class="diff-card">
+      <div class="dc-icon" style="background:rgba(163,98,108,0.1); color:var(--accent1);">💙</div>
+      <div class="dc-body">
+        <h4>先天性肺動脈發育不全（UHPA）</h4>
+        <p>極罕見。孤立性左側肺動脈發育不全／無發育，長期血流動力學異常使受損肺葉極易反覆感染，導致嚴重支氣管擴張與管腔內化膿物質積聚，CT見廣泛分支狀樹芽徵。</p>
+        <span class="dc-tag badge badge-good">年輕貓單側非對稱性分佈需排除</span>
+      </div>
+    </div>
+    <div class="diff-card" style="grid-column: 1 / -1;">
+      <div class="dc-icon" style="background:rgba(224,159,125,0.1); color:var(--warm2);">📐</div>
+      <div class="dc-body">
+        <h4>排除惡性腫瘤轉移 — 空間拓樸學邏輯</h4>
+        <p>
+          <strong style="color:var(--text2)">轉移性腫瘤：</strong>血行性播散 → 隨機分佈，大小極度不一，常直接侵犯/附著於臟層肋膜表面，無解剖邊界限制。<br>
+          <strong style="color:var(--accent1)">樹芽徵：</strong>氣道管腔內填充物 → 嚴格沿支氣管樹走向，中心小葉分佈，<strong style="color:var(--accent1)">與臟層胸膜保持 &gt;5mm 淨空區</strong>，靜脈顯影無增強效應（排除腫瘤血管新生）。
+        </p>
+        <span class="dc-tag badge badge-good">掌握此空間分佈鐵律，可自信排除腫瘤轉移</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SECTION 8: CT PARAMS -->
+<div class="params-section" id="sec-params">
+  <div class="params-inner">
+    <div class="section-label">08 — 高階掃描技術參數</div>
+    <h2 class="section-title reveal">四中心CT技術規格比較</h2>
+    <p class="section-desc reveal">
+      精確捕捉直徑僅數毫米的樹芽徵，仰賴極度精密的硬體設備與高度特製化的技術參數。所有中心皆採用 <span class="param-highlight">1mm 切片厚度</span>、<span class="param-highlight">高解析度演算法重建</span>，以及標準肺部視窗（WW 1400 / WL -550）。
+    </p>
+    <div class="params-table-wrap reveal">
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>醫學中心</th>
+            <th>CT規格</th>
+            <th>射管電壓</th>
+            <th>射管電流</th>
+            <th>影像矩陣</th>
+            <th>顯示視野（FOV）</th>
+            <th>掃描螺距</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alfort（法國）</td>
+            <td>Phillips Brilliance 64切</td>
+            <td class="param-highlight">120 KVp</td>
+            <td>196 mA</td>
+            <td class="param-highlight">768×768</td>
+            <td>35 cm</td>
+            <td>0.5</td>
+          </tr>
+          <tr>
+            <td>Montreal（加拿大）</td>
+            <td>GE Light Speed 16切</td>
+            <td class="param-highlight">120 KVp</td>
+            <td>250 mA</td>
+            <td>512×512</td>
+            <td class="param-highlight">10–12 cm</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <td>Missouri（美國）</td>
+            <td>Toshiba Aquilion 64切</td>
+            <td class="param-highlight">120 KVp</td>
+            <td>250 mA</td>
+            <td>512×512</td>
+            <td class="param-highlight">10–12 cm</td>
+            <td>1.0</td>
+          </tr>
+          <tr>
+            <td>NCSU（美國）</td>
+            <td>Siemens Somatom 64切</td>
+            <td class="param-highlight">120 KVp</td>
+            <td>100–360 mA</td>
+            <td>512×512</td>
+            <td>14.5–21 cm</td>
+            <td>1.1–1.3</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:28px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px;" class="reveal">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:12px; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; font-weight:700;">肺部視窗設定</div>
+        <div style="font-family:'Playfair Display',serif; font-size:24px; color:var(--accent1); font-weight:700;">WW 1400</div>
+        <div style="font-family:'Playfair Display',serif; font-size:24px; color:var(--accent1); font-weight:700;">WL −550</div>
+        <div style="font-size:13px; color:var(--text); margin-top:8px; line-height:1.6">確保充氣肺泡至高密度黏液栓皆能在單一灰階影像上產生足夠對比度</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:12px; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; font-weight:700;">切片厚度</div>
+        <div style="font-family:'Playfair Display',serif; font-size:42px; color:var(--accent1); font-weight:700; line-height:1.1">1mm</div>
+        <div style="font-size:13px; color:var(--text); margin-top:12px; line-height:1.6">無切片間隔（No interval），高解析度演算法重建</div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:24px; box-shadow: 0 2px 8px rgba(163,98,108,0.03);">
+        <div style="font-size:12px; color:var(--text3); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; font-weight:700;">呼吸控制技術</div>
+        <div style="font-size:15px; color:var(--text2); font-weight:700; margin-bottom:8px">吸氣+呼氣雙相掃描</div>
+        <div style="font-size:13px; color:var(--text); line-height:1.6">Propofol 暫時性呼吸抑制 / Bain迴路正壓通氣，評估氣體滯留（Air-trapping）的不可或缺技術</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 9: CLINICAL PEARLS -->
+<section id="sec-pearls">
+  <div class="section-label">09 — 臨床實踐重點</div>
+  <h2 class="section-title reveal">五大戰略性診療指導原則</h2>
+  <p class="section-desc reveal">
+    整合多中心研究數據、病理生理學機制與最新流行病學證據，以下為臨床一線獸醫師的核心行動指南。
+  </p>
+
+  <div class="pearls-list reveal">
+    <div class="pearl-item">
+      <div class="pearl-num">1</div>
+      <div class="pearl-body">
+        <h4>顛覆性影像學認知 — 樹芽徵是疾病的生物標誌</h4>
+        <p>樹芽徵在貓科醫學中絕非罕見的邊緣現象，而是下呼吸道慢性炎症（過敏性氣喘/慢性支氣管炎）合併終末小葉細支氣管黏液實質嵌塞的標誌性影像學產物。它的存在，即是疾病已深入侵蝕肺部末梢微觀結構的鐵證。</p>
+      </div>
+    </div>
+    <div class="pearl-item">
+      <div class="pearl-num">2</div>
+      <div class="pearl-body">
+        <h4>警惕X光的致命視覺陷阱 — 優先CT確認</h4>
+        <p>當X光片發現局限於單一或少數肺葉的多發性軟組織結節，且周邊隱約可見支氣管圖案時，切勿貿然下達惡性腫瘤診斷。臨床醫師有義務強烈建議進行高解析度CT掃描，以解開維度壓縮的假象，尋找隱藏在結節背後的「樹芽」真實面貌。</p>
+      </div>
+    </div>
+    <div class="pearl-item">
+      <div class="pearl-num">3</div>
+      <div class="pearl-body">
+        <h4>正視無症狀嵌塞的潛在危機 — CT是麻醉前安全網</h4>
+        <p>擁有嚴重樹芽徵的貓隻，可能完全沒有咳嗽或呼吸窘迫的跡象（本研究中16.6%）。CT在此不僅是確診工具，更是發掘亞臨床期氣道炎症、防範急性呼吸衰竭，以及執行高風險麻醉前評估的不可或缺安全網。任何微小外在壓力（如麻醉插管刺激）都可能打破脆弱的生理平衡。</p>
+      </div>
+    </div>
+    <div class="pearl-item">
+      <div class="pearl-num">4</div>
+      <div class="pearl-body">
+        <h4>實踐「聯合呼吸道疾病」一體化診療思維</h4>
+        <p>面對肺部的樹芽徵，診療視野必須涵蓋從鼻尖至肺泡的整條解剖軸線。治療鼻腔的炎症，可能正是在挽救末梢氣道免於黏液嵌塞的厄運；而面對肺部的樹芽徵，尋找隱藏於中耳或鼻竇內的發炎源頭，往往是打破疾病惡性循環的鑰匙。中耳炎本身即是下呼吸道疾病的獨立危險因子（OR 1.46）。</p>
+      </div>
+    </div>
+    <div class="pearl-item">
+      <div class="pearl-num">5</div>
+      <div class="pearl-body">
+        <h4>拓寬鑑別診斷廣度 — 善用空間拓樸學原理</h4>
+        <p>在缺乏支氣管肺泡灌洗液（BALF）等細胞學證據前，必須將HARD、肺蟲/弓漿蟲感染、先天肺動脈發育不全等病因納入考量。掌握「樹芽徵距胸膜 &gt;5mm、無顯影增強、中心小葉分佈」的空間分佈鐵律，便能在多數情況下自信地排除惡性腫瘤轉移。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 10: AUDIO GUIDE -->
+<section id="sec-audio">
+  <div class="section-label">10 — 語音導覽</div>
+  <h2 class="section-title reveal" style="border-bottom: 1px solid var(--border); padding-bottom: 8px;">🎧 AI 語音導覽</h2>
+  <p class="section-desc reveal text-center" style="margin-bottom: 24px; text-align: center;">
+    聆聽由 AI 生成的樹芽徵 (Tree-in-bud) 影像學重點摘要。
+  </p>
+  <div class="audio-section reveal">
+    <div class="audio-container">
+        <audio id="interactiveGuideAudio" controls>
+            <source src="treeinbud.mp3" type="audio/mpeg">
+            您的瀏覽器不支援 audio 標籤。
+        </audio>
+        <div id="audio-speed-controls" class="audio-speed-controls">
+            <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+            <button data-speed="1" class="audio-speed-btn active">正常</button>
+            <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+            <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+            <button data-speed="2" class="audio-speed-btn">2x</button>
+        </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-title">貓胸腔CT樹芽徵影像學綜合分析</div>
+  <div>Feline Thoracic CT Tree-in-bud Pattern: Comprehensive Imaging Analysis</div>
+  <div style="margin-top:12px; color:var(--text3)">
+    核心文獻：Hahn et al. (2018) Vet Radiology Ultrasound — 36隻貓之CT特徵與放射線攝影及臨床發現比較<br>
+    延伸文獻：UAD研究 (PubMed 40344315) · HARD研究 (PMC12649128) · AI診斷系統回顧 (MDPI 2306-7381)
+  </div>
+  <div style="margin-top:16px; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text3); font-weight:600;">
+    愛叮寶犬貓影像專科醫院 · atinsight.vet
+  </div>
+</footer>
+
+<script>
+// ─── HERO CANVAS ANIMATION ───
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, branches = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+resize();
+window.addEventListener('resize', () => { resize(); branches = []; initBranches(); });
+
+function Branch(x, y, angle, len, depth) {
+  this.x = x; this.y = y;
+  this.angle = angle; this.len = len; this.depth = depth;
+  this.progress = 0;
+  this.speed = 0.006 + Math.random() * 0.004;
+  this.children = [];
+  this.done = false;
+  this.alpha = 0.15 + Math.random() * 0.1;
+  this.spawned = false;
+  this.budRadius = 2.5 + Math.random() * 2;
+}
+
+function initBranches() {
+  for (let i = 0; i < 8; i++) {
+    const x = Math.random() * W;
+    const y = H * 0.3 + Math.random() * H * 0.6;
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
+    const len = 80 + Math.random() * 80;
+    branches.push(new Branch(x, y, angle, len, 0));
+  }
+}
+
+initBranches();
+
+function drawBranch(b) {
+  if (b.done && !b.children.length) return;
+  const ex = b.x + Math.cos(b.angle) * b.len * b.progress;
+  const ey = b.y + Math.sin(b.angle) * b.len * b.progress;
+
+  const lineW = Math.max(0.3, 1.5 - b.depth * 0.4);
+  ctx.beginPath();
+  ctx.moveTo(b.x, b.y);
+  ctx.lineTo(ex, ey);
+  // Pinkish branch color
+  ctx.strokeStyle = `rgba(163,98,108,${b.alpha})`;
+  ctx.lineWidth = lineW;
+  ctx.stroke();
+
+  if (b.progress >= 1 && !b.spawned && b.depth < 4) {
+    b.spawned = true;
+    const spread = 0.35 + b.depth * 0.05;
+    for (let i = 0; i < 2; i++) {
+      const newAngle = b.angle + (i === 0 ? -spread : spread) + (Math.random() - 0.5) * 0.2;
+      const newLen = b.len * (0.6 + Math.random() * 0.15);
+      const child = new Branch(ex, ey, newAngle, newLen, b.depth + 1);
+      b.children.push(child);
+      branches.push(child);
+    }
+  }
+
+  if (b.progress >= 1 && b.depth >= 4) {
+    // Draw bud (Lighter Pink)
+    ctx.beginPath();
+    ctx.arc(ex, ey, b.budRadius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(221,181,187,${b.alpha * 1.5})`;
+    ctx.fill();
+  }
+
+  b.children.forEach(drawBranch);
+}
+
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+  // Soft pink background gradient
+  const grad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.7);
+  grad.addColorStop(0, 'rgba(252, 231, 235, 0.5)'); // inner gentle glow
+  grad.addColorStop(1, 'rgba(253, 246, 247, 0.0)'); // fade to bg
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,W,H);
+
+  branches.forEach(b => {
+    if (!b.done) {
+      b.progress = Math.min(1, b.progress + b.speed);
+      if (b.progress >= 1) b.done = true;
+    }
+    drawBranch(b);
+  });
+
+  // Restart exhausted trees
+  if (branches.length > 200) branches.splice(0, 100);
+  if (branches.filter(b => !b.done).length < 4) {
+    initBranches();
+  }
+
+  requestAnimationFrame(tick);
+}
+tick();
+
+// ─── COUNTER ANIMATION ───
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const isPct = el.hasAttribute('data-pct');
+  let start = 0;
+  const duration = 1800;
+  const startTime = performance.now();
+  function step(now) {
+    const t = Math.min((now - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = start + (target - start) * ease;
+    el.textContent = isPct ? val.toFixed(1) + '%' : Math.round(val).toString();
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const counters = document.querySelectorAll('span[data-target]');
+const heroObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      counters.forEach(animateCounter);
+      heroObserver.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+heroObserver.observe(document.getElementById('hero'));
+
+// ─── SCROLL REVEAL ───
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+reveals.forEach(r => revealObs.observe(r));
+
+// ─── SYMPTOM BARS ───
+const symBarObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.s-bar').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+      symBarObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+symBarObs.observe(document.getElementById('symptom-list'));
+
+// ─── LOBE BARS ───
+const lobeObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.lobe-fill-rx').forEach(b => b.style.width = b.dataset.rx + '%');
+      document.querySelectorAll('.lobe-fill-ct').forEach(b => b.style.width = b.dataset.ct + '%');
+      lobeObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+lobeObs.observe(document.getElementById('lobe-bars'));
+
+// ─── OR BARS ───
+const uadObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.or-bar').forEach(b => {
+        const or = parseFloat(b.dataset.or);
+        b.style.width = (or / 2.5 * 200) + 'px';
+      });
+      uadObs.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+uadObs.observe(document.getElementById('uad-table'));
+
+// ─── TABS ───
+function switchTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── MECHANISM CARDS ───
+function selectMech(i) {
+  document.querySelectorAll('.mech-card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.mech-detail').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.mech-card')[i].classList.add('active');
+  document.getElementById('mech-detail-' + i).classList.add('active');
+}
+
+// ─── UAD NODES ───
+function litNode(i) {
+  document.querySelectorAll('.uad-node').forEach(n => n.classList.remove('lit'));
+  document.querySelectorAll('.uad-node')[i].classList.add('lit');
+}
+
+// ─── NAV ACTIVE ───
+const sectionIds = ['sec-patho','sec-demo','sec-compare','lobe-section','sec-mech','sec-uad','sec-diff','sec-params','sec-pearls','sec-audio'];
+const navItems = document.querySelectorAll('.nav-item');
+
+function updateNav() {
+  let current = sectionIds[0];
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < 120) current = id;
+  });
+  navItems.forEach((item, i) => {
+    item.classList.toggle('active', item.dataset.target === current);
+  });
+}
+
+window.addEventListener('scroll', updateNav, { passive: true });
+
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    const target = document.getElementById(item.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// ─── PROGRESS BAR ───
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  progressBar.style.width = (window.scrollY / total * 100) + '%';
+}, { passive: true });
+
+// ─── AUDIO PLAYER LOGIC ───
+const audioPlayer = document.getElementById('interactiveGuideAudio');
+const speedControls = document.getElementById('audio-speed-controls');
+
+if (audioPlayer && speedControls) {
+    speedControls.addEventListener('click', (event) => {
+        const button = event.target.closest('.audio-speed-btn');
+        if (button) {
+            const speed = parseFloat(button.dataset.speed);
+            audioPlayer.playbackRate = speed;
+
+            // Update active class
+            speedControls.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        }
+    });
+}
+</script>
+</body>
+</html>
