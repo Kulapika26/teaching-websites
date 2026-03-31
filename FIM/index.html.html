@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貓缺血性脊髓病變 — 全面性臨床指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+TC:wght@300;400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* 融入 index.html 的粉色系主題 */
+  --bg-deep: #fdf6f7;
+  --bg-card: #ffffff;
+  --bg-elevated: #faeef0;
+  --bg-surface: #fce7eb;
+  --border: #e6c8cc;
+  --border-bright: #d1a3aa;
+  
+  /* 文字顏色對應 */
+  --text-primary: #75474d; /* 原 index --text2，用於標題與重要文字 */
+  --text-secondary: #4a4a4a; /* 原 index --text，用於內文 */
+  --text-muted: #825159; /* 原 index --text3，用於輔助文字 */
+  
+  /* 強調色對應 */
+  --accent-blue: #a3626c; /* 主強調色：深粉 */
+  --accent-teal: #c67d5e; /* 次強調色：暖棕/橘紅 */
+  --accent-amber: #e09f7d; /* 溫暖色調 */
+  --accent-red: #c96a6a; /* 柔和紅色 */
+  --accent-purple: #a881af; /* 柔和紫色 */
+  --accent-green: #7ca87d; /* 柔和綠色 */
+  --accent3: #ddb5bb; /* 淺粉強調色 (Banner 顏色) */
+  
+  --gradient-header: linear-gradient(135deg, #faeef0 0%, #fdf6f7 60%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 16px;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── 客製化捲動條 ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-elevated); }
+::-webkit-scrollbar-thumb { background: #ddb5bb; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #d1a3aa; }
+
+/* ─── 滿版頂部 BANNER ─── */
+.banner-wrapper {
+  background-color: var(--accent3);
+  width: 100%;
+  padding: 16px 24px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(163, 98, 108, 0.1);
+  animation: fadeIn 0.8s ease both;
+}
+
+.banner-wrapper img {
+  width: 80%;
+  max-width: 900px;
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 6px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253, 246, 247, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: center;
+  height: 56px;
+}
+.nav-logo {
+  position: absolute;
+  left: 2rem;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.1rem;
+  color: var(--accent-blue);
+  letter-spacing: 0.02em;
+  font-weight: 700;
+}
+.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links a {
+  display: block;
+  padding: 0 1rem;
+  line-height: 56px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.nav-links a:hover { color: var(--accent-blue); background: var(--bg-elevated); }
+.nav-links a.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); background: var(--bg-elevated); }
+
+/* ── SECTIONS ── */
+section { padding: 90px 0 60px; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  background: var(--gradient-header);
+  position: relative;
+  overflow: hidden;
+  padding: 160px 0 60px; /* 增加上方 padding 留出較大 Banner 的空間 */
+}
+.hero-bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(163,98,108,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(163,98,108,0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift { to { background-position: 48px 48px; } }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(163,98,108,0.08);
+  border: 1px solid rgba(163,98,108,0.2);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 11px;
+  color: var(--accent-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-blue);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+.hero h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+.hero h1 em {
+  font-style: italic;
+  font-family: 'Playfair Display', serif;
+  color: var(--accent-blue);
+}
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  max-width: 640px;
+}
+.stat-card {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(163, 98, 108, 0.12); }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.stat-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.04em; font-weight: 600; text-transform: uppercase; }
+
+.hero-scroll {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+  animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+
+/* ── SECTION HEADERS ── */
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent-blue);
+  margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::after {
+  content: ''; flex: 1; max-width: 60px; height: 2px;
+  background: var(--accent-blue); opacity: 0.4;
+}
+.section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.8rem;
+  color: var(--text-primary);
+}
+.section-desc { color: var(--text-secondary); max-width: 620px; margin-bottom: 2.5rem; font-size: 0.97rem; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.6rem;
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(163, 98, 108, 0.05);
+}
+.card:hover { border-color: var(--accent-blue); box-shadow: 0 6px 16px rgba(163, 98, 108, 0.12); transform: translateY(-2px); }
+
+.card-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.1rem; font-weight: 700;
+  margin-bottom: 0.7rem;
+  color: var(--text-primary);
+  display: flex; align-items: center; gap: 10px;
+}
+.card-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+  border: 1px solid rgba(163,98,108,0.2);
+}
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; overflow-x: auto; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  padding: 10px 20px; white-space: nowrap;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  color: var(--text-muted); font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.03em;
+}
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); font-weight: 600; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── ACCORDION ── */
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--bg-card);
+}
+.accordion-item.open { border-color: var(--border-bright); box-shadow: 0 4px 12px rgba(163,98,108,0.06); }
+.accordion-header {
+  width: 100%; background: transparent;
+  border: none; padding: 1.1rem 1.4rem;
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; color: var(--text-primary);
+  font-size: 15px; font-weight: 600;
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  text-align: left; transition: background 0.2s;
+}
+.accordion-header:hover { background: var(--bg-elevated); }
+.accordion-arrow {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--bg-elevated); display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s, background 0.2s; flex-shrink: 0;
+  font-size: 11px; color: var(--text-muted);
+}
+.accordion-item.open .accordion-arrow { transform: rotate(180deg); background: rgba(163,98,108,0.15); color: var(--accent-blue); }
+.accordion-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  background: var(--bg-card);
+  padding: 0 1.4rem;
+  line-height: 1.8; /* 增加行距確保文字不擁擠 */
+}
+.accordion-item.open .accordion-body { 
+  /* 大幅增加底部 padding，解決文字卡在底線的問題 */
+  padding: 1.2rem 1.4rem 2.2rem 1.4rem; 
+  border-top: 1px dashed var(--border); 
+}
+
+/* ── COMPARE TABLE ── */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--bg-card); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.compare-table th {
+  padding: 14px 16px; text-align: left; background: var(--bg-elevated);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-primary); border-bottom: 2px solid var(--border);
+}
+.compare-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-secondary); line-height: 1.6; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: rgba(163,98,108,0.03); }
+.compare-table td:first-child { font-weight: 600; color: var(--text-primary); background: rgba(250,238,240,0.3); white-space: nowrap; }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.04em; border: 1px solid transparent;
+}
+.badge-good { background: rgba(124,168,125,0.15); color: #4e8250; border-color: rgba(124,168,125,0.3); }
+.badge-bad { background: rgba(201,106,106,0.15); color: #a14545; border-color: rgba(201,106,106,0.3); }
+.badge-warn { background: rgba(224,159,125,0.15); color: #c67d5e; border-color: rgba(224,159,125,0.3); }
+.badge-neutral { background: var(--bg-elevated); color: var(--text-muted); border-color: var(--border); }
+.badge-blue { background: rgba(163,98,108,0.15); color: var(--accent-blue); border-color: rgba(163,98,108,0.3); } /* 改用粉色系視覺 */
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 4px; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--accent-blue), transparent);
+}
+.timeline-item { position: relative; margin-bottom: 1.8rem; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -2rem; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(163,98,108,0.15);
+  transform: translateX(-4px);
+}
+.timeline-time { font-size: 11px; color: var(--accent-blue); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.timeline-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.timeline-body { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ── PROGNOSIS TOOL ── */
+.prog-factor {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: 0 2px 4px rgba(163,98,108,0.02);
+}
+.prog-factor label { font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+.prog-factor input[type=radio] { appearance: none; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-bright); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+.prog-factor input[type=radio]:checked { background: var(--accent-blue); border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(163,98,108,0.2); }
+.prog-options { display: flex; gap: 14px; }
+.prog-opt { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+.prog-result {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  text-align: center;
+  transition: border-color 0.4s;
+  box-shadow: 0 6px 16px rgba(163,98,108,0.05);
+}
+.prog-score { font-family: 'Playfair Display', serif; font-size: 4.5rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+.prog-bar-wrap { height: 8px; background: var(--bg-elevated); border-radius: 4px; margin: 1rem 0; overflow: hidden; border: 1px solid var(--border); }
+.prog-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease, background 0.4s; }
+
+/* ── MRI SEQUENCE VIEWER ── */
+.mri-viewport {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin-bottom: 1.2rem;
+}
+.mri-frame {
+  background: #000;
+  border-radius: 12px;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(163,98,108,0.1);
+}
+.mri-label-overlay {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 6px; padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: #fff; letter-spacing: 0.06em;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.mri-canvas { width: 100%; height: 100%; }
+.seq-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; }
+.seq-btn {
+  padding: 7px 14px; border-radius: 20px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  letter-spacing: 0.04em;
+}
+.seq-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+.seq-btn.active { background: rgba(163,98,108,0.1); border-color: var(--accent-blue); color: var(--accent-blue); }
+.mri-info-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.2rem 1.4rem;
+  box-shadow: 0 2px 8px rgba(163,98,108,0.05);
+}
+
+/* ── NEURO LOCALIZATION TOOL ── */
+.spine-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.seg-btn {
+  padding: 8px 16px; border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-muted); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: 'Inter', 'Noto Sans TC', sans-serif;
+}
+.seg-btn:hover { border-color: var(--accent-blue); color: var(--text-primary); }
+.seg-btn.active { background: rgba(163,98,108,0.1); border-color: var(--accent-blue); color: var(--accent-blue); }
+.seg-display {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.seg-panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.3rem; box-shadow: 0 2px 8px rgba(163,98,108,0.05);
+}
+.seg-panel h4 { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 1rem; }
+.seg-list { list-style: none; }
+.seg-list li { font-size: 13.5px; color: var(--text-secondary); padding: 6px 0; border-bottom: 1px dashed var(--border); display: flex; align-items: flex-start; gap: 8px; line-height: 1.6; }
+.seg-list li:last-child { border-bottom: none; }
+.seg-list li::before { content: '—'; color: var(--accent-blue); flex-shrink: 0; font-weight: bold; }
+
+/* ── REHAB PROTOCOL ── */
+.rehab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.rehab-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.4rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(163,98,108,0.04);
+}
+.rehab-card:hover { border-color: var(--accent-blue); transform: translateY(-3px); box-shadow: 0 6px 16px rgba(163,98,108,0.1); }
+.rehab-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+.rehab-title { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+.rehab-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+.rehab-freq { display: inline-flex; align-items: center; gap: 5px; margin-top: 0.8rem; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; color: var(--accent-amber); text-transform: uppercase; }
+
+/* ── CALLOUT BOXES ── */
+.callout {
+  border-radius: 8px; padding: 1.2rem 1.4rem;
+  margin-bottom: 1rem; display: flex; gap: 12px; align-items: flex-start;
+  border: 1px solid transparent;
+}
+.callout-warning { background: rgba(224,159,125,0.08); border-left: 4px solid var(--accent-amber); border-color: rgba(224,159,125,0.3); border-left-color: var(--accent-amber); }
+.callout-danger { background: rgba(201,106,106,0.08); border-left: 4px solid var(--accent-red); border-color: rgba(201,106,106,0.3); border-left-color: var(--accent-red); }
+.callout-info { background: rgba(163,98,108,0.08); border-left: 4px solid var(--accent-blue); border-color: rgba(163,98,108,0.3); border-left-color: var(--accent-blue); }
+.callout-success { background: rgba(124,168,125,0.08); border-left: 4px solid var(--accent-green); border-color: rgba(124,168,125,0.3); border-left-color: var(--accent-green); }
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.callout-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.callout-body { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; }
+.callout-warning .callout-title { color: var(--accent-amber); }
+.callout-danger .callout-title { color: var(--accent-red); }
+.callout-info .callout-title { color: var(--accent-blue); }
+.callout-success .callout-title { color: var(--accent-green); }
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+@media (max-width: 700px) {
+  .grid-2, .grid-3, .seg-display, .mri-viewport { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+}
+
+/* ── MISC ── */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 2rem 0; }
+.highlight { color: var(--accent-blue); font-weight: 700; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+
+/* ── PATHWAY BOXES (FCE mechanism) ── */
+.pathway {
+  display: flex; flex-direction: column; gap: 4px; align-items: center;
+  position: relative;
+}
+.pathway-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 18px;
+  text-align: center; font-size: 13px; font-weight: 600;
+  color: var(--text-primary); width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(163,98,108,0.02);
+}
+.pathway-node:hover { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: 0 4px 8px rgba(163,98,108,0.08); }
+.pathway-arrow {
+  color: var(--text-muted); font-size: 14px; line-height: 1;
+  margin: 2px 0;
+}
+.pathway-node.trigger { border-color: rgba(224,159,125,0.6); color: var(--accent-amber); }
+.pathway-node.cascade { border-color: rgba(201,106,106,0.6); color: var(--accent-red); }
+.pathway-node.outcome { border-color: rgba(168,129,175,0.6); color: var(--accent-purple); }
+
+/* ── SCROLL INDICATOR ── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent-blue), #ddb5bb);
+  z-index: 1000; width: 0%;
+  transition: width 0.1s;
+}
+
+/* ── AUDIO PLAYER ── */
+.audio-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(163,98,108,0.05);
+}
+.audio-container {
+  max-width: 672px;
+  margin: 0 auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: inset 0 2px 4px rgba(163,98,108,0.02);
+}
+.audio-container audio {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 6px;
+}
+.audio-speed-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.audio-speed-btn {
+  background-color: var(--bg-card);
+  color: var(--accent-blue);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+}
+.audio-speed-btn:hover {
+  background-color: var(--bg-surface);
+  transform: translateY(-1px);
+}
+.audio-speed-btn.active {
+  background-color: var(--accent-blue);
+  color: white;
+  font-weight: 700;
+  border-color: var(--accent-blue);
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+footer .f-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+footer .footer-refs { text-align: left; font-size: 12px; line-height: 1.8; max-width: 900px; margin: 1.5rem auto 0; column-count: 2; column-gap: 2rem; color: var(--text-muted); }
+footer .footer-refs a { color: var(--accent-blue); text-decoration: none; }
+footer .footer-refs a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- 滿版頂部 BANNER -->
+  <div class="banner-wrapper">
+      <img src="https://i.imgur.com/cC6LKSw.png" alt="TCC Banner Image">
+  </div>
+
+  <div class="hero-bg-grid"></div>
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="hero-badge">神經科學 · 影像診斷 · 復健醫學</div>
+    <h1>貓缺血性脊髓病變<br><em>Feline Ischemic Myelopathy</em></h1>
+    <p class="hero-sub">病理機制、神經解剖特異性、高階影像判讀、鑑別診斷與現代神經復健的全面性臨床指南</p>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--accent-teal)">79%</div>
+        <div class="stat-label">深層痛覺存在者恢復率</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--accent-blue)">3.5<span style="font-size:1.2rem; font-family:'Noto Serif TC', serif; font-weight:700;">天</span></div>
+        <div class="stat-label">中位恢復行走時間</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--accent-amber)">85%</div>
+        <div class="stat-label">正向預後比例</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--accent-purple)">C2</div>
+        <div class="stat-label">VSA 好發狹窄部位</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div style="width: 20px; height: 30px; border: 1px solid var(--text-muted); border-radius: 10px; position: relative; margin-right: 8px;">
+        <div style="content: ''; width: 4px; height: 4px; background: var(--text-muted); border-radius: 50%; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); animation: scrollDot 1.5s infinite;"></div>
+      </div>
+      向下捲動探索
+    </div>
+    <style>@keyframes scrollDot { 0% { top: 6px; opacity: 1; } 100% { top: 18px; opacity: 0; } }</style>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"></div>
+  <ul class="nav-links">
+    <li><a href="#overview">概述</a></li>
+    <li><a href="#pathology">病理機制</a></li>
+    <li><a href="#anatomy">神經解剖</a></li>
+    <li><a href="#clinical">臨床定位</a></li>
+    <li><a href="#mri">MRI 判讀</a></li>
+    <li><a href="#differential">鑑別診斷</a></li>
+    <li><a href="#treatment">治療復健</a></li>
+    <li><a href="#prognosis">預後評估</a></li>
+  </ul>
+</nav>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-label">Disease Overview</div>
+    <h2 class="section-title">疾病概述</h2>
+    <p class="section-desc">缺血性脊髓病（Ischemic Myelopathy, IM）是因供應脊髓的微血管或動脈幹急性灌注中斷，導致脊髓組織發生缺血性串聯反應、細胞毒性水腫，乃至不可逆壞死的血管性神經疾病。</p>
+
+    <div class="grid-3" style="margin-bottom:1.5rem;">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon" style="background:rgba(163,98,108,0.1); color:var(--accent-blue)">🔬</div>
+          定義特徵
+        </div>
+        <ul class="seg-list">
+          <li>超急性非進行性發作（&lt;6小時達峰）</li>
+          <li>通常無脊椎疼痛（Non-painful）</li>
+          <li>常見不對稱性神經缺損</li>
+          <li>非壓迫性脊髓病變</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon" style="background:rgba(198,125,94,0.1); color:var(--accent-teal)">⚡</div>
+          貓特異性
+        </div>
+        <ul class="seg-list">
+          <li>頸髓（C1–T2）為主要好發部位</li>
+          <li>中央脊髓症候群（CCS）常見</li>
+          <li>C2 腹側脊髓動脈先天性狹窄</li>
+          <li>透明變性動脈病變（老齡貓特異）</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <div class="card-icon" style="background:rgba(168,129,175,0.1); color:var(--accent-purple)">🫀</div>
+          促發因子
+        </div>
+        <ul class="seg-list">
+          <li>肥厚型心肌病（HCM）</li>
+          <li>全身性高血壓</li>
+          <li>慢性腎病（CKD）</li>
+          <li>甲狀腺功能亢進、原發性醛固酮增多症</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">ℹ</div>
+      <div>
+        <div class="callout-title">典範轉移</div>
+        <div class="callout-body">早期文獻記載安樂死率高達 42%，但現代回顧性研究（19隻 MRI 確診病例，追蹤長達 10 年 4 個月）顯示，只要深層痛覺保留，79% 的患貓可恢復至正常生活品質，中位恢復行走時間僅 3.5 天。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PATHOLOGY -->
+<section id="pathology" style="background:var(--bg-elevated); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Pathophysiology</div>
+    <h2 class="section-title">病理機制與病因分類</h2>
+    <p class="section-desc">缺血性脊髓病並非單一病因所致，而是由多種病理路徑匯聚而成的終末臨床症候群。</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('path','fce')">FCE 纖維軟骨栓塞</button>
+      <button class="tab-btn" onclick="switchTab('path','hyaline')">透明變性動脈病變</button>
+      <button class="tab-btn" onclick="switchTab('path','other')">其他病因</button>
+      <button class="tab-btn" onclick="switchTab('path','cascade')">缺血瀑布反應</button>
+    </div>
+
+    <div id="path-fce" class="tab-panel active">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Noto Serif TC',serif;font-size:1.2rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary);">纖維軟骨栓塞（FCEM）</h3>
+          <p style="color:var(--text-secondary);font-size:14px;margin-bottom:1rem;">組織化學染色（Alcian blue stain）反覆證實，阻塞脊髓腹側動脈的栓子物質，在生化組成與細胞型態上與椎間盤核心髓核（nucleus pulposus）物質完全一致。</p>
+          <div class="callout callout-warning">
+            <div class="callout-icon">⚠</div>
+            <div>
+              <div class="callout-title">致病假說爭議</div>
+              <div class="callout-body">確切的侵入機制至今未有定論。主流假說認為，微小創傷（甚至日常跳躍）導致椎間盤內壓驟升，迫使髓核物質沿撕裂隙進入靜脈竇或硬膜外動脈，隨後逆行或順行卡壓於脊髓供血血管。</div>
+            </div>
+          </div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin:1.2rem 0 0.8rem;">提出的侵入路徑</h4>
+          <ul class="seg-list">
+            <li>髓核物質沿微小撕裂隙進入椎旁靜脈叢</li>
+            <li>隨血流逆行進入脊髓動脈系統</li>
+            <li>未成年動物椎體生長板軟骨脫落</li>
+            <li>血管內皮細胞化生為纖維軟骨組織</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">FCE 形成與栓塞流程</h4>
+          <div class="pathway">
+            <div class="pathway-node trigger">觸發事件：跳躍/輕微創傷/日常活動</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node">椎間盤內壓驟升</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node">髓核物質經微小撕裂隙外移</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node">進入椎旁靜脈竇或硬膜外動脈</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node">隨血流進入腹側脊髓動脈系統</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node cascade">卡壓於 C2 狹窄處 → 局部血流完全中斷</div>
+            <div class="pathway-arrow">↓</div>
+            <div class="pathway-node outcome">脊髓缺血性梗塞</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="path-hyaline" class="tab-panel">
+      <div class="callout callout-danger">
+        <div class="callout-icon">⚡</div>
+        <div>
+          <div class="callout-title">透明變性動脈病變（Hyaline Arteriopathy）— 老齡貓特異性重症亞型</div>
+          <div class="callout-body">此病變幾乎專侵中高齡貓，預後極差，臨床醫師應特別警覺。</div>
+        </div>
+      </div>
+      <div class="grid-2" style="margin-top:1.2rem;">
+        <div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.8rem;">病理機制</h4>
+          <ul class="seg-list">
+            <li>腹側脊髓動脈（VSA）、基底動脈及分支血管平滑肌層發生透明樣變性（hyaline degeneration）</li>
+            <li>血管壁失去彈性，在血壓衝擊下形成動脈瘤樣擴張</li>
+            <li>擴張的動脈瘤內引發血液擾流與血小板凝集</li>
+            <li>廣泛血栓形成，波及腦幹、腦膜與脊髓供血網絡</li>
+          </ul>
+          <div class="divider"></div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.8rem;">臨床特徵</h4>
+          <ul class="seg-list">
+            <li>常伴發腦病變（Encephalopathy）或多灶性 CNS 功能障礙</li>
+            <li>Prednisolone + Cyclosporine 治療後可能短暫好轉</li>
+            <li>血管壁透明變性不可逆 → 反覆缺血事件</li>
+            <li>幾乎所有病例最終因神經症狀復發而面臨安樂死</li>
+          </ul>
+        </div>
+        <div>
+          <div class="card" style="border-color:rgba(201,106,106,0.3);">
+            <div class="card-title" style="color:var(--accent-red)">🔴 臨床警示</div>
+            <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">面對以下組合時，須優先考慮透明變性動脈病變：</p>
+            <ul class="seg-list">
+              <li><strong>高齡貓</strong>（通常 &gt;10歲）</li>
+              <li><strong>反覆發作</strong>的急性神經缺損事件</li>
+              <li><strong>腦部症狀並存</strong>（意識改變、共濟失調）</li>
+              <li>對免疫抑制治療初期有反應但隨後復發</li>
+              <li>MRI 顯示多灶性腦脊髓病變</li>
+            </ul>
+          </div>
+          <div class="callout callout-warning" style="margin-top:1rem;">
+            <div class="callout-icon">⚠</div>
+            <div>
+              <div class="callout-title">FIV 伴發時的特殊考量</div>
+              <div class="callout-body">對 FIV 陽性貓使用 Prednisolone + Cyclosporine 可能導致病毒 RNA 載量急遽上升與 CD4+ 淋巴細胞比例改變，需極度謹慎評估風險效益。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="path-other" class="tab-panel">
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title"><div class="card-icon" style="background:rgba(201,106,106,0.1); color:var(--accent-red)">🩸</div>心源性血栓</div>
+          <p style="font-size:13.5px;color:var(--text-secondary);">肥厚型心肌病（HCM）導致左心房內血栓形成，脫落後進入體循環並阻塞脊髓動脈。與主動脈血栓（FATE）的核心差別在於栓塞部位：前者阻塞脊髓微血管，後者阻塞主動脈分叉。</p>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon" style="background:rgba(224,159,125,0.1); color:var(--accent-amber)">🔬</div>感染性/寄生蟲性</div>
+          <ul class="seg-list" style="font-size:13px;">
+            <li>Cuterebra 蠅蛆移行</li>
+            <li>細菌性栓子（敗血症繼發）</li>
+            <li>寄生蟲移行性脊髓炎</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title"><div class="card-icon" style="background:rgba(168,129,175,0.1); color:var(--accent-purple)">🧬</div>其他血管性病因</div>
+          <ul class="seg-list" style="font-size:13px;">
+            <li>脂肪栓塞</li>
+            <li>腫瘤細胞栓子</li>
+            <li>血液高凝狀態（hypercoagulable state）</li>
+            <li>血管痙攣（vasospasm）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="path-cascade" class="tab-panel">
+      <h3 style="font-family:'Noto Serif TC',serif;font-size:1.15rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary);">缺血性串聯反應（Ischemic Cascade）</h3>
+      <div class="grid-2">
+        <div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">第 0–5 分鐘</div>
+              <div class="timeline-title">能量代謝衰竭</div>
+              <div class="timeline-body">ATP 耗盡 → Na⁺/K⁺-ATPase 幫浦失效 → 細胞膜電位崩解</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">第 5–15 分鐘</div>
+              <div class="timeline-title">細胞毒性水腫（Cytotoxic edema）</div>
+              <div class="timeline-body">Na⁺ 與水分大量湧入細胞內 → 細胞腫脹 → MRI T2 訊號開始升高</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">第 15 分鐘 – 數小時</div>
+              <div class="timeline-title">興奮性毒性（Excitotoxicity）</div>
+              <div class="timeline-body">麩胺酸（Glutamate）大量釋放 → NMDA 受體過度活化 → 細胞內 Ca²⁺ 超載 → 細胞壞死啟動</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">數小時 – 1–2 天</div>
+              <div class="timeline-title">血管性水腫（Vasogenic edema）</div>
+              <div class="timeline-body">血腦屏障（BBB）受損 → 血漿蛋白滲出 → 細胞外水腫 → 臨床症狀可能輕微惡化</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">第 3–7 天</div>
+              <div class="timeline-title">亞急性炎症期</div>
+              <div class="timeline-body">巨噬細胞浸潤、新生血管形成 → MRI 病灶邊緣可能出現顯影 → 水腫逐漸消退</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="callout callout-info">
+            <div class="callout-icon">ℹ</div>
+            <div>
+              <div class="callout-title">缺血半暗帶（Ischemic Penumbra）的臨床意義</div>
+              <div class="callout-body">圍繞梗塞核心的神經組織處於「瀕臨死亡但尚可挽救」的狀態。急性期的治療重點在於維持灌注壓與血氧飽和度，以最大程度縮小缺血半暗帶範圍，減少不可逆神經元損失。</div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:1rem;">
+            <div class="card-title">脊髓組織對缺氧的敏感度排序</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="font-size:12px;color:var(--accent-red);width:80px;font-weight:700;">最敏感</div>
+                <div style="flex:1;height:6px;background:linear-gradient(90deg,var(--accent-red),var(--accent-amber),var(--accent-green));border-radius:3px;"></div>
+                <div style="font-size:12px;color:var(--accent-green);width:80px;text-align:right;font-weight:700;">最耐受</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary); font-weight:500;">
+                <span>中央灰質（運動神經元）</span>
+                <span>深層白質（痛覺傳導）</span>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <p style="font-size:13px;color:var(--text-secondary);">深層痛覺（DPP）由脊髓視丘束傳導，位於最外圍、髓鞘最厚的白質，對缺氧耐受力最強——這正是 DPP 成為最重要單一預後指標的解剖學依據。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANATOMY -->
+<section id="anatomy">
+  <div class="container">
+    <div class="section-label">Neuroanatomy</div>
+    <h2 class="section-title">貓科特異性神經解剖學</h2>
+    <p class="section-desc">了解貓脊髓的血管解剖特異性，是理解其缺血性脊髓病好發於頸髓的關鍵。</p>
+
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:1rem;border-color:rgba(163,98,108,0.3);">
+          <div class="card-title" style="color:var(--accent-blue)">🫀 C2 腹側脊髓動脈（VSA）先天性狹窄</div>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">解剖學研究一致指出，貓的腹側脊髓動脈（Ventral Spinal Artery, VSA）在第二頸椎（C2）水平出現<strong style="color:var(--text-primary)">先天性急遽狹窄</strong>，形成血流動力學的瓶頸。</p>
+          <ul class="seg-list">
+            <li>狹窄處大幅增加血流阻力</li>
+            <li>微小栓子極易卡壓於 C2 近端或遠端</li>
+            <li>屍體解剖發現 C2–C3 水平 VSA 異常擴張充血</li>
+            <li>伴隨腹側灰白質界線消失與缺血性壞死</li>
+            <li>硬膜外空間無異常（非壓迫性）</li>
+          </ul>
+        </div>
+        <div class="card" style="border-color:rgba(168,129,175,0.3);">
+          <div class="card-title" style="color:var(--accent-purple)">🌊 C4 分水嶺區（Watershed Zone）</div>
+          <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">VSA 的解剖變異在頸髓（特別是 C4 水平附近）創造了<strong style="color:var(--text-primary)">脆弱的分水嶺區</strong>——由相鄰動脈末端毛細血管共同供血的邊界區域。</p>
+          <ul class="seg-list">
+            <li>位於動脈灌注的絕對末端</li>
+            <li>對全身性血壓下降、低血氧、微血管阻塞耐受力極差</li>
+            <li>麻醉、血壓波動、輕微創傷均可觸發梗塞</li>
+            <li>完美解釋老齡心腎病貓在無明顯外傷下突發頸髓病變的機制</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="height:100%;">
+          <div class="card-title">🐱 貓 vs. 犬 — 神經解剖差異比較</div>
+          <table class="compare-table" style="font-size:13px;">
+            <thead>
+              <tr><th>特徵</th><th style="color:var(--accent-teal)">貓</th><th style="color:var(--accent-amber)">犬</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VSA 解剖</td>
+                <td>C2 先天性狹窄</td>
+                <td>相對均勻管徑</td>
+              </tr>
+              <tr>
+                <td>FCE 好發節段</td>
+                <td>頸椎（C1–T2）</td>
+                <td>胸腰椎（T3–L3）</td>
+              </tr>
+              <tr>
+                <td>促發條件</td>
+                <td>內科疾病背景為主</td>
+                <td>劇烈活動/物理創傷</td>
+              </tr>
+              <tr>
+                <td>CCS 發生率</td>
+                <td>相對常見</td>
+                <td>少見</td>
+              </tr>
+              <tr>
+                <td>恢復速度</td>
+                <td>較慢（數週–數月）</td>
+                <td>較快（數天–數週）</td>
+              </tr>
+              <tr>
+                <td>復發風險（FCE）</td>
+                <td>極低（一次性事件）</td>
+                <td>極低</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="divider"></div>
+          <div class="callout callout-success" style="margin:0;">
+            <div class="callout-icon">✓</div>
+            <div>
+              <div class="callout-title">中央脊髓症候群（CCS）in 貓</div>
+              <div class="callout-body">一項涵蓋 22 隻 CCS 貓隻的回顧研究指出，缺血性脊髓病是引發貓科動物超急性 CCS 的最主要元凶。表現為前肢神經缺損顯著重於後肢，源於控制胸肢的皮質脊髓束纖維更靠近中央灰質、對缺血更敏感。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICAL LOCALIZATION -->
+<section id="clinical" style="background:var(--bg-elevated); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Neurological Localization</div>
+    <h2 class="section-title">互動式神經學定位工具</h2>
+    <p class="section-desc">選擇受累脊髓節段，查看對應的臨床表現、上下運動神經元型態與反射異常。</p>
+
+    <div class="spine-selector">
+      <button class="seg-btn active" onclick="selectSeg('c1c5',this)">C1–C5</button>
+      <button class="seg-btn" onclick="selectSeg('c6t2',this)">C6–T2</button>
+      <button class="seg-btn" onclick="selectSeg('t3l3',this)">T3–L3</button>
+      <button class="seg-btn" onclick="selectSeg('l4s3',this)">L4–S3</button>
+      <button class="seg-btn" onclick="selectSeg('scd',this)">S–Cd</button>
+    </div>
+
+    <div id="seg-display-area">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- MRI -->
+<section id="mri">
+  <div class="container">
+    <div class="section-label">Imaging Interpretation</div>
+    <h2 class="section-title">MRI 判讀完整指南</h2>
+    <p class="section-desc">MRI 是確診缺血性脊髓病的黃金標準。掌握各序列的訊號特徵與系統化判讀 SOP 是正確診斷的核心。</p>
+
+    <div class="seq-controls">
+      <button class="seq-btn active" onclick="selectMRI('t2sag')">T2w 矢狀面</button>
+      <button class="seq-btn" onclick="selectMRI('t2ax')">T2w 橫切面</button>
+      <button class="seq-btn" onclick="selectMRI('t1')">T1w</button>
+      <button class="seq-btn" onclick="selectMRI('t1c')">T1w + 顯影</button>
+      <button class="seq-btn" onclick="selectMRI('stir')">STIR</button>
+    </div>
+
+    <div class="mri-viewport">
+      <div class="mri-frame" id="mriNormal">
+        <canvas class="mri-canvas" id="mriNormalCanvas"></canvas>
+        <div class="mri-label-overlay" id="mriNormalLabel">正常</div>
+      </div>
+      <div class="mri-frame" id="mriFCE">
+        <canvas class="mri-canvas" id="mriFCECanvas"></canvas>
+        <div class="mri-label-overlay" id="mriFCELabel">FCE 急性期</div>
+      </div>
+    </div>
+
+    <div class="mri-info-panel" id="mriInfoPanel">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="divider"></div>
+    <h3 style="font-family:'Noto Serif TC',serif;font-size:1.2rem; font-weight:700; margin-bottom:1.2rem; color:var(--text-primary);">系統化判讀 SOP（閱片順序）</h3>
+    <div id="mriAccordion"></div>
+
+    <div class="divider"></div>
+    <h3 style="font-family:'Noto Serif TC',serif;font-size:1.2rem; font-weight:700; margin-bottom:1.2rem; color:var(--text-primary);">病灶定量評估參數</h3>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">📏 病灶長度比值（L:VBL Ratio）</div>
+        <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">在矢狀面 T2w 測量病灶縱向長度，與相鄰椎體（C6 或 L2）長度比值：</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-good">&lt; 1.5 VBL</span>
+            <span style="font-size:13px;color:var(--text-secondary);">局灶性病灶，預後相對較好</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-warn">1.5–2.5 VBL</span>
+            <span style="font-size:13px;color:var(--text-secondary);">中等範圍，需觀察動態變化</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-bad">&gt; 3 VBL</span>
+            <span style="font-size:13px;color:var(--text-secondary);">大範圍梗塞，須考慮脊髓炎</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📐 橫截面佔比（%CSA）</div>
+        <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">在橫切面 T2w 計算病灶佔脊髓總橫截面積的百分比：</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-good">&lt; 30%</span>
+            <span style="font-size:13px;color:var(--text-secondary);">輕度，功能代償可能性高</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-warn">30–60%</span>
+            <span style="font-size:13px;color:var(--text-secondary);">中度偏側病灶</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="badge badge-bad">&gt; 60%</span>
+            <span style="font-size:13px;color:var(--text-secondary);">廣泛橫斷性損傷，預後謹慎</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIAL DIAGNOSIS -->
+<section id="differential" style="background:var(--bg-elevated); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Differential Diagnosis</div>
+    <h2 class="section-title">鑑別診斷</h2>
+    <p class="section-desc">急性癱瘓的貓需要嚴格的鑑別診斷。以下兩組對照是臨床上最常混淆的情境。</p>
+
+    <h3 style="font-family:'Noto Serif TC',serif;font-size:1.15rem; font-weight:700; margin-bottom:1rem; color:var(--text-primary);">IM vs. 貓主動脈血栓栓塞（FATE）— 最重要的急診鑑別</h3>
+    <div class="callout callout-danger">
+      <div class="callout-icon">🚨</div>
+      <div>
+        <div class="callout-title">緊急鑑別重點</div>
+        <div class="callout-body">FATE（鞍狀血栓）是獸醫急診中最具毀滅性的心血管併發症，患貓承受極度持續性疼痛，需要立即評估心臟狀態。IM 與 FATE 皆為缺血性事件，但栓塞部位、疼痛程度與周邊血管狀態完全不同。</div>
+      </div>
+    </div>
+    <div style="overflow-x:auto;margin-bottom:2rem;">
+      <table class="compare-table" style="min-width:700px;">
+        <thead>
+          <tr>
+            <th>臨床特徵</th>
+            <th style="color:var(--accent-teal)">缺血性脊髓病（IM）</th>
+            <th style="color:var(--accent-red)">主動脈血栓栓塞（FATE）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>栓塞部位</td><td>脊髓微血管（腹側脊髓動脈分支）</td><td>遠端主動脈分叉（鞍狀血栓）</td></tr>
+          <tr><td>疼痛表現</td><td><span class="badge badge-good">初期驚嚇後通常無痛</span></td><td><span class="badge badge-bad">持續極度劇烈疼痛，不斷嚎叫</span></td></tr>
+          <tr><td>股動脈搏動</td><td><span class="badge badge-good">正常且強而有力</span></td><td><span class="badge badge-bad">雙側或單側完全消失</span></td></tr>
+          <tr><td>患肢溫度</td><td><span class="badge badge-good">觸感溫暖正常</span></td><td><span class="badge badge-bad">末端極度冰冷（Polar）</span></td></tr>
+          <tr><td>足墊色澤</td><td><span class="badge badge-good">正常粉紅色</span></td><td><span class="badge badge-bad">蒼白或發紺（Pallor）</span></td></tr>
+          <tr><td>癱瘓分佈</td><td>常見不對稱性；頸髓→前肢為主</td><td>&gt;90% 雙側後肢對稱性癱瘓</td></tr>
+          <tr><td>心臟疾病</td><td>可能有 HCM，但症狀可輕微</td><td><span class="badge badge-bad">幾乎均有嚴重 HCM + 心衰竭</span></td></tr>
+          <tr><td>側支循環</td><td>單純物理性阻塞</td><td>血清素/Thromboxane A2 釋放 → 側支血管痙攣，徹底阻斷代償</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-family:'Noto Serif TC',serif;font-size:1.15rem; font-weight:700; margin:1.5rem 0 1rem; color:var(--text-primary);">IM vs. 脊髓淋巴瘤 vs. IVDD — 脊髓本身的結構性鑑別</h3>
+    <div style="overflow-x:auto;">
+      <table class="compare-table" style="min-width:750px;">
+        <thead>
+          <tr>
+            <th>特徵</th>
+            <th style="color:var(--accent-teal)">缺血性脊髓病（IM）</th>
+            <th style="color:var(--accent-purple)">脊髓淋巴瘤</th>
+            <th style="color:var(--accent-amber)">椎間盤疾病（IVDD）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>好發年齡</td>
+            <td>中老年（中位 ~10歲）</td>
+            <td>雙峰：&lt;4歲（50%）或 &gt;11歲（25%）</td>
+            <td>中年純種貓，極罕見（0.2%）</td>
+          </tr>
+          <tr>
+            <td>病程發展</td>
+            <td><span class="badge badge-good">超急性，非進行性</span></td>
+            <td><span class="badge badge-bad">亞急性至慢性，持續惡化</span></td>
+            <td><span class="badge badge-warn">急性或亞急性，進行性</span></td>
+          </tr>
+          <tr>
+            <td>脊椎觸痛</td>
+            <td><span class="badge badge-good">通常無痛</span></td>
+            <td>變異性大，骨骼受侵犯時有鈍痛</td>
+            <td><span class="badge badge-bad">顯著劇烈神經根疼痛</span></td>
+          </tr>
+          <tr>
+            <td>全身狀態</td>
+            <td>可能有心腎疾病背景</td>
+            <td><span class="badge badge-bad">50% FeLV 陽性；85% 多中心侵犯；厭食、消瘦</span></td>
+            <td>通常全身狀態良好</td>
+          </tr>
+          <tr>
+            <td>MRI 特徵</td>
+            <td>局灶偏側 T2 高訊號，1–2 VBL，不顯影或輕微顯影</td>
+            <td>均質強化顯影，可多節段</td>
+            <td>有外壓病灶（椎間盤突出），脊髓 T2 訊號可能升高</td>
+          </tr>
+          <tr>
+            <td>CSF 分析</td>
+            <td>正常或輕度蛋白升高、嗜酸性白血球浸潤可能</td>
+            <td><span class="badge badge-blue">可能發現腫瘤性淋巴細胞</span>（確診依據）</td>
+            <td>正常或輕度蛋白升高</td>
+          </tr>
+          <tr>
+            <td>FCE 復發風險</td>
+            <td><span class="badge badge-good">極低（一次性事件）</span></td>
+            <td>持續進展</td>
+            <td>有復發可能</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warning" style="margin-top:1.5rem;">
+      <div class="callout-icon">⚠</div>
+      <div>
+        <div class="callout-title">其他需納入考量的鑑別診斷</div>
+        <div class="callout-body">貓傳染性腹膜炎（FIP — 腦膜脊髓炎）、弓漿蟲症（Toxoplasmosis）、隱球菌感染（Cryptococcus）、外傷性脊髓挫傷。若伴隨全身系統性異常（發燒、葡萄膜炎），則 FIP 或淋巴瘤的可能性顯著上升。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TREATMENT -->
+<section id="treatment">
+  <div class="container">
+    <div class="section-label">Treatment & Rehabilitation</div>
+    <h2 class="section-title">治療管理與神經復健</h2>
+    <p class="section-desc">目前無法直接逆轉脊髓神經元缺血性壞死，治療核心為支持性護理、防範二次損傷，以及積極的神經復健。</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('treat','acute')">急性期醫療</button>
+      <button class="tab-btn" onclick="switchTab('treat','rehab')">神經復健</button>
+      <button class="tab-btn" onclick="switchTab('treat','home')">居家護理</button>
+      <button class="tab-btn" onclick="switchTab('treat','drug')">藥物策略</button>
+    </div>
+
+    <div id="treat-acute" class="tab-panel active">
+      <div class="grid-2">
+        <div>
+          <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;">急性期優先事項</h4>
+          <div class="accordion-item open">
+            <button class="accordion-header" onclick="toggleAcc(this)">
+              血流動力學支持
+              <span class="accordion-arrow">▾</span>
+            </button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>嚴格監控收縮壓、血氧飽和度與通氣狀態</li>
+                <li>避免低血壓或缺氧，防止二度神經元死亡</li>
+                <li>脫水患貓給予靜脈輸液，改善血液流變學（降低黏稠度）</li>
+                <li>目標：最大化缺血半暗帶（penumbra）的血液灌注</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAcc(this)">
+              膀胱管理
+              <span class="accordion-arrow">▾</span>
+            </button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>每 6–8 小時人工擠尿或留置導尿管</li>
+                <li>防止膀胱過度膨脹導致逼尿肌無力</li>
+                <li>防止上行性泌尿道感染</li>
+                <li>T3–L3 病灶：UMN 型膀胱（高張力，手動擠壓困難）</li>
+                <li>L4–S3 病灶：LMN 型膀胱（低張力，容易溢尿）</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAcc(this)">
+              褥瘡預防與翻身
+              <span class="accordion-arrow">▾</span>
+            </button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>每 4 小時翻轉側臥方向</li>
+                <li>使用高密度記憶泡棉或充氣床墊</li>
+                <li>定期檢查骨突處皮膚（肩、髖、踝關節）</li>
+                <li>保持皮膚乾燥清潔，避免尿液刺激</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAcc(this)">
+              系統性病因篩檢
+              <span class="accordion-arrow">▾</span>
+            </button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>都卜勒血壓測量（排除高血壓）</li>
+                <li>心臟超音波（Echocardiography）篩查 HCM</li>
+                <li>CBC + 血清生化 + 尿液分析（評估腎功能）</li>
+                <li>Total T4（排除甲狀腺功能亢進）</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="callout callout-info" style="margin-bottom:1rem;">
+            <div class="callout-icon">ℹ</div>
+            <div>
+              <div class="callout-title">48 小時原則</div>
+              <div class="callout-body">若神經症狀在發病後 24–36 小時出現輕微惡化（細胞毒性及血管性水腫高峰期），屬預期反應。關鍵節點在於 <strong style="color:var(--text-primary)">48–72 小時後是否開始穩定或改善</strong>。若 72 小時後仍持續惡化，需強烈懷疑其他病因或進行性脊髓軟化症（myelomalacia）。</div>
+            </div>
+          </div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">發病後 0–6 小時</div>
+              <div class="timeline-title">急救期</div>
+              <div class="timeline-body">血壓測量、排除 FATE（摸股動脈）、靜脈留置、影像學安排</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">6–48 小時</div>
+              <div class="timeline-title">急性支持期</div>
+              <div class="timeline-body">穩定血流動力學、系統性病因篩檢、膀胱管理、MRI 掃描</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">48 小時後</div>
+              <div class="timeline-title">早期復健啟動</div>
+              <div class="timeline-body">生命徵象穩定後 48 小時內開始溫和復健介入</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="treat-rehab" class="tab-panel">
+      <div class="callout callout-success" style="margin-bottom:1.5rem;">
+        <div class="callout-icon">✓</div>
+        <div>
+          <div class="callout-title">神經可塑性（Neuroplasticity）的治療意涵</div>
+          <div class="callout-body">適當且及早介入的物理刺激，不僅能防止肌肉萎縮與關節攣縮，更能強烈刺激感覺與運動神經傳導路徑，促進微血管側支循環（collateral circulation）的快速建立，幫助未受損的神經網絡重新重組以接管喪失的功能。</div>
+        </div>
+      </div>
+      <div class="rehab-grid">
+        <div class="rehab-card">
+          <div class="rehab-icon">🦵</div>
+          <div class="rehab-title">被動關節活動（PROM）</div>
+          <div class="rehab-desc">讓貓側躺，輕柔引導各關節全範圍屈曲與伸展。不依賴主動肌肉收縮，主要促進滑膜液循環、維持結締組織彈性、持續發送本體感覺輸入。</div>
+          <div class="rehab-freq">每日 4 循環 · 每關節 10–15 次</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">👐</div>
+          <div class="rehab-title">軟組織按摩</div>
+          <div class="rehab-desc">以手指在患處周圍肌肉群施加緩慢深層的環狀按壓（避免直接壓迫受傷脊椎節段）。解除代償性肌肉緊繃，促進靜脈回流與淋巴引流。</div>
+          <div class="rehab-freq">每次 5–10 分鐘</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">⚖️</div>
+          <div class="rehab-title">重心轉移與平衡訓練</div>
+          <div class="rehab-desc">用胸背帶或毛巾將貓攙扶至四足站立，輕緩左右前後搖晃，迫使癱瘓側承受體重，刺激足底機械受器與關節囊本體感覺受器，誘發姿勢反射。</div>
+          <div class="rehab-freq">每日 2–3 次 · 每次 5–10 分鐘</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">🐾</div>
+          <div class="rehab-title">反射性誘發技巧</div>
+          <div class="rehab-desc">腹部摩擦（Belly Rub）或臀部搔抓（Butt Rub）觸發天生反射，誘使貓進行後肢交替伸展與重心轉移，強化核心穩定度與後肢伸展肌群。</div>
+          <div class="rehab-freq">每日 3–4 次 · 搭配誘食獎勵</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">🛒</div>
+          <div class="rehab-title">手推車運動（Wheelbarrow）</div>
+          <div class="rehab-desc">托起腹部使前肢懸空，迫使後肢完全承擔體重並嘗試向前邁步；反之托起後半身以訓練前肢。最大化單一肢體區域負荷，增強肌力與步態協調。</div>
+          <div class="rehab-freq">每日 2 次 · 每次 2–5 分鐘</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">💧</div>
+          <div class="rehab-title">水下跑步機（Hydrotherapy）</div>
+          <div class="rehab-desc">溫水浮力抵消重力，讓極度虛弱的病患在關節負荷極小的狀態下進行步態訓練。水的阻力提供全方位肌肉鍛鍊，溫熱效應有助肌肉放鬆與血管擴張。</div>
+          <div class="rehab-freq">每週 2–3 次（專業設施）</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">⚡</div>
+          <div class="rehab-title">電刺激療法</div>
+          <div class="rehab-desc">NMES（神經肌肉電刺激）直接誘發萎縮肌肉收縮，防止肌肉量流失；TENS（經皮神經電刺激）阻斷痛覺傳導，提供非藥物性鎮痛效果。</div>
+          <div class="rehab-freq">每日或隔日（專業設施）</div>
+        </div>
+        <div class="rehab-card">
+          <div class="rehab-icon">🔦</div>
+          <div class="rehab-title">低能量冷雷射（LLLT）</div>
+          <div class="rehab-desc">透過光生物調節作用（Photobiomodulation）提升粒線體 ATP 產量，加速神經軸突的修復與降低局部發炎反應。貓科動物復健醫學中心常用輔助工具。</div>
+          <div class="rehab-freq">每週 2–3 次（專業設施）</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="treat-home" class="tab-panel">
+      <h3 style="font-family:'Noto Serif TC',serif;font-size:1.15rem; font-weight:700; margin-bottom:1.2rem; color:var(--text-primary);">居家環境友善改造</h3>
+      <div class="grid-2">
+        <div>
+          <div class="accordion-item open">
+            <button class="accordion-header" onclick="toggleAcc(this)">防滑地面處理<span class="accordion-arrow">▾</span></button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>在常規活動路線（硬木地板、磁磚）鋪設防滑地毯或瑜珈墊</li>
+                <li>確保虛弱的肢體能獲得足夠的摩擦力</li>
+                <li>防止因滑倒導致的二次骨科傷害</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAcc(this)">降低物理障礙<span class="accordion-arrow">▾</span></button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>提供穩固緩坡道（ramps）協助上下沙發、睡床</li>
+                <li>嚴格禁止高處跳躍（防止跌落傷）</li>
+                <li>貓砂盆更換為低矮邊緣或 U 型開口款式</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAcc(this)">脊椎負荷管理<span class="accordion-arrow">▾</span></button>
+            <div class="accordion-body">
+              <ul class="seg-list">
+                <li>架高食物與水碗，減少進食時頸部屈曲</li>
+                <li>暫時移除垂直貓抓柱，改為水平貓抓板</li>
+                <li>維持理想體重，減輕癱瘓關節負擔</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">🏠 居家復健遊戲化策略</div>
+            <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:1rem;">貓科動物天生獨立且不易服從指令，復健計畫必須結合誘惑物，將訓練轉化為遊戲過程：</p>
+            <ul class="seg-list">
+              <li>使用高價值誘餌（貓草、肉泥、金槍魚汁）</li>
+              <li>安排在進食時間進行復健</li>
+              <li>雷射筆或逗貓棒引導方向性移動</li>
+              <li>低矮障礙賽（Cavaletti stepovers）</li>
+              <li>不規則表面行走（床墊、抱枕、瑜珈墊）</li>
+              <li>倒退走與 8 字形繞圈（精細運動控制）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="treat-drug" class="tab-panel">
+      <div class="grid-2">
+        <div>
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card-title">💊 疼痛管理</div>
+            <ul class="seg-list" style="font-size:13.5px;">
+              <li><strong>NSAIDs</strong>：短期使用，處理肌肉痙攣或脊髓感覺異常引發的不適</li>
+              <li><strong>Gabapentin</strong>：中樞神經鎮痛，適用於神經性疼痛</li>
+              <li>注意：貓 NSAIDs 使用需嚴格監控腎功能（尤其 CKD 背景）</li>
+            </ul>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-icon">⚠</div>
+            <div>
+              <div class="callout-title">類固醇的爭議</div>
+              <div class="callout-body">高劑量 Methylprednisolone 曾是傳統療法，但現代實證醫學已確認常規類固醇對 FCEM 無實質益處，反而增加消化道潰瘍與免疫抑制的風險。<strong>現行建議：一般 FCE 病例不常規使用類固醇。</strong></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">🔬 特殊情境的藥物考量</div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:12px;font-weight:700;color:var(--accent-amber);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">透明變性動脈病變</div>
+              <ul class="seg-list" style="font-size:13px;">
+                <li>Prednisolone + Cyclosporine 免疫抑制治療</li>
+                <li>Cyclosporine 抑制鈣調磷酸酶，阻斷 T 細胞活化</li>
+                <li>短暫臨床改善後幾乎不可避免地復發（血管壁透明變性不可逆）</li>
+              </ul>
+            </div>
+            <div class="divider"></div>
+            <div style="margin-bottom:1rem;">
+              <div style="font-size:12px;font-weight:700;color:var(--accent-blue);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">潛在心血管疾病管理</div>
+              <ul class="seg-list" style="font-size:13px;">
+                <li>HCM 確診後考慮抗血栓治療（Clopidogrel 或低分子量肝素）</li>
+                <li>高血壓給予 Amlodipine 血壓控制</li>
+                <li>甲狀腺亢進給予 Methimazole 或放射碘治療</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGNOSIS -->
+<section id="prognosis" style="background:var(--bg-elevated); border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-label">Prognosis Assessment</div>
+    <h2 class="section-title">互動式預後評估工具</h2>
+    <p class="section-desc">根據關鍵臨床與影像學指標，評估患貓的神經功能恢復潛力。本工具僅供臨床參考，不能取代完整的臨床判斷。</p>
+
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:13px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.2rem;">評估項目</h4>
+        <div id="progFactors"></div>
+      </div>
+      <div>
+        <div class="prog-result" id="progResult">
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:0.5rem; font-weight:600;">預後評分</div>
+          <div class="prog-score" id="progScore">—</div>
+          <div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%;background:var(--accent-blue);"></div></div>
+          <div id="progText" style="font-size:14px;color:var(--text-secondary);margin-top:0.5rem;">請完成左側所有評估項目</div>
+          <div id="progDetail" style="margin-top:1.2rem;text-align:left;"></div>
+        </div>
+
+        <div class="card" style="margin-top:1rem;">
+          <div class="card-title">📊 關鍵預後數據</div>
+          <table class="compare-table" style="font-size:13px;">
+            <tbody>
+              <tr><td>深層痛覺存在者</td><td><span class="badge badge-good">79% 恢復良好</span></td></tr>
+              <tr><td>深層痛覺喪失者</td><td><span class="badge badge-bad">恢復行走機率極低</span></td></tr>
+              <tr><td>中位恢復行走時間</td><td>3.5 天（範圍 3–19 天）</td></tr>
+              <tr><td>FCE 復發機率</td><td><span class="badge badge-good">極低（一次性事件）</span></td></tr>
+              <tr><td>長期追蹤（10年）</td><td>恢復者均達正常生活品質</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIO GUIDE SECTION -->
+<section id="audio-guide" style="border-top:1px solid var(--border); background:var(--bg-deep);">
+  <div class="container">
+    <div class="section-label">10 — 語音導覽</div>
+    <h2 class="section-title" style="border-bottom: 1px solid var(--border); padding-bottom: 8px;">🎧 AI 語音導覽</h2>
+    <p class="section-desc text-center" style="margin-bottom: 24px; text-align: center;">
+      聆聽由 AI 生成的貓缺血性脊髓病變 (FIM) 重點摘要。
+    </p>
+    <div class="audio-section">
+      <div class="audio-container">
+          <audio id="interactiveGuideAudio" controls>
+              <source src="fim.mp3" type="audio/mpeg">
+              您的瀏覽器不支援 audio 標籤。
+          </audio>
+          <div id="audio-speed-controls" class="audio-speed-controls">
+              <button data-speed="0.75" class="audio-speed-btn">0.75x</button>
+              <button data-speed="1" class="audio-speed-btn active">正常</button>
+              <button data-speed="1.25" class="audio-speed-btn">1.25x</button>
+              <button data-speed="1.5" class="audio-speed-btn">1.5x</button>
+              <button data-speed="2" class="audio-speed-btn">2x</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-title">貓缺血性脊髓病變 臨床指南</div>
+  <div style="font-size:14px;color:var(--text-secondary);margin-bottom:0.5rem;">
+    愛叮寶犬貓影像專科醫院 · atinsight.vet
+  </div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:1rem;">本網頁內容綜合臨床文獻與影像醫學知識，僅供獸醫專業教育參考使用，不能取代個案臨床診斷與治療決策。</div>
+  <div class="footer-refs">
+    <div><strong style="color:var(--text-secondary);">主要參考文獻</strong></div>
+    <div>1. <a href="#">Ischemic myelopathy: diagnosis and treatment. Vet-CT Resources.</a></div>
+    <div>2. <a href="#">A Review of Fibrocartilaginous Embolic Myelopathy. PMC.</a></div>
+    <div>3. <a href="#">Feline ischemic myelopathy and encephalopathy secondary to hyaline arteriopathy in five cats. PMC.</a></div>
+    <div>4. <a href="#">Feline ischaemic myelopathy with a predilection for the cranial cervical spinal cord. PMC.</a></div>
+    <div>5. <a href="#">Clinical Outcomes of Suspected Ischemic Myelopathy in Cats. Semantic Scholar.</a></div>
+    <div>6. <a href="#">Clinical outcome in 19 cats with MRI diagnosis of ischaemic myelopathy (2000–2011). PMC.</a></div>
+    <div>7. <a href="#">Clinical signs, causes, and outcome of central cord syndrome in 22 cats. AVMA.</a></div>
+    <div>8. <a href="#">Clinical reasoning in feline spinal disease. PMC.</a></div>
+    <div>9. <a href="#">Feline Physiotherapy and Rehabilitation: Clinical application. PMC.</a></div>
+    <div>10. <a href="#">Feline Aortic Thromboembolism: recent advances. PMC.</a></div>
+  </div>
+</footer>
+
+<script>
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+});
+
+// ── NAV ACTIVE STATE ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── TAB SWITCHER ──
+function switchTab(group, id) {
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(p => p.classList.remove('active'));
+  document.getElementById(`${group}-${id}`).classList.add('active');
+  const container = document.getElementById(`${group}-${id}`).closest('section') || document;
+  container.querySelectorAll('.tab-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${id}'`));
+  });
+}
+
+// ── ACCORDION ──
+function toggleAcc(btn) {
+  const item = btn.closest('.accordion-item');
+  item.classList.toggle('open');
+  const body = item.querySelector('.accordion-body');
+  if (item.classList.contains('open')) {
+    body.style.maxHeight = (body.scrollHeight + 60) + 'px'; // 增加額外高度緩衝，防止裁切 padding
+  } else {
+    body.style.maxHeight = '0';
+  }
+}
+document.querySelectorAll('.accordion-item.open').forEach(item => {
+  const body = item.querySelector('.accordion-body');
+  body.style.maxHeight = (body.scrollHeight + 60) + 'px';
+});
+
+// ── NEUROLOGICAL LOCALIZATION DATA ──
+const segData = {
+  c1c5: {
+    name: 'C1–C5（頸椎上段）',
+    color: '#a3626c', // accent-blue
+    type: 'UMN 四肢',
+    signs: ['四肢輕癱（Tetraparesis）或四肢癱瘓（Tetraplegia）','前後肢均為 UMN 型表現（張力增加、反射亢進）','可能有頸部疼痛或感覺過敏（Non-FCE 病因時）','膈神經受累（C4–C5）可能影響呼吸深度','Schiff-Sherrington 現象（前肢高張力伸展）偶見'],
+    reflex: ['肱二頭肌反射（C6–C8）：正常或亢進','肱三頭肌反射（C7–T1）：正常或亢進','提睪肌反射：可能保留','肛門反射：保留'],
+    bladder: 'UMN 型膀胱：反射亢進，排尿困難；手動擠壓阻力高',
+    note: '⚠ FCE 在貓最常見節段。頸髓受累時，需立即排除呼吸功能異常。',
+    noteType: 'warning'
+  },
+  c6t2: {
+    name: 'C6–T2（頸胸椎）',
+    color: '#a881af', // accent-purple
+    type: 'LMN 前肢 + UMN 後肢',
+    signs: ['四肢輕癱，前肢為 LMN 型（張力低下、反射消失）','後肢為 UMN 型（張力增加、反射亢進）','Schiff-Sherrington 現象常見（後肢不參與運動但伸肌反射亢進）','Homer 症候群（若交感神經幹 T1–T3 受累）：瞳孔縮小、上眼瞼下垂、第三眼瞼突出'],
+    reflex: ['肱二頭肌反射（C6–C8）：消失（LMN）','肱三頭肌反射（C7–T1）：消失（LMN）','膝反射（L4–L6）：正常或亢進','後肢縮腿反射（L6–S1）：正常或亢進'],
+    bladder: 'UMN 型膀胱（後肢節段保留）：反射保留，需輔助排尿',
+    note: 'Horner 症候群的出現高度提示 C8–T3 節段受累，是精確神經定位的重要線索。',
+    noteType: 'info'
+  },
+  t3l3: {
+    name: 'T3–L3（胸腰椎）',
+    color: '#7ca87d', // accent-green
+    type: 'UMN 後肢',
+    signs: ['後肢截癱（Paraplegia）或後肢輕癱（Paraparesis）','後肢 UMN 型（張力增加、反射亢進）','前肢完全正常','Schiff-Sherrington 現象：前肢伸肌張力顯著增加（尤其急性期）','不對稱性表現尤為常見（FCE 偏側損傷特徵）'],
+    reflex: ['前肢所有反射：正常','膝反射（L4–L6）：正常或亢進','後肢縮腿反射（L6–S1）：正常或亢進','提睪肌反射：可能保留'],
+    bladder: 'UMN 型膀胱：逼尿肌張力高、括約肌痙攣。膀胱觸診時張力高，手動擠壓困難。需用力擠壓或導尿。',
+    note: '⚠ FCE 在犬的最好發節段；貓相對少見，但仍為重要鑑別對象。Schiff-Sherrington 在急性期非預後不良的指標。',
+    noteType: 'warning'
+  },
+  l4s3: {
+    name: 'L4–S3（腰薦椎）',
+    color: '#e09f7d', // accent-amber
+    type: 'LMN 後肢',
+    signs: ['後肢截癱（LMN 型）','後肢肌肉張力低下（肌肉鬆弛、軟癱）','後肢所有反射消失','肌肉萎縮在數日至數週內明顯','後肢本體感覺完全消失','前肢完全正常'],
+    reflex: ['膝反射（L4–L6）：消失（LMN）','後肢縮腿反射（L6–S1）：消失（LMN）','肛門括約肌反射：可能消失','球海綿體反射：可能消失'],
+    bladder: 'LMN 型膀胱（S1–S3 受累）：逼尿肌張力低下，膀胱過度膨脹，溢流性失禁。觸診膀胱軟且易壓迫，需頻繁手動擠尿。',
+    note: '⚠ LMN 型膀胱管理需特別謹慎：膀胱過度膨脹會導致永久性逼尿肌損傷。建議每 6–8 小時排空一次。',
+    noteType: 'danger'
+  },
+  scd: {
+    name: 'S–Cd（薦尾椎）',
+    color: '#c96a6a', // accent-red
+    type: 'LMN 尾部/會陰',
+    signs: ['尾部麻痺（Tail paralysis）：尾部完全無力下垂','肛門括約肌反射消失','會陰感覺缺失','後肢功能通常保留（有時輕度後肢虛弱）','糞便失禁（因外括約肌 LMN 麻痺）'],
+    reflex: ['後肢主要反射：大多保留','肛門括約肌反射：消失','球海綿體反射：消失','尾部痛覺（Nociception）：消失'],
+    bladder: 'LMN 型膀胱（若 S1–S3 受累）：尿液滴漏，膀胱無法主動收縮排空，需長期人工擠尿或間歇性導尿。',
+    note: '孤立的尾部麻痺需鑑別外傷性尾椎骨折/脫臼，以及貓主動脈血栓（FATE）的神經缺血性後遺症。',
+    noteType: 'info'
+  }
+};
+
+function selectSeg(id, btn) {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else { const b2 = document.querySelector(`.seg-btn[onclick*="'${id}'"]`); if (b2) b2.classList.add('active'); }
+  const d = segData[id];
+  const noteColors = { warning: 'var(--accent-amber)', danger: 'var(--accent-red)', info: 'var(--accent-blue)', success: 'var(--accent-green)' };
+  const noteBg = { warning: 'rgba(224,159,125,0.08)', danger: 'rgba(201,106,106,0.08)', info: 'rgba(163,98,108,0.08)', success: 'rgba(124,168,125,0.08)' };
+  document.getElementById('seg-display-area').innerHTML = `
+    <div style="margin-bottom:1rem;padding:10px 16px;background:rgba(${hexToRgb(d.color)},0.08);border-radius:8px;border-left:3px solid ${d.color};">
+      <span style="font-size:13px;font-weight:700;color:${d.color};">${d.name}</span>
+      <span style="font-size:12px;color:var(--text-muted);margin-left:12px;font-weight:600;">神經元類型：${d.type}</span>
+    </div>
+    <div class="seg-display">
+      <div class="seg-panel">
+        <h4>臨床症狀</h4>
+        <ul class="seg-list">${d.signs.map(s=>`<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div class="seg-panel">
+        <h4>反射評估</h4>
+        <ul class="seg-list">${d.reflex.map(s=>`<li>${s}</li>`).join('')}</ul>
+        <h4 style="margin-top:1rem;">膀胱功能</h4>
+        <p style="font-size:13px;color:var(--text-secondary);margin-top:6px;line-height:1.6">${d.bladder}</p>
+      </div>
+    </div>
+    <div style="margin-top:1rem;padding:10px 14px;background:${noteBg[d.noteType]};border-radius:8px;border-left:3px solid ${noteColors[d.noteType]};font-size:13px;color:var(--text-secondary);line-height:1.6">
+      ${d.note}
+    </div>
+  `;
+}
+function hexToRgb(hex) {
+  if(!hex) return '163,98,108';
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+setTimeout(() => selectSeg('c1c5', null), 0);
+
+// ── MRI CANVAS RENDERING ──
+const mriData = {
+  t2sag: {
+    label: 'T2w Sagittal',
+    normalLabel: 'T2w 矢狀面 — 正常',
+    fceLabel: 'T2w 矢狀面 — FCE 急性期',
+    info: {
+      title: 'T2w 矢狀面（最重要的初始序列）',
+      findings: [
+        { label: 'CSF', signal: '亮白（高訊號）', hex: '#A8D4F5' },
+        { label: '正常脊髓', signal: '灰色（中間訊號）', hex: '#7090B0' },
+        { label: 'FCE 病灶', signal: '亮白（高訊號）', hex: '#E0F4FF' },
+        { label: '椎間盤', signal: '暗灰（較低訊號）', hex: '#3A3A38' }
+      ],
+      tip: '先確認無外壓病灶，再尋找脊髓內局灶性高訊號。FCE 病灶通常在 1–2 椎體長度（VBL）內，且對應椎體中段而非椎間盤間隙。',
+      fce: 'FCE：局灶性 T2 高訊號，偏側分布，通常 1–2 VBL，邊界相對清晰'
+    },
+    drawNormal: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      // Vertebral background
+      ctx.fillStyle = '#181818'; ctx.fillRect(cx-70*scale, 20*scale, 140*scale, h-30*scale);
+      // CSF
+      ctx.fillStyle = '#A8D4F5'; ctx.fillRect(cx-50*scale, 25*scale, 100*scale, h-40*scale);
+      // Spinal cord
+      ctx.fillStyle = '#5080A8'; ctx.fillRect(cx-28*scale, 25*scale, 56*scale, h-40*scale);
+      // Discs
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#252520'; ctx.fillRect(cx-50*scale, (25+p*(h-65))*scale, 100*scale, 8*scale);
+      });
+    },
+    drawFCE: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#181818'; ctx.fillRect(cx-70*scale, 20*scale, 140*scale, h-30*scale);
+      ctx.fillStyle = '#A8D4F5'; ctx.fillRect(cx-50*scale, 25*scale, 100*scale, h-40*scale);
+      ctx.fillStyle = '#5080A8'; ctx.fillRect(cx-28*scale, 25*scale, 56*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#252520'; ctx.fillRect(cx-50*scale, (25+p*(h-65))*scale, 100*scale, 8*scale);
+      });
+      const ly = (25 + 0.3*(h-65))*scale;
+      const lh = 0.14*(h-65)*scale;
+      ctx.fillStyle = '#D8EEFF'; ctx.beginPath(); ctx.roundRect(cx+2*scale, ly, 24*scale, lh, 4*scale); ctx.fill();
+      ctx.strokeStyle = '#5AACFF'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.shadowColor = '#5AACFF'; ctx.shadowBlur = 8*scale;
+      ctx.fillStyle = 'rgba(90,172,255,0.15)'; ctx.fillRect(cx+2*scale, ly, 24*scale, lh);
+      ctx.shadowBlur = 0;
+    }
+  },
+  t2ax: {
+    label: 'T2w Axial',
+    normalLabel: 'T2w 橫切面 — 正常',
+    fceLabel: 'T2w 橫切面 — FCE（偏側型）',
+    info: {
+      title: 'T2w 橫切面（最關鍵的鑑別切面）',
+      findings: [
+        { label: 'CSF（蜘蛛膜下腔）', signal: '亮白', hex: '#A8D4F5' },
+        { label: '白質', signal: '中等灰色', hex: '#6080A0' },
+        { label: '灰質（蝴蝶形）', signal: '較深灰色', hex: '#405870' },
+        { label: 'FCE 病灶（偏側）', signal: '高訊號（明亮）', hex: '#C8EAFF' }
+      ],
+      tip: '橫切面是確認 FCE「偏側性（hemisection）」型態的關鍵：病灶局限於脊髓的一半，對側相對正常。這是 FCE 區別於脊髓炎（通常雙側對稱）最重要的特徵。',
+      fce: 'FCE：T2 高訊號集中於脊髓右半（或左半），灰白質均受累，對側保留正常結構'
+    },
+    drawNormal: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, cy = h/2, r = Math.min(w,h)*0.35;
+      ctx.fillStyle = '#A8D4F5'; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#5080A8'; ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2); ctx.fill();
+      const gm = (x,y,rx,ry) => { ctx.fillStyle='#364E66'; ctx.beginPath(); ctx.ellipse(cx+x,cy+y,rx,ry,0,0,Math.PI*2); ctx.fill(); };
+      gm(0,0,r*0.18,r*0.10); gm(-r*0.18,-r*0.14,r*0.10,r*0.15); gm(r*0.18,-r*0.14,r*0.10,r*0.15);
+      gm(-r*0.15,r*0.13,r*0.08,r*0.12); gm(r*0.15,r*0.13,r*0.08,r*0.12);
+    },
+    drawFCE: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, cy = h/2, r = Math.min(w,h)*0.35;
+      ctx.fillStyle = '#A8D4F5'; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#5080A8'; ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2); ctx.fill();
+      const gm = (x,y,rx,ry) => { ctx.fillStyle='#364E66'; ctx.beginPath(); ctx.ellipse(cx+x,cy+y,rx,ry,0,0,Math.PI*2); ctx.fill(); };
+      gm(0,0,r*0.18,r*0.10); gm(-r*0.18,-r*0.14,r*0.10,r*0.15); gm(r*0.18,-r*0.14,r*0.10,r*0.15);
+      gm(-r*0.15,r*0.13,r*0.08,r*0.12); gm(r*0.15,r*0.13,r*0.08,r*0.12);
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2); ctx.clip();
+      ctx.fillStyle = '#B4DEFF';
+      ctx.beginPath(); ctx.ellipse(cx+r*0.22, cy-r*0.12, r*0.26, r*0.32, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#5AACFF'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.restore();
+    }
+  },
+  t1: {
+    label: 'T1w',
+    normalLabel: 'T1w — 正常',
+    fceLabel: 'T1w — FCE（等訊號/難以偵測）',
+    info: {
+      title: 'T1w（非主要診斷序列）',
+      findings: [
+        { label: 'CSF', signal: '暗黑（低訊號）', hex: '#1A1A30' },
+        { label: '正常脊髓', signal: '中灰（中間訊號）', hex: '#707078' },
+        { label: 'FCE 病灶', signal: '等訊號或輕度低訊號（難以偵測）', hex: '#606068' },
+        { label: '椎體骨髓（脂肪）', signal: '亮白（高訊號）', hex: '#D8D0C0' }
+      ],
+      tip: '急性 FCE 在 T1w 上通常無法直接偵測（病灶呈等訊號）。T1w 的主要用途是：(1) 評估脊髓腫脹程度、(2) 作為 T1+C 顯影前的基線對照。',
+      fce: 'FCE 急性期：T1 等訊號或輕度低訊號。若有出血性梗塞，可見局部 T1 高訊號（相對罕見）'
+    },
+    drawNormal: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#1A1A30'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#707078'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#C8C0B0'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+    },
+    drawFCE: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#1A1A30'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#707078'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#C8C0B0'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+      const ly = (25 + 0.3*(h-65))*scale;
+      const lh = 0.14*(h-65)*scale;
+      ctx.fillStyle = '#606068';
+      ctx.strokeStyle = '#888890'; ctx.lineWidth = 1;
+      ctx.setLineDash([3,2]);
+      ctx.beginPath(); ctx.roundRect(cx+2*scale, ly, 18*scale, lh, 3*scale); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#888890'; ctx.font = `${9*scale}px monospace`;
+      ctx.fillText('≈ cord', cx+4*scale, ly+lh/2);
+    }
+  },
+  t1c: {
+    label: 'T1w+C',
+    normalLabel: 'T1+C 急性期（0–48hr） — 無顯影',
+    fceLabel: 'T1+C 亞急性期（5–14天） — 可能輕微顯影',
+    info: {
+      title: 'T1w + 顯影（Gadolinium）',
+      findings: [
+        { label: '急性期病灶（&lt;72hr）', signal: '無顯影（BBB 相對完整）', hex: '#707078' },
+        { label: '亞急性期病灶（5–14天）', signal: '輕微斑片狀顯影', hex: '#C8A040' },
+        { label: '脊髓炎病灶', signal: '均質強化顯影（重要鑑別！）', hex: '#F0A830' },
+        { label: '脊髓腫瘤', signal: '環形或結節狀顯影', hex: '#E05050' }
+      ],
+      tip: '急性 FCE 通常「無顯影」是與脊髓炎鑑別的重要依據。若出現明顯均質顯影，應優先考慮 FIP、弓漿蟲或隱球菌脊髓炎而非 FCE。',
+      fce: '急性：無顯影（最典型）。亞急性：偶見輕微斑片狀顯影（BBB 輕度破壞），但絕不均質強化'
+    },
+    drawNormal: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#1A1A30'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#707078'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#C8C0B0'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+      const ly = (25 + 0.3*(h-65))*scale;
+      const lh = 0.14*(h-65)*scale;
+      ctx.fillStyle = '#606068';
+      ctx.strokeStyle = '#505058'; ctx.lineWidth = 1; ctx.setLineDash([3,2]);
+      ctx.beginPath(); ctx.roundRect(cx+2*scale, ly, 18*scale, lh, 3*scale); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(255,50,50,0.3)'; ctx.font = `${9*scale}px monospace`;
+      ctx.fillText('無顯影', cx-8*scale, h-10*scale);
+    },
+    drawFCE: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#D8D0C0'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#1A1A30'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#707078'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#C8C0B0'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+      const ly = (25 + 0.3*(h-65))*scale;
+      const lh = 0.14*(h-65)*scale;
+      ctx.fillStyle = '#C8A040'; ctx.beginPath(); ctx.roundRect(cx+2*scale, ly, 18*scale, lh, 3*scale); ctx.fill();
+      ctx.strokeStyle = '#E0B840'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = '#E0B840'; ctx.font = `${9*scale}px monospace`;
+      ctx.fillText('輕微顯影', cx-12*scale, h-10*scale);
+    }
+  },
+  stir: {
+    label: 'STIR',
+    normalLabel: 'STIR — 正常（脂肪抑制）',
+    fceLabel: 'STIR — FCE（病灶更清晰）',
+    info: {
+      title: 'STIR（Short Tau Inversion Recovery）',
+      findings: [
+        { label: '椎體骨髓', signal: '暗黑（脂肪抑制）', hex: '#0A0A10' },
+        { label: 'CSF', signal: '亮白', hex: '#A0C8E8' },
+        { label: 'FCE 病灶', signal: '更亮（水腫高度敏感）', hex: '#E0F4FF' },
+        { label: '椎間盤', signal: '暗（脂肪水份低）', hex: '#1A1A18' }
+      ],
+      tip: 'STIR 序列壓制脂肪訊號，使椎體骨髓呈現暗黑，讓脊髓內的水腫/梗塞病灶相對於周圍組織更為突出。適合偵測 T2w 上相對微小的病灶，尤其在頸椎段。',
+      fce: 'FCE 在 STIR 上的高訊號比 T2w 更鮮明清晰。缺點：若 CSF 訊號過亮，可能遮蔽小病灶'
+    },
+    drawNormal: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#0A0A12'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#0A0A12'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#A0C8E8'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#5878A0'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#1A1A18'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+    },
+    drawFCE: (ctx, w, h) => {
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle = '#080808'; ctx.fillRect(0,0,w,h);
+      const cx = w/2, scale = Math.min(w,h)/300;
+      ctx.fillStyle = '#0A0A12'; ctx.fillRect(cx-70*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#0A0A12'; ctx.fillRect(cx+40*scale, 20*scale, 30*scale, h-30*scale);
+      ctx.fillStyle = '#A0C8E8'; ctx.fillRect(cx-40*scale, 25*scale, 80*scale, h-40*scale);
+      ctx.fillStyle = '#5878A0'; ctx.fillRect(cx-22*scale, 25*scale, 44*scale, h-40*scale);
+      [0.22, 0.44, 0.66, 0.84].forEach(p => {
+        ctx.fillStyle = '#1A1A18'; ctx.fillRect(cx-40*scale, (25+p*(h-65))*scale, 80*scale, 7*scale);
+      });
+      const ly = (25 + 0.3*(h-65))*scale;
+      const lh = 0.14*(h-65)*scale;
+      ctx.fillStyle = '#E0F4FF';
+      ctx.shadowColor = '#80C8FF'; ctx.shadowBlur = 10*scale;
+      ctx.beginPath(); ctx.roundRect(cx+2*scale, ly, 24*scale, lh, 3*scale); ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = '#60AAEE'; ctx.lineWidth = 1.5; ctx.stroke();
+    }
+  }
+};
+
+let currentMRI = 't2sag';
+function selectMRI(id) {
+  currentMRI = id;
+  document.querySelectorAll('.seq-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(`'${id}'`)));
+  document.getElementById('mriNormalLabel').textContent = mriData[id].normalLabel;
+  document.getElementById('mriFCELabel').textContent = mriData[id].fceLabel;
+  renderMRI(id);
+  renderMRIInfo(id);
+}
+
+function renderMRI(id) {
+  const data = mriData[id];
+  ['Normal','FCE'].forEach(t => {
+    const canvas = document.getElementById(`mri${t}Canvas`);
+    if (!canvas) return;
+    const parent = canvas.parentElement;
+    const rect = parent.getBoundingClientRect();
+    const size = Math.round(rect.width) || parent.offsetWidth || 360;
+    if (size <= 0) return;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, size, size);
+    data[`draw${t}`](ctx, size, size);
+  });
+}
+
+function renderMRIInfo(id) {
+  const info = mriData[id].info;
+  const panel = document.getElementById('mriInfoPanel');
+  panel.innerHTML = `
+    <h4 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:1rem;">${info.title}</h4>
+    <div class="grid-2" style="margin-bottom:1rem;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">訊號特徵</div>
+        ${info.findings.map(f => `
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <div style="width:14px;height:14px;border-radius:3px;background:${f.hex};flex-shrink:0;border:1px solid rgba(0,0,0,0.1);"></div>
+            <span style="font-size:13px;color:var(--text-secondary);"><strong style="color:var(--text-primary);">${f.label}</strong>：${f.signal}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">判讀要點</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:0.8rem;">${info.tip}</p>
+        <div style="padding:8px 12px;background:rgba(163,98,108,0.08);border-radius:6px;border-left:2px solid var(--accent-blue);font-size:12px;color:var(--text-secondary);">
+          <strong style="color:var(--accent-blue);">FCE 特徵：</strong>${info.fce}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// MRI accordion data
+const mriSOP = [
+  { title: '① 矢狀面 T2w — 先看全段，排除壓迫', body: '從枕骨大孔掃描到薦椎。首先確認：椎間盤外觀、有無硬脊膜外佔位、脊髓輪廓是否完整。找出任何高訊號病灶並測量縱向長度（VBL）。FCE：非壓迫性，椎間盤外觀可正常。' },
+  { title: '② 矢狀面 T1w — 評估脊髓腫脹', body: '評估脊髓相對於 CSF 空間的大小，是否有腫脹。FCE 早期可輕度腫脹，但 T1 訊號多為等訊號，病灶本身不易直接看見。作為 T1+C 的基線對照。' },
+  { title: '③ 矢狀面 STIR — 驗證水腫病灶', body: '驗證 T2w 所見病灶。真正的水腫性病灶在 STIR 會更亮、更清晰。椎體骨髓水腫（骨折或骨壞死）也在此序列顯現。注意：貓頸椎段的細小病灶在 STIR 上最容易被偵測到。' },
+  { title: '④ 橫切面 T2w — 最重要的一步（偏側性確認）', body: '在病灶節段進行橫切面掃描。確認「偏側性（hemisection）」vs. 雙側對稱：FCE 通常偏側，脊髓炎通常雙側對稱。同時評估灰質蝴蝶形態是否保留，計算病灶佔橫截面積百分比（%CSA）。' },
+  { title: '⑤ T1+C（顯影）— 最後確認顯影模式', body: '急性 FCE（&lt;72hr）：通常無顯影（BBB 相對完整）。亞急性 FCE（5–14天）：偶見輕微斑片狀顯影。脊髓炎：明顯均質顯影。腫瘤：環形或結節狀顯影。若出現明顯均質顯影，須重新評估 FCE 以外的診斷。' }
+];
+const mriAccordionEl = document.getElementById('mriAccordion');
+mriSOP.forEach((item, i) => {
+  const el = document.createElement('div');
+  el.className = 'accordion-item' + (i===0?' open':'');
+  el.innerHTML = `<button class="accordion-header" onclick="toggleAcc(this)">${item.title}<span class="accordion-arrow">▾</span></button><div class="accordion-body" style="${i===0?'':'max-height:0;'}"><div style="padding-bottom:0.8rem; padding-top:0.4rem;">${item.body}</div></div>`;
+  mriAccordionEl.appendChild(el);
+});
+document.querySelectorAll('.accordion-item.open').forEach(item => {
+  const body = item.querySelector('.accordion-body');
+  if (!body.style.maxHeight || body.style.maxHeight==='0px') body.style.maxHeight = 'auto';
+});
+
+// Init MRI with ResizeObserver (reliable after layout)
+const _mriRO = new ResizeObserver(() => renderMRI(currentMRI));
+['mriNormal','mriFCE'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) _mriRO.observe(el);
+});
+function _tryInitMRI() {
+  const el = document.getElementById('mriNormal');
+  if (!el) return;
+  const w = el.getBoundingClientRect().width;
+  if (w > 0) { selectMRI('t2sag'); }
+  else { requestAnimationFrame(_tryInitMRI); }
+}
+requestAnimationFrame(_tryInitMRI);
+window.addEventListener('resize', () => renderMRI(currentMRI));
+
+// ── PROGNOSIS TOOL ──
+const PROG_FACTORS = [
+  { id: 'dpp', label: '深層痛覺（Deep Pain Perception）', options: [{ label: '存在', val: 40 }, { label: '喪失', val: -60 }] },
+  { id: 'motor', label: '運動功能程度', options: [{ label: '可藉助行走（ambulatory paresis）', val: 30 }, { label: '不能行走但有運動嘗試', val: 15 }, { label: '完全癱瘓（無自主運動）', val: -10 }] },
+  { id: 'symmetry', label: '神經缺損對稱性', options: [{ label: '不對稱（偏側型）', val: 20 }, { label: '對稱（雙側均等）', val: -5 }] },
+  { id: 'time', label: '發病後 72 小時神經症狀趨勢', options: [{ label: '穩定或改善', val: 20 }, { label: '仍在持續惡化', val: -40 }] },
+  { id: 'mri_range', label: 'MRI 病灶範圍', options: [{ label: '1–2 VBL，偏側', val: 15 }, { label: '2–3 VBL，偏側', val: 0 }, { label: '>3 VBL 或雙側', val: -20 }] },
+  { id: 'underlying', label: '潛在系統性疾病', options: [{ label: '無或已控制良好', val: 10 }, { label: 'HCM / 高血壓（可控制）', val: 0 }, { label: '透明變性動脈病變或難控制病因', val: -30 }] }
+];
+
+const _progContainer = document.getElementById('progFactors');
+const _scores = {};
+PROG_FACTORS.forEach(f => {
+  const div = document.createElement('div');
+  div.className = 'prog-factor';
+  div.style.cssText = 'flex-direction:column;align-items:flex-start;';
+  div.innerHTML = `
+    <div style="font-size:14px;color:var(--text-primary);font-weight:700;margin-bottom:10px;">${f.label}</div>
+    <div class="prog-options" style="flex-wrap:wrap;gap:10px;">
+      ${f.options.map(o => `<label class="prog-opt" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;transition:border-color .2s;"><input type="radio" name="${f.id}" value="${o.val}" onchange="updateProg('${f.id}', ${o.val})" style="margin-right:6px;accent-color:var(--accent-blue);"> <span>${o.label}</span></label>`).join('')}
+    </div>
+  `;
+  _progContainer.appendChild(div);
+});
+
+function updateProg(id, val) {
+  _scores[id] = val;
+  const filled = Object.keys(_scores).length;
+  const total_needed = PROG_FACTORS.length;
+  if (filled < total_needed) {
+    document.getElementById('progText').textContent = `已完成 ${filled} / ${total_needed} 項`;
+    return;
+  }
+  const total = Object.values(_scores).reduce((a,b)=>a+b,0);
+  const pct = Math.max(0, Math.min(100, (total + 80) / 155 * 100));
+  const score = document.getElementById('progScore');
+  const bar = document.getElementById('progBar');
+  const text = document.getElementById('progText');
+  const detail = document.getElementById('progDetail');
+  const result = document.getElementById('progResult');
+  let color, label, desc, advice;
+  if (pct >= 70) {
+    color = '#7ca87d'; label = '預後良好'; desc = '此患貓具備良好的神經功能恢復潛力。';
+    advice = '建議積極執行神經復健計畫，保守治療後 2–4 週內應有明顯改善跡象。定期追蹤神經學狀態。';
+  } else if (pct >= 40) {
+    color = '#e09f7d'; label = '預後不確定'; desc = '有機會恢復但需長期觀察，復健配合度至關重要。';
+    advice = '密集監控神經學狀態，特別是深層痛覺的動態變化。若 2 週後無改善，需重新評估原始診斷。建議轉介神經專科或復健科。';
+  } else {
+    color = '#c96a6a'; label = '預後謹慎'; desc = '多項不良預後因素並存，恢復可能性有限。';
+    advice = '與飼主進行坦誠的預後討論，包含長期護理需求與生活品質評估。若深層痛覺完全喪失超過 48–72 小時，需認真考慮安樂死的選項。';
+  }
+  score.textContent = Math.round(pct) + '%';
+  score.style.color = color;
+  bar.style.width = pct + '%';
+  bar.style.background = color;
+  result.style.borderColor = color;
+  text.innerHTML = `<strong style="color:${color};">${label}</strong> — ${desc}`;
+  const rgb = hexToRgb(color);
+  detail.innerHTML = `<div style="padding:10px 14px;background:rgba(${rgb},0.08);border-radius:8px;font-size:13px;color:var(--text-secondary);">${advice}</div>`;
+}
+
+// ── AUDIO PLAYER LOGIC ──
+const audioPlayer = document.getElementById('interactiveGuideAudio');
+const speedControls = document.getElementById('audio-speed-controls');
+
+if (audioPlayer && speedControls) {
+    speedControls.addEventListener('click', (event) => {
+        const button = event.target.closest('.audio-speed-btn');
+        if (button) {
+            const speed = parseFloat(button.dataset.speed);
+            audioPlayer.playbackRate = speed;
+
+            // Update active class
+            speedControls.querySelectorAll('.audio-speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+        }
+    });
+}
+</script>
+</body>
+</html>
