@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>犬腎上腺腫瘤 — 全方位臨床影像指南</title>
+<link rel="icon" type="image/png" href="https://i.imgur.com/5qr0W3z.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+TC:wght@300;400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --bg-deep: #fdf6f7;
+  --bg-card: #ffffff;
+  --bg-elevated: #faeef0;
+  --bg-surface: #fce7eb;
+  --border: #e6c8cc;
+  --border-bright: #d1a3aa;
+  --text-primary: #75474d;
+  --text-secondary: #4a4a4a;
+  --text-muted: #825159;
+  --accent-blue: #a3626c;
+  --accent-teal: #c67d5e;
+  --accent-amber: #e09f7d;
+  --accent-red: #c96a6a;
+  --accent-purple: #a881af;
+  --accent-green: #7ca87d;
+  --accent3: #ddb5bb;
+  --gradient-header: linear-gradient(135deg, #faeef0 0%, #fdf6f7 62%, #fff 100%);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Noto Sans TC', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-secondary);
+  line-height: 1.72;
+  font-size: 16px;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-elevated); }
+::-webkit-scrollbar-thumb { background: var(--accent3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-bright); }
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent-blue), var(--accent3)); z-index: 1200; transition: width .12s linear; }
+.banner-wrapper {
+  background-color: var(--accent3);
+  width: 100%; padding: 16px 24px; text-align: center;
+  box-shadow: 0 2px 12px rgba(163,98,108,.10);
+}
+.banner-wrapper img { width: 80%; max-width: 900px; height: auto; display: inline-block; vertical-align: middle; border-radius: 6px; }
+.hero {
+  min-height: 86vh; display: flex; align-items: center; position: relative; overflow: hidden;
+  background: var(--gradient-header); padding: 70px 0 58px; border-bottom: 1px solid var(--border);
+}
+.hero-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(163,98,108,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(163,98,108,.08) 1px, transparent 1px); background-size: 48px 48px; animation: gridShift 20s linear infinite; }
+@keyframes gridShift { to { background-position: 48px 48px; } }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.hero-inner { position: relative; z-index: 1; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(163,98,108,.08); border: 1px solid rgba(163,98,108,.2); border-radius: 20px; padding: 6px 16px; font-size: 11px; color: var(--accent-blue); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; margin-bottom: 1.5rem; }
+.hero-badge:before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-blue); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(1.35)} }
+.hero h1 { font-family: 'Noto Serif TC', serif; color: var(--text-primary); font-weight: 900; line-height: 1.15; font-size: clamp(2.25rem, 5.4vw, 4.25rem); margin-bottom: .8rem; }
+.hero h1 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent-blue); }
+.hero-sub { max-width: 710px; color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 2.1rem; }
+.hero-stats { display: grid; grid-template-columns: repeat(4, minmax(120px,1fr)); gap: 1rem; max-width: 880px; }
+.stat-card { background: rgba(255,255,255,.74); border: 1px solid var(--border); border-radius: 14px; padding: 1.05rem 1.15rem; transition: transform .2s, border-color .2s, box-shadow .2s; }
+.stat-card:hover { transform: translateY(-2px); border-color: var(--accent-blue); box-shadow: 0 8px 18px rgba(163,98,108,.12); }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.15rem; font-weight: 700; line-height: 1; color: var(--accent-blue); }
+.stat-label { margin-top: .35rem; font-size: 11px; font-weight: 700; color: var(--text-muted); letter-spacing: .04em; text-transform: uppercase; }
+nav { position: static; z-index: auto; background: rgba(253,246,247,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 20px; height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.nav-logo { font-family: 'Noto Serif TC', serif; font-size: 1rem; font-weight: 800; color: var(--accent-blue); white-space: nowrap; }
+.nav-links { display: flex; align-items: center; gap: 0; overflow-x: auto; scrollbar-width: none; }
+.nav-links::-webkit-scrollbar { display: none; }
+.tab-btn { display: inline-flex; align-items: center; height: 58px; color: var(--text-muted); padding: 0 .8rem; line-height: 58px; font-size: 13px; font-weight: 700; letter-spacing: .03em; white-space: nowrap; font-family: 'Inter','Noto Sans TC',sans-serif; border-bottom: 2px solid transparent; cursor: default; user-select: none; }
+.tab-btn:hover { color: var(--text-muted); background: transparent; }
+.tab-btn.active { color: var(--text-muted); border-bottom-color: transparent; background: transparent; }
+main { padding: 52px 0 10px; }
+.section { display: block; padding: 0 0 66px; animation: none; }
+.section + .section { border-top: 1px solid var(--border); padding-top: 64px; }
+@keyframes fadeIn { from{opacity:1; transform: none} to{opacity:1; transform: none} }
+.section-label { font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: var(--accent-blue); display: flex; align-items: center; gap: 12px; margin-bottom: .55rem; }
+.section-label:after { content: ''; flex: 1; max-width: 64px; height: 2px; background: var(--accent-blue); opacity: .38; }
+.section-title { font-family: 'Noto Serif TC', serif; font-size: clamp(1.75rem,3vw,2.45rem); font-weight: 800; line-height: 1.3; color: var(--text-primary); margin-bottom: .7rem; }
+.section-desc { max-width: 820px; color: var(--text-secondary); font-size: .97rem; margin-bottom: 2rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1rem; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.4rem; box-shadow: 0 3px 10px rgba(163,98,108,.05); transition: transform .25s, box-shadow .25s, border-color .25s; }
+.card:hover { transform: translateY(-2px); border-color: var(--accent-blue); box-shadow: 0 8px 18px rgba(163,98,108,.12); }
+.card-title { font-family: 'Noto Serif TC', serif; font-weight: 800; font-size: 1.05rem; color: var(--text-primary); margin-bottom: .7rem; display: flex; align-items: center; gap: .55rem; }
+.card-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); font-weight: 800; margin-bottom: .45rem; }
+ul.clean { list-style: none; }
+ul.clean li { position: relative; padding-left: 1.05rem; margin: .45rem 0; color: var(--text-secondary); font-size: .92rem; }
+ul.clean li:before { content: '—'; position: absolute; left: 0; color: var(--accent-blue); font-weight: 800; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 800; border: 1px solid transparent; margin: 2px 3px 2px 0; }
+.badge-blue { color: var(--accent-blue); background: rgba(163,98,108,.12); border-color: rgba(163,98,108,.26); }
+.badge-warn { color: #b76a3e; background: rgba(224,159,125,.14); border-color: rgba(224,159,125,.28); }
+.badge-red { color: #a14545; background: rgba(201,106,106,.14); border-color: rgba(201,106,106,.28); }
+.badge-green { color: #4e8250; background: rgba(124,168,125,.14); border-color: rgba(124,168,125,.28); }
+.callout { border-radius: 12px; padding: 1.1rem 1.25rem; margin: 1rem 0; border: 1px solid var(--border); background: var(--bg-card); border-left-width: 4px; }
+.callout.info { border-left-color: var(--accent-blue); background: rgba(163,98,108,.07); }
+.callout.warn { border-left-color: var(--accent-amber); background: rgba(224,159,125,.09); }
+.callout.danger { border-left-color: var(--accent-red); background: rgba(201,106,106,.08); }
+.callout.success { border-left-color: var(--accent-green); background: rgba(124,168,125,.08); }
+.callout-title { font-weight: 800; color: var(--text-primary); margin-bottom: .25rem; }
+.table-wrap { overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 2px 8px rgba(163,98,108,.04); }
+table { width: 100%; border-collapse: collapse; min-width: 650px; }
+th, td { text-align: left; vertical-align: top; padding: 13px 15px; border-bottom: 1px solid var(--border); font-size: 13.5px; line-height: 1.6; }
+th { background: var(--bg-elevated); color: var(--text-primary); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+tr:last-child td { border-bottom: none; }
+td:first-child { font-weight: 800; color: var(--text-primary); }
+.chart-card { min-height: 410px; }
+.chart-container { position: relative; width: 100%; height: 320px; }
+.flow { display: flex; align-items: stretch; gap: .7rem; flex-wrap: wrap; }
+.flow-node { flex: 1 1 155px; min-height: 82px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: .9rem; display: flex; flex-direction: column; justify-content: center; }
+.flow-node b { color: var(--text-primary); }
+.grade-buttons { display: flex; gap: .5rem; flex-wrap: wrap; margin: 1rem 0; }
+.grade-btn { border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted); border-radius: 999px; padding: .5rem .85rem; cursor: pointer; font-weight: 800; font-size: 13px; transition: all .2s; }
+.grade-btn:hover, .grade-btn.active { color: #fff; background: var(--accent-blue); border-color: var(--accent-blue); }
+.grade-panel { background: var(--bg-card); border: 1px solid var(--border-bright); border-radius: 14px; padding: 1.3rem; }
+.timeline { position: relative; padding-left: 1.55rem; }
+.timeline:before { content:''; position:absolute; left:0; top:4px; bottom:0; width:2px; background: linear-gradient(var(--accent-blue), transparent); }
+.timeline-item { position: relative; margin-bottom: 1.2rem; }
+.timeline-item:before { content:''; position:absolute; left:-1.85rem; top:.45rem; width:10px; height:10px; border:2px solid var(--accent-blue); background:#fff; border-radius:50%; box-shadow:0 0 0 3px rgba(163,98,108,.13); }
+.timeline-time { color: var(--accent-blue); font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .15rem; }
+.timeline-title { color: var(--text-primary); font-weight: 800; margin-bottom: .15rem; }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: .92em; }
+.audio-section { padding: 56px 24px 22px; }
+.audio-panel { max-width: 820px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 6px 16px rgba(163,98,108,.07); }
+.audio-title { font-family: 'Noto Serif TC', serif; font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-bottom: .25rem; text-align:center; }
+.audio-subtitle { text-align:center; color: var(--text-muted); font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+audio { width: 100%; margin-bottom: 14px; }
+.audio-speed-controls { display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap; }
+.audio-speed-btn { background: var(--bg-card); color: var(--accent-blue); border: 1px solid var(--border); border-radius: 7px; padding: 6px 12px; cursor: pointer; font-weight: 700; }
+.audio-speed-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+footer { background: var(--bg-card); border-top: 1px solid var(--border); padding: 42px 24px; text-align: center; color: var(--text-secondary); font-size: 13px; }
+footer .f-title { font-family: 'Noto Serif TC', serif; font-size: 1.2rem; font-weight: 800; color: var(--text-primary); margin-bottom: .4rem; }
+@media (max-width: 900px) { .hero-stats, .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); } .grid-2, .grid-3 { grid-template-columns: 1fr; } .nav-inner { justify-content: flex-start; } .nav-logo { display:none; } }
+@media (max-width: 560px) { .hero-stats { grid-template-columns: 1fr; } .hero { padding-top: 42px; } .banner-wrapper img { width: 96%; } table { min-width: 560px; } }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div class="banner-wrapper"><img src="https://i.imgur.com/cC6LKSw.png" alt="ATinsight Banner"></div>
+<header class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="container hero-inner">
+    <div class="hero-badge">內分泌 · 診斷影像 · 外科風險評估</div>
+    <h1>犬腎上腺腫瘤<br><em>Canine Adrenal Tumors</em></h1>
+    <p class="hero-sub">依據上傳 PDF 重新整合：流行病學、皮質腫瘤與嗜鉻細胞瘤分類、內分泌測試、超音波與 CT 血管侵襲分級、FNA 風險、手術路徑與長期管理。</p>
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-num">9.3%</div><div class="stat-label">CT 腎上腺意外瘤檢出率</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent-teal)">4%</div><div class="stat-label">常規腹部超音波檢出率</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent-purple)">7</div><div class="stat-label">CT 血管侵襲分級</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:var(--accent-green)">90–100%</div><div class="stat-label">FNA 起源鑑別準確度</div></div>
+    </div>
+  </div>
+</header>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Canine Adrenal Report</div>
+    <div class="nav-links" aria-label="內容目錄">
+      <span class="tab-btn">總覽</span>
+      <span class="tab-btn">生理</span>
+      <span class="tab-btn">病理</span>
+      <span class="tab-btn">影像</span>
+      <span class="tab-btn">內分泌</span>
+      <span class="tab-btn">FNA</span>
+      <span class="tab-btn">外科</span>
+      <span class="tab-btn">內科與預後</span>
+    </div>
+  </div>
+</nav>
+<main>
+<section id="overview" class="section active">
+  <div class="container">
+    <div class="section-label">Integrated Overview</div>
+    <h2 class="section-title">從「發現腫塊」到「手術風險分層」</h2>
+    <p class="section-desc">犬腎上腺腫瘤不能只以「大小」判斷。臨床決策必須同時回答三個問題：腫瘤是否具內分泌活性？是否有血管或局部侵襲？病患是否能承受手術與圍術期血流動力學風險？</p>
+    <div class="grid-3">
+      <div class="card"><div class="card-title">一、分類</div><ul class="clean"><li>腎上腺皮質腺瘤（ACA）</li><li>腎上腺皮質癌（ACC）</li><li>嗜鉻細胞瘤（PHEO）</li><li>副神經節瘤、髓質脂肪瘤、轉移瘤等罕見類型</li></ul></div>
+      <div class="card"><div class="card-title">二、核心風險</div><ul class="clean"><li>ACC：局部侵襲、血管內瘤栓、肝肺或淋巴結轉移</li><li>PHEO：兒茶酚胺危象、嚴重高血壓、心律不整、CVC 瘤栓</li><li>功能性 ACT：術後急性 Addison 風險</li></ul></div>
+      <div class="card"><div class="card-title">三、臨床路徑</div><ul class="clean"><li>超音波：篩查、對側腎上腺與血管鄰近關係</li><li>CT：血管侵襲、轉移、手術計畫</li><li>內分泌測試：確認功能性與分型</li><li>外科或內科：依轉移、血管侵襲與共病決定</li></ul></div>
+    </div>
+    <div class="callout info"><div class="callout-title">更新重點</div><div>此版已加入 PDF 的新增資料：腎上腺意外瘤盛行率、PHEO 靜默型比例、Utrecht Score、CT 7 點血管侵襲分級、uNMN:Cr 診斷臨界值、腎上腺 FNA 安全性、LA vs OA 外科比較、PHEO 圍術期 α 阻斷與急性高血壓處理、術後 GC 替代與長期預後風險因子。</div></div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card chart-card"><div class="card-title">意外瘤檢出率與臨床偵測</div><div class="chart-container"><canvas id="incidentalomaChart"></canvas></div></div>
+      <div class="card chart-card"><div class="card-title">腫瘤類型臨床定位</div><div class="chart-container"><canvas id="typeChart"></canvas></div></div>
+    </div>
+  </div>
+</section>
+<section id="physiology" class="section">
+  <div class="container">
+    <div class="section-label">Physiology & Endocrine Mechanisms</div>
+    <h2 class="section-title">腎上腺功能帶與內分泌病理生理</h2>
+    <p class="section-desc">皮質來源與髓質來源腫瘤的臨床表現本質上不同：前者多與類固醇合成異常相關，後者則由兒茶酚胺釋放造成血流動力學危機。</p>
+    <div class="grid-3">
+      <div class="card"><div class="card-kicker">Zona glomerulosa</div><div class="card-title">球狀帶</div><p>主要合成醛固酮。腫瘤自主分泌時可造成原發性醛固酮增多症、頑固性低鉀血症、代謝性鹼中毒與全身性高血壓。</p></div>
+      <div class="card"><div class="card-kicker">Zona fasciculata / reticularis</div><div class="card-title">束狀帶與網狀帶</div><p>主要合成皮質醇與性激素前體。功能性 ACT 可導致 ADH；非典型 HAC 可由孕酮、雄烯二酮或其他性激素前體驅動。</p></div>
+      <div class="card"><div class="card-kicker">Adrenal medulla</div><div class="card-title">髓質嗜鉻細胞</div><p>PHEO 分泌去甲腎上腺素與腎上腺素，造成陣發性或持續性高血壓、心搏過速、心律不整、虛弱與急性失明。</p></div>
+    </div>
+    <div class="flow" style="margin-top:1.25rem;">
+      <div class="flow-node"><b>皮質醇過量</b><span>糖異生、蛋白分解、肌肉萎縮、皮膚變薄、腹部脂肪重分配、頑固性感染。</span></div>
+      <div class="flow-node"><b>ACTH 反饋抑制</b><span>功能性一側腫瘤會抑制垂體 ACTH，造成對側腎上腺廢用性萎縮。</span></div>
+      <div class="flow-node"><b>術後 Addison 風險</b><span>切除分泌性腫瘤後皮質醇來源驟降，需要嚴謹 GC 替代與撤藥監控。</span></div>
+    </div>
+  </div>
+</section>
+<section id="pathology" class="section">
+  <div class="container">
+    <div class="section-label">Pathology & Tumor Typing</div>
+    <h2 class="section-title">病理分類、IHC 與預後評分</h2>
+    <p class="section-desc">細胞學可協助判斷腫瘤起源，但 ACA vs ACC 的惡性判定通常需要組織學中的被膜與血管侵犯；Ki-67 與 Utrecht Score 可提供更強的預後分層。</p>
+    <div class="table-wrap"><table><thead><tr><th>腫瘤類型</th><th>起源與分泌</th><th>生物學行為</th><th>臨床重點</th></tr></thead><tbody>
+      <tr><td>ACA</td><td>皮質上皮細胞；可分泌皮質醇、醛固酮或性激素</td><td>良性，不轉移</td><td>功能性時可造成 ADH 或其他內分泌症候群；對側腎上腺可能萎縮</td></tr>
+      <tr><td>ACC</td><td>皮質上皮惡性腫瘤</td><td>局部侵襲、血管內瘤栓、肝肺/淋巴結轉移</td><td>病理特徵包括 &gt;2 cm、被膜侵犯、血管侵犯、小梁狀生長、外周纖維化、壞死與異常核分裂</td></tr>
+      <tr><td>PHEO</td><td>髓質嗜鉻細胞；分泌兒茶酚胺</td><td>高度血管侵襲；CVC 瘤栓可見</td><td>可為靜默型；典型危險是高血壓危象與心律不整</td></tr>
+      <tr><td>偽嗜鉻細胞瘤</td><td>美他腎上腺素分泌型 ACC</td><td>臨床/生化可模擬 PHEO</td><td>Melan-A 陽性、CHGA 陰性，需與 PHEO 區分</td></tr>
+    </tbody></table></div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card"><div class="card-title">Ki-67 鑑別訊號</div><ul class="clean"><li>ACC Ki-67 PI：9.3% ± 6.3%</li><li>ACA Ki-67 PI：0.76% ± 0.83%</li><li>正常皮質 Ki-67 PI：0.58% ± 0.57%</li><li>2.4% 可作為高敏感度與高特異度的分界點</li></ul></div>
+      <div class="card"><div class="card-title">Utrecht Score</div><ul class="clean"><li>整合 Ki-67、胞質空泡化與壞死/侵襲等病理指標</li><li>低風險：術後每 6 個月追蹤腹部超音波</li><li>中風險：每 3 個月影像與內分泌功能評估</li><li>高風險：考慮輔助化療或標靶藥物（如 toceranib）</li></ul></div>
+    </div>
+  </div>
+</section>
+<section id="imaging" class="section">
+  <div class="container">
+    <div class="section-label">Imaging & Vascular Invasion</div>
+    <h2 class="section-title">超音波篩查與 CT 血管侵襲分級</h2>
+    <p class="section-desc">超音波是第一線篩查；對比劑增強三維 CT 是評估血管侵襲、轉移篩查與手術計畫的核心工具。此版加入 PDF 的 7 點 CT 血管侵襲量表。</p>
+    <div class="grid-2">
+      <div class="card"><div class="card-title">正常腎上腺短軸厚度參考</div><ul class="clean"><li>&lt;10 kg：≤ 5.4 mm</li><li>10–30 kg：≤ 6.8 mm</li><li>&gt;30 kg：≤ 8.0 mm</li><li>單側巨大腫瘤 + 對側短軸 &lt;3–4 mm：支持功能性皮質腫瘤造成對側萎縮</li></ul></div>
+      <div class="card"><div class="card-title">影像惡性/侵襲警訊</div><ul class="clean"><li>局限性圓形或不規則結節樣腫大</li><li>混合回音、礦化、空洞化或液化壞死</li><li>與 CVC、腎靜脈、主動脈、腎血管接觸或包繞</li><li>肝、肺、局部淋巴結或腹膜轉移跡象</li></ul></div>
+    </div>
+    <div class="callout info"><div class="callout-title">CT 7 點血管侵襲分級</div><div>以下直接列出 Grade 1–7 的影像特徵與手術意義，不需點選切換。</div></div>
+    <div class="table-wrap"><table><thead><tr><th>分級</th><th>CT 影像特徵</th><th>臨床/手術意義</th></tr></thead><tbody>
+      <tr><td>Grade 1</td><td>腫瘤與相鄰大血管完全無接觸；兩者間可見清楚、連續的脂肪密度層。</td><td>手術分離最安全，無明顯局部黏連，剝離難度低。</td></tr>
+      <tr><td>Grade 2</td><td>腫瘤與血管表面接觸，但接觸範圍小於血管周徑 90°。</td><td>局部可能有輕度結締組織黏連，剝離相對容易。</td></tr>
+      <tr><td>Grade 3</td><td>接觸範圍大於 90°，腫瘤邊緣呈凹陷狀包繞或部分環抱血管。</td><td>腫瘤與血管壁貼合緊密，剝離時需警惕血管壁損傷。</td></tr>
+      <tr><td>Grade 4</td><td>接觸範圍大於 90°，腫瘤邊緣凸起狀壓迫血管，但接觸面仍光滑規整。</td><td>血管管腔受壓變形，但未必浸潤；手術分離仍具可行性。</td></tr>
+      <tr><td>Grade 5</td><td>腫瘤壓迫血管，接觸面模糊、不規則或鋸齒狀。</td><td>可能已侵犯血管外膜，分離難度與出血風險高。</td></tr>
+      <tr><td>Grade 6</td><td>血管管腔受腫瘤強烈擠壓，完全變形或閉塞，無法辨識接觸介面。</td><td>血管壁可能廣泛浸潤或嚴重黏連，通常無法單純鈍性分離。</td></tr>
+      <tr><td>Grade 7</td><td>CVC 或腎靜脈管腔內可見明確充盈缺損瘤栓。</td><td>可能需 cavotomy 與臨時血管阻斷；需高度經驗的外科與麻醉團隊。</td></tr>
+    </tbody></table></div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card chart-card"><div class="card-title">影像工具比較</div><div class="chart-container"><canvas id="imagingRadar"></canvas></div></div>
+      <div class="card"><div class="card-title">CT 類型預測：ACC vs PHEO</div><ul class="clean"><li>PCAT、對側腎上腺最大短軸（SICO）、血管內血栓長軸（LAOT）、腫瘤破裂（TURU）與礦化可用於預測。</li><li>血栓長軸較長、PHEO 傾向機率上升；對側萎縮與皮質腫瘤功能性相符時需提高 ACC/ACT 懷疑。</li><li>若影像與生化不一致，需同時保留 PHEO、ACC 及偽嗜鉻細胞瘤。</li></ul><div class="callout warn"><div class="callout-title">限制</div><div>CT 決策樹是機率工具，不等同病理診斷；手術與採樣風險仍需個案化。</div></div></div>
+    </div>
+  </div>
+</section>
+<section id="testing" class="section">
+  <div class="container">
+    <div class="section-label">Internal Medicine & Endocrine Testing</div>
+    <h2 class="section-title">內分泌測試與生化分型</h2>
+    <p class="section-desc">診斷策略應先確認功能性，再進行病因定位。對嗜鉻細胞瘤，直接測 catecholamine 不如測 metanephrine 穩定。</p>
+    <div class="table-wrap"><table><thead><tr><th>情境</th><th>首選/重要測試</th><th>重點解讀</th><th>臨床陷阱</th></tr></thead><tbody>
+      <tr><td>疑似 ADH</td><td>LDDST、ACTH stimulation、eACTH</td><td>LDDST 為自然發生 HAC 首選篩檢；eACTH 低或不可測支持 AT</td><td>AT 的 ACTH stimulation 偽陰性率可高，不能單獨排除</td></tr>
+      <tr><td>非典型 HAC</td><td>ACTH stimulation 前後性激素譜</td><td>孕酮、雄烯二酮或其他前體升高可造成典型 HAC 表現</td><td>LDDST/ACTH 皮質醇正常仍不能排除 AHAC</td></tr>
+      <tr><td>醛固酮增多症</td><td>PAC:PRA 或 ARR</td><td>低鉀、高血壓、高醛固酮 + 抑制性腎素活性支持診斷</td><td>邊界值可考慮生理食鹽水輸注抑制或 captopril challenge</td></tr>
+      <tr><td>PHEO</td><td>尿液 uNMN:Cr / uMN:Cr by LC-MS/MS</td><td>uNMN:Cr ≥ 203.7 nmol/mmol：敏感度 79%、特異度 83%、準確度 85%</td><td>舊式「對照上限 4 倍」門檻會漏診大量病例</td></tr>
+    </tbody></table></div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card chart-card"><div class="card-title">uNMN:Cr 群體中位數</div><div class="chart-container"><canvas id="nmnChart"></canvas></div></div>
+      <div class="card"><div class="card-title">樣本處理提示</div><ul class="clean"><li>尿液 metanephrine/normetanephrine 在常溫、冷藏、重複凍融與短暫高溫下穩定性佳。</li><li>可在常溫/冷藏條件下短期保存；-20°C 冷凍可長期穩定。</li><li>尿液是否酸化對結果無統計學影響，通常不需酸化。</li><li>eACTH 樣本需冰鎮 EDTA、快速冷離心、分離血漿並低溫運送。</li></ul></div>
+    </div>
+  </div>
+</section>
+<section id="fna" class="section">
+  <div class="container">
+    <div class="section-label">Cytology & Risk Analysis</div>
+    <h2 class="section-title">腎上腺 FNA：不是絕對禁忌，但需嚴格選案</h2>
+    <p class="section-desc">PDF 重新整理了近年多中心研究：腎上腺 FNA 可協助區分皮質來源與髓質來源，但不能可靠區分 ACA 與 ACC。</p>
+    <div class="grid-3">
+      <div class="card"><div class="stat-num">87.5%</div><div class="card-title">診斷品質樣本比例</div><p>若取得具診斷品質的細胞，細胞學起源鑑別準確度可達 90–100%。</p></div>
+      <div class="card"><div class="stat-num" style="color:var(--accent-amber)">5–8%</div><div class="card-title">整體併發症</div><p>常見為局限性腹膜後微量出血或穿刺局部疼痛。</p></div>
+      <div class="card"><div class="stat-num" style="color:var(--accent-red)">1%</div><div class="card-title">估計致死率</div><p>罕見但可能致命，特別是嚴重共病或術中/術後心肺事件。</p></div>
+    </div>
+    <div class="table-wrap" style="margin-top:1rem;"><table><thead><tr><th>細胞學型態</th><th>典型特徵</th><th>限制</th></tr></thead><tbody>
+      <tr><td>皮質腫瘤</td><td>上皮樣、多邊形細胞，胞質豐富，含細小脂質空泡，核圓，異型性通常較輕</td><td>無法可靠區分 ACA vs ACC</td></tr>
+      <tr><td>PHEO</td><td>裸核樣、胞質易碎，染色質呈「鹽與胡椒」樣神經內分泌顆粒</td><td>需結合 IHC、生化與影像；採樣前需評估血壓與心律風險</td></tr>
+    </tbody></table></div>
+    <div class="callout danger"><div class="callout-title">採樣適應症</div><div>僅當影像與生化結果高度矛盾，且細胞學結果會直接改變是否手術、是否放棄治療或是否進一步分期時，才建議考慮 FNA。</div></div>
+  </div>
+</section>
+<section id="surgery" class="section">
+  <div class="container">
+    <div class="section-label">Surgery & Perioperative Management</div>
+    <h2 class="section-title">外科路徑、PHEO 阻斷與術後 GC 替代</h2>
+    <p class="section-desc">對無遠端轉移且可承受麻醉的病例，腎上腺切除是唯一具治癒機會的療法。手術路徑與圍術期藥物管理取決於腫瘤大小、側別、血管侵襲與功能性。</p>
+    <div class="grid-2">
+      <div class="card chart-card"><div class="card-title">LA vs OA 圍術期指標</div><div class="chart-container"><canvas id="surgeryChart"></canvas></div></div>
+      <div class="card"><div class="card-title">左右側解剖差異</div><ul class="clean"><li>左側：相對容易，難度約 4/10；但需注意 phrenicoabdominal vein 與左腎靜脈。</li><li>右側：難度約 6–10/10；右腎上腺深且包膜與 CVC 貼近，腫瘤增大時易浸潤或撕裂 CVC。</li><li>腹腔鏡研究顯示右側手術時間較長，早期病例中被膜破裂與大出血風險較高。</li></ul></div>
+    </div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card"><div class="card-title">PHEO 術前 α 阻斷</div><ul class="clean"><li>Phenoxybenzamine 起始 0.25–0.3 mg/kg PO q12h</li><li>依血壓與反應上調至 0.6–1.0 mg/kg PO q12h</li><li>建議術前連續實施 14–20 天，至少 7 天</li><li>目的：降低兒茶酚胺暴露、恢復外周血容量、降低術中高血壓危象</li></ul></div>
+      <div class="card"><div class="card-title">急性高血壓與血流動力學</div><ul class="clean"><li>若血壓急升至 &gt;200–250 mmHg 並伴隨心律不整，需立即處理。</li><li>Phentolamine：5 mg IV bolus 後可 0.5 mg/min 或 1–2 mg/hr CRI。</li><li>Esmolol：僅在 α 阻斷充分後處理頑固性心搏過速。</li><li>SNP 或 nicardipine 可用於救援性血管擴張。</li></ul></div>
+    </div>
+    <div class="card" style="margin-top:1rem;"><div class="card-title">皮質醇分泌型 ACT 術後 GC 替代流程</div><div class="timeline">
+      <div class="timeline-item"><div class="timeline-time">麻醉誘導/切皮前</div><div class="timeline-title">Dexamethasone sodium phosphate</div><div>1 mg/kg IV，預防切除後急性皮質醇崩落。</div></div>
+      <div class="timeline-item"><div class="timeline-time">術後禁食期</div><div class="timeline-title">Hydrocortisone sodium succinate CRI</div><div>首 12–24 小時 0.5 mg/kg/hr，之後 24 小時下調至 0.2 mg/kg/hr。</div></div>
+      <div class="timeline-item"><div class="timeline-time">恢復進食後</div><div class="timeline-title">Cortisone acetate</div><div>1 mg/kg PO q12h；每 2 週約下調 25%，並以 ACTH stimulation 監控對側腎上腺恢復。</div></div>
+    </div></div>
+  </div>
+</section>
+<section id="medical" class="section">
+  <div class="container">
+    <div class="section-label">Medical Therapy & Prognosis</div>
+    <h2 class="section-title">內科替代療法、併發症與預後風險因子</h2>
+    <p class="section-desc">當病患因高齡、共病、轉移或飼主因素無法手術時，內科療法可作為姑息管理；但對惡性 ADH 的中位生存期通常低於成功手術病例。</p>
+    <div class="grid-3">
+      <div class="card"><div class="card-title">Trilostane</div><ul class="clean"><li>1–3 mg/kg PO q12h，隨餐給藥</li><li>治療或調整後 10–14 天回診</li><li>給藥後 4–6 小時做 ACTH stimulation</li><li>對腫瘤無細胞毒性，可能因 ACTH 反升造成腫瘤續增大</li></ul></div>
+      <div class="card"><div class="card-title">Mitotane</div><ul class="clean"><li>誘導：25–50 mg/kg PO q24h 5–10 天</li><li>飲水量 &lt;100 mL/kg/day 或食慾降至約 80% 時停藥並測 ACTH stimulation</li><li>維持：25–50 mg/kg/week 分兩次</li><li>能縮小惡性皮質癌，但不良反應較高</li></ul></div>
+      <div class="card"><div class="card-title">其他內科</div><ul class="clean"><li>醛固酮增多症：spironolactone 1–2 mg/kg PO q12h</li><li>必要時補鉀並加 amlodipine 0.1–0.2 mg/kg PO q24h</li><li>非手術 PHEO：phenoxybenzamine 0.25 mg/kg PO q12h 起始滴定</li></ul></div>
+    </div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="card"><div class="card-title">術後併發症與 PTE</div><ul class="clean"><li>整體術後併發症約 51%。</li><li>嚴重併發症：急性胰臟炎、急性腎衰竭、敗血症、傷口癒合不良。</li><li>致死性肺血栓栓塞（PTE）為術後 24 小時內重要死因。</li><li>預防可考慮 enoxaparin 0.8 mg/kg SC q6h；術前新鮮冰凍血漿補充 antithrombin III 也是常用策略。</li></ul></div>
+      <div class="card"><div class="card-title">不良預後因子</div><ul class="clean"><li>腫瘤 &gt;5 cm：中位生存期可縮短至約 156 天。</li><li>術中大量出血或需合併 nephrectomy。</li><li>CVC 瘤栓延伸至橫膈前段或右心房。</li><li>術前 BUN 升高、血小板減少、APTT/PT 延長、低鉀、AST 升高。</li><li>成功手術且出院後，長期中位生存期約 690–953 天。</li></ul></div>
+    </div>
+    <div class="callout success"><div class="callout-title">臨床總結</div><div>手術病例的關鍵不是「能否切掉腫瘤」而已，而是能否在術前用 CT 與內分泌測試精準分層，並在術中控制 CVC/腎靜脈風險、PHEO 血壓危象與 ACT 術後低皮質醇危機。</div></div>
+  </div>
+</section>
+</main>
+<section id="audio-player" class="audio-section">
+  <div class="audio-panel">
+    <div class="audio-title">語音導讀 MP3</div>
+    <div class="audio-subtitle">檔案：CAM.mp3</div>
+    <audio id="main-audio" controls preload="metadata"><source src="CAM.mp3" type="audio/mpeg">您的瀏覽器不支援 HTML5 音訊播放。</audio>
+    <div class="audio-speed-controls" aria-label="播放速度控制">
+      <button type="button" class="audio-speed-btn" data-speed="0.75">0.75×</button>
+      <button type="button" class="audio-speed-btn active" data-speed="1">1×</button>
+      <button type="button" class="audio-speed-btn" data-speed="1.25">1.25×</button>
+      <button type="button" class="audio-speed-btn" data-speed="1.5">1.5×</button>
+      <button type="button" class="audio-speed-btn" data-speed="2">2×</button>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="f-title">犬腎上腺腫瘤全方位解析</div>
+  <p>內容依據上傳 PDF 重新整理，供教學與臨床討論使用；實際診療仍需依病患狀態、實驗室數據、影像分期與外科團隊經驗個案化決策。</p>
+</footer>
+<script>
+function initCharts(){
+  if (window.Chart) {
+    Chart.defaults.font.family = "Inter, Noto Sans TC, sans-serif";
+    Chart.defaults.color = '#4a4a4a';
+  }
+  const commonGrid = { color: 'rgba(130,81,89,.12)' };
+  new Chart(document.getElementById('incidentalomaChart'), {type:'bar', data:{labels:['屍檢盛行率上限','所有新生物占比上限','CT 意外瘤','超音波意外瘤'], datasets:[{label:'比例 (%)', data:[0.76,2,9.3,4], backgroundColor:['#ddb5bb','#d1a3aa','#a3626c','#c67d5e'], borderRadius:8}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, grid:commonGrid, ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}}}}});
+  new Chart(document.getElementById('typeChart'), {type:'doughnut', data:{labels:['腎上腺皮質腫瘤','嗜鉻細胞瘤','副神經節瘤','其他/轉移'], datasets:[{data:[58,28,6,8], backgroundColor:['#a3626c','#c67d5e','#a881af','#e6c8cc'], borderWidth:0}]}, options:{responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{legend:{position:'bottom', labels:{boxWidth:12}}}}});
+  new Chart(document.getElementById('imagingRadar'), {type:'radar', data:{labels:['篩查','血管侵犯','轉移評估','手術規劃','腫瘤類型推測','即時性'], datasets:[{label:'超音波', data:[88,55,40,50,45,92], borderColor:'#a3626c', backgroundColor:'rgba(163,98,108,.18)'},{label:'CT', data:[82,95,86,96,78,52], borderColor:'#a881af', backgroundColor:'rgba(168,129,175,.18)'}]}, options:{responsive:true, maintainAspectRatio:false, scales:{r:{beginAtZero:true, max:100, ticks:{display:false}, grid:commonGrid}}, plugins:{legend:{position:'bottom'}}}});
+  new Chart(document.getElementById('nmnChart'), {type:'bar', data:{labels:['健康犬','非腎上腺疾病','非 PHEO 腎上腺皮質腫瘤','PHEO'], datasets:[{label:'uNMN:Cr nmol/mmol', data:[34.1,87.7,86.15,414.1], backgroundColor:['#e6c8cc','#ddb5bb','#d1a3aa','#a3626c'], borderRadius:8}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, grid:commonGrid}, x:{grid:{display:false}}}}});
+  new Chart(document.getElementById('surgeryChart'), {type:'bar', data:{labels:['手術時間 (min)','術中低血壓 (%)','術中高血壓 (%)','住院天數'], datasets:[{label:'LA', data:[69.8,14.3,17.1,1.5], backgroundColor:'#a3626c', borderRadius:7},{label:'OA', data:[108.6,61.5,3.6,2.2], backgroundColor:'#c67d5e', borderRadius:7}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true, grid:commonGrid}, x:{grid:{display:false}}}}});
+}
+document.addEventListener('DOMContentLoaded', function(){
+  initCharts();
+  const progressBar = document.getElementById('progress-bar');
+  function updateProgress(){ const h = document.documentElement.scrollHeight - window.innerHeight; progressBar.style.width = (h>0 ? (window.scrollY/h)*100 : 0) + '%'; }
+  updateProgress(); window.addEventListener('scroll', updateProgress, {passive:true});
+  const audio = document.getElementById('main-audio');
+  document.querySelectorAll('.audio-speed-btn').forEach(btn => btn.addEventListener('click', function(){ const rate = parseFloat(this.dataset.speed || '1'); if(audio) audio.playbackRate = rate; document.querySelectorAll('.audio-speed-btn').forEach(b=>b.classList.remove('active')); this.classList.add('active'); }));
+});
+</script>
+</body>
+</html>
